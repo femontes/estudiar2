@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduCuentos - Con Esfuerzo y Dedicación</title>
+    
+    <!-- Tailwind CSS para los estilos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React y ReactDOM para la interactividad -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel para compilar JSX en el navegador -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-5px); }
+          50% { transform: translateX(5px); }
+          75% { transform: translateX(-5px); }
+        }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+        
+        @keyframes fall {
+          to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Simple Audio Engine using Web Audio API for self-contained sound effects
+        const playSound = (type) => {
+          try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            
+            if (type === 'success') {
+              // Happy upward chime
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(440, ctx.currentTime);
+              osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.1);
+              osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.3);
+            } else if (type === 'error') {
+              // Low boop
+              osc.type = 'sawtooth';
+              osc.frequency.setValueAtTime(300, ctx.currentTime);
+              osc.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.3);
+            } else if (type === 'pop') {
+              // Quick pop for clicks
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(600, ctx.currentTime);
+              osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.05);
+            } else if (type === 'tada') {
+              // Tada sound for completion
+              osc.type = 'triangle';
+              osc.frequency.setValueAtTime(440, ctx.currentTime);
+              osc.frequency.setValueAtTime(554, ctx.currentTime + 0.1);
+              osc.frequency.setValueAtTime(659, ctx.currentTime + 0.2);
+              osc.frequency.setValueAtTime(880, ctx.currentTime + 0.3);
+              gain.gain.setValueAtTime(0.2, ctx.currentTime);
+              gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.6);
+              osc.stop(ctx.currentTime + 0.6);
+              return;
+            }
+            
+            osc.start();
+            gain.gain.setValueAtTime(0.1, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.4);
+            osc.stop(ctx.currentTime + 0.4);
+          } catch (e) {
+            console.log("Audio not supported or blocked by browser.");
+          }
+        };
+
+        const NavButton = ({ active, onClick, icon, text }) => (
+          <button
+            onClick={() => {
+              playSound('pop');
+              onClick();
+            }}
+            className={`flex items-center gap-2 px-4 py-3 rounded-2xl font-bold transition-all duration-300 ${
+              active 
+                ? 'bg-orange-500 text-white shadow-lg transform scale-105' 
+                : 'bg-white text-gray-600 hover:bg-orange-100 hover:text-orange-500'
+            }`}
+          >
+            <span className="text-2xl">{icon}</span>
+            <span className="hidden md:inline">{text}</span>
+          </button>
+        );
+
+        const Card = ({ children, className = "" }) => (
+          <div className={`bg-white rounded-3xl shadow-xl p-6 md:p-8 ${className}`}>
+            {children}
+          </div>
+        );
+
+        const Confetti = () => {
+          const [particles, setParticles] = useState([]);
+
+          useEffect(() => {
+            const colors = ['#f43f5e', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'];
+            const newParticles = Array.from({ length: 50 }).map((_, i) => ({
+              id: i,
+              x: Math.random() * 100,
+              y: -20 - Math.random() * 20,
+              color: colors[Math.floor(Math.random() * colors.length)],
+              size: Math.random() * 10 + 5,
+              delay: Math.random() * 0.5,
+              duration: Math.random() * 2 + 2,
+            }));
+            setParticles(newParticles);
+          }, []);
+
+          return (
+            <div className="absolute inset-0 overflow-hidden pointer-events-none z-50 rounded-3xl">
+              {particles.map((p) => (
+                <div
+                  key={p.id}
+                  className="absolute rounded-full"
+                  style={{
+                    left: `${p.x}%`,
+                    top: `${p.y}%`,
+                    width: `${p.size}px`,
+                    height: `${p.size}px`,
+                    backgroundColor: p.color,
+                    animation: `fall ${p.duration}s ease-in ${p.delay}s forwards`,
+                  }}
+                />
+              ))}
+            </div>
+          );
+        };
+
+        const HomeSection = ({ setTab }) => (
+          <div className="text-center animate-fade-in space-y-8">
+            <div className="bg-gradient-to-br from-yellow-300 to-orange-400 p-8 rounded-3xl shadow-lg text-white">
+              <h1 className="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-md">
+                ¡Bienvenido a la Aventura! 🚀
+              </h1>
+              <p className="text-xl font-medium max-w-2xl mx-auto">
+                Hoy exploraremos el Tema 2: <strong className="bg-white text-orange-500 px-2 py-1 rounded-lg">Con esfuerzo y dedicación</strong>. 
+                Aprenderemos sobre personajes increíbles, la vida en el campo, cómo escribir artículos y usaremos conectores.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { icon: '📚', title: 'Cuentos', desc: 'Historias de esfuerzo y superación.', tab: 'cuentos', color: 'bg-blue-100 text-blue-700' },
+                { icon: '🚜', title: 'Textos Informativos', desc: 'La vida en el campo y grandes obras.', tab: 'textos', color: 'bg-green-100 text-green-700' },
+                { icon: '✍️', title: 'Gramática', desc: 'Conectores para unir nuestras ideas.', tab: 'gramatica', color: 'bg-purple-100 text-purple-700' },
+                { icon: '🎮', title: 'Juegos', desc: '¡Pon a prueba lo que aprendiste!', tab: 'juegos', color: 'bg-pink-100 text-pink-700' },
+              ].map((item, i) => (
+                <button 
+                  key={i}
+                  onClick={() => { playSound('pop'); setTab(item.tab); }}
+                  className={`${item.color} p-6 rounded-3xl shadow-sm hover:shadow-xl transition-all transform hover:-translate-y-2 flex flex-col items-center gap-3 text-center`}
+                >
+                  <span className="text-5xl">{item.icon}</span>
+                  <h3 className="font-bold text-xl">{item.title}</h3>
+                  <p className="text-sm opacity-80">{item.desc}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+        );
+
+        const StoriesSection = () => {
+          const [activeStory, setActiveStory] = useState(0);
+          
+          const stories = [
+            {
+              title: "El viejo tonto que quería mover las montañas",
+              icon: "⛰️",
+              content: "En la antigua China, en una zona de montañas muy altas, vivía un viejecito de noventa años con su mujer y sus hijos. Por las ventanas de su casa veían los altísimos montes Taijang y Wang-wu que les impedían llegar directo al mar. Todos los días hacían un enorme rodeo. Cansado de esto, reunió a su familia y propuso: '¿Y si todos juntos corriésemos las montañas?'. Su nuera dudó preguntando dónde pondrían tanta tierra, a lo que él respondió que vaciarían los baldes en el mar. Toda la familia, e incluso niños vecinos, comenzaron a trabajar muy atareados. Zuang, un hombre con fama de sabio, se burló de él diciéndole que era una tontería y estaba demasiado viejo para lograrlo. El anciano le respondió sabiamente: 'Cuando yo muera, quedarán mis hijos, y los hijos de mis hijos. Como las montañas no crecen, algún día habrá un camino directo'. Ante esa gran verdad, Zuang no supo qué responder y se marchó.",
+              lesson: "Con perseverancia, trabajo en equipo y dedicación, hasta las metas más imposibles se pueden lograr a través de las generaciones."
+            },
+            {
+              title: "La flor del cobre",
+              icon: "🌽",
+              content: "En un campito del sur vivían doña María Soplillo y su marido, don Quejumbre-No-Hace-Nada. Él era tan flojo que el campito era una maraña de zarzas y todo el día se quejaba de sus achaques. Un día, fue al pueblo y una 'misiá' (meica) le regaló unas semillas de 'la flor del cobre', que curarían todos sus males. Le recomendó sembrarlas todas en tierra limpia y bien barbechada. Don Quejumbre empezó a limpiar, arar y rastrillar el terreno entusiasmado. Pero misteriosamente la bolsita de semillas nunca se vaciaba, obligándolo a preparar más y más tierra por diez días. Al estar tan ocupado vigilando caracoles, regando y levantándose al alba, olvidó por completo sus quejumbres. Cuando las plantas crecieron, no dieron ninguna flor de cobre, ¡sino unos choclos (maíz) lindísimos! Doña María preparó ricas humitas y pasteles. Cosecharon tantos que los llevaron al mercado, sacaron muy buen precio y pudieron comprar ropa, una vaca, un burro, gallinas y herramientas. ¡El trabajo lo había vuelto un hombre diligente y sano!",
+              lesson: "El trabajo nos mantiene activos, saludables y nos da frutos reales para mejorar nuestra calidad de vida. (Ambiente Narrativo: El campo del sur)."
+            },
+            {
+              title: "El zapatero que quiso ser rico",
+              icon: "👞",
+              content: "Había un zapatero muy feliz que arreglaba calzado en su taller a cambio de trueques: el granjero le daba cuero, el herrero le daba clavos y otros pagaban con huevos. Un día, embobado al ver una gran mansión, decidió ser rico y cobrar muy caro a clientes importantes. Abandonó su taller, rechazó cambiarle botas por un cordero a un pastor y fue a ver a una dama millonaria. Tras arreglarle los zapatos, ella se indignó diciendo que jamás pagaba, pues era 'un honor' trabajar para ella. Luego, hizo elegantes botas para un almirante que zarpó sin siquiera darle las gracias. Triste, más pobre que nunca y sin materiales, volvió a su taller lamentando su desdicha. Al oírlo, el pastor regresó y aceptó encantado el trueque del cordero. Pronto todo el pueblo volvió a pagarle con gallinas y huevos. El zapatero comprendió que era inmensamente rico por tener su despensa llena, herramientas y un montón de amigos.",
+              lesson: "La verdadera riqueza no es el dinero, sino los amigos y la comunidad que valora honestamente tu trabajo."
+            }
+          ];
+
+          return (
+            <div className="space-y-6 animate-fade-in">
+              <h2 className="text-3xl font-bold text-orange-600 flex items-center gap-3">
+                <span>📚</span> Cuentos de Esfuerzo
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {stories.map((story, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => { playSound('pop'); setActiveStory(idx); }}
+                    className={`px-4 py-2 rounded-full font-bold transition-all ${
+                      activeStory === idx ? 'bg-orange-500 text-white shadow-md' : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
+                    }`}
+                  >
+                    {story.icon} {story.title}
+                  </button>
+                ))}
+              </div>
+              
+              <Card className="bg-yellow-50 border-4 border-yellow-200">
+                <h3 className="text-2xl font-bold mb-4 text-gray-800">
+                  {stories[activeStory].icon} {stories[activeStory].title}
+                </h3>
+                <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                  {stories[activeStory].content}
+                </p>
+                <div className="bg-green-100 border-l-4 border-green-500 p-4 rounded-r-lg">
+                  <strong className="text-green-800">💡 Enseñanza: </strong>
+                  <span className="text-green-700">{stories[activeStory].lesson}</span>
+                </div>
+                
+                {activeStory === 1 && (
+                  <div className="mt-6 bg-blue-50 p-4 rounded-xl border border-blue-200">
+                    <h4 className="font-bold text-blue-800 mb-2">🔎 Estrategia de Lectura: El Ambiente Narrativo</h4>
+                    <p className="text-sm text-blue-700">
+                      Es el espacio en el que se desarrolla una historia. Corresponde al lugar donde actúan los personajes. Para reconocerlo, fíjate dónde ocurren los hechos, si es un espacio cerrado o en el exterior (como el campo), el clima y los objetos que hay en el lugar.
+                    </p>
+                  </div>
+                )}
+              </Card>
+            </div>
+          );
+        };
+
+        const TextsSection = () => (
+          <div className="space-y-8 animate-fade-in">
+            <h2 className="text-3xl font-bold text-green-600 flex items-center gap-3">
+              <span>🚜</span> Textos Informativos
+            </h2>
+            
+            <div className="grid lg:grid-cols-2 gap-6">
+              <Card className="bg-green-50 border-2 border-green-200">
+                <h3 className="text-xl font-bold text-green-800 mb-4">La vida en el campo 🌱</h3>
+                <p className="mb-3 text-gray-700">
+                  En los amplios terrenos verdes alejados de la ciudad, los <strong>agricultores</strong> dedican su día a trabajar y cultivar la tierra. 
+                  Ellos siembran, cultivan y cosechan frutas, hortalizas y cereales (como espárragos, papas, cebollas, lechugas y maíz) para que lleguen a nuestra mesa.
+                </p>
+                <p className="mb-4 text-gray-700">
+                  Para que los árboles y vegetales crezcan bien, es necesario preparar la tierra. La forma tradicional es removerla con un <strong>azadón</strong> o usando un <strong>arado</strong> (una especie de carretilla tirada por personas o bueyes) para abrir surcos. Hoy también existen maquinarias que facilitan esta tarea. El proceso tiene 3 pasos clave:
+                </p>
+                <ul className="space-y-3">
+                  <li className="flex items-center gap-3 bg-white p-3 rounded-xl shadow-sm">
+                    <span className="text-3xl">1️⃣</span>
+                    <div>
+                      <strong className="block text-green-700">Barbechar el terreno</strong>
+                      <span className="text-sm text-gray-600">Preparar, limpiar de maleza y arar la tierra para cultivar.</span>
+                    </div>
+                  </li>
+                  <li className="flex items-center gap-3 bg-white p-3 rounded-xl shadow-sm">
+                    <span className="text-3xl">2️⃣</span>
+                    <div>
+                      <strong className="block text-green-700">Sembrar el campo</strong>
+                      <span className="text-sm text-gray-600">Esparcir y plantar las semillas en los surcos de la tierra.</span>
+                    </div>
+                  </li>
+                  <li className="flex items-center gap-3 bg-white p-3 rounded-xl shadow-sm">
+                    <span className="text-3xl">3️⃣</span>
+                    <div>
+                      <strong className="block text-green-700">Cosechar la siembra</strong>
+                      <span className="text-sm text-gray-600">Recoger los frutos, verduras y cereales cuando ya crecieron.</span>
+                    </div>
+                  </li>
+                </ul>
+              </Card>
+
+              <div className="space-y-6">
+                <Card className="bg-yellow-50 border-2 border-yellow-200">
+                  <h3 className="text-xl font-bold text-yellow-800 mb-3">¿Cómo investigar un tema? 🔍</h3>
+                  <p className="mb-4 text-gray-700 text-sm">
+                    Para escribir un artículo informativo (por ejemplo, sobre grandes construcciones como la <strong>Muralla China</strong> o los <strong>Moáis</strong>), primero debes recolectar información en libros o internet respondiendo estas 4 preguntas clave:
+                  </p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { q: "¿Qué es?", desc: "Define si se trata de un monumento, estatua o construcción." },
+                      { q: "¿Cómo es?", desc: "Describe sus características físicas distintivas." },
+                      { q: "¿Dónde se encuentra?", desc: "Describe su ubicación geográfica y cultura." },
+                      { q: "¿Cómo se elaboró?", desc: "Detalles del proceso, propósito, materiales y herramientas." }
+                    ].map((item, i) => (
+                      <div key={i} className="bg-white p-3 rounded-lg shadow-sm border border-yellow-100">
+                        <strong className="block text-yellow-700 text-sm">{item.q}</strong>
+                        <span className="text-xs text-gray-600 leading-tight block mt-1">{item.desc}</span>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+
+                <Card className="bg-blue-50 border-2 border-blue-200">
+                  <h3 className="text-xl font-bold text-blue-800 mb-4">Estructura del Artículo 📰</h3>
+                  <p className="mb-4 text-gray-700 text-sm">
+                    Una vez que investigas (¡anotando tus fuentes!), organizas tu artículo informativo en estas 4 partes para presentarlo a tu curso:
+                  </p>
+                  <div className="space-y-2 relative">
+                    <div className="absolute left-4 top-4 bottom-4 w-1 bg-blue-300 rounded-full z-0"></div>
+                    
+                    {[
+                      { name: "Título", desc: "Informa de qué se tratará el artículo.", icon: "📌" },
+                      { name: "Introducción", desc: "Un párrafo para presentar el tema y datos generales.", icon: "👋" },
+                      { name: "Desarrollo", desc: "Dos o tres párrafos sobre las características específicas.", icon: "📖" },
+                      { name: "Cierre o Conclusión", desc: "Un párrafo para destacar la idea principal o una valoración.", icon: "✅" }
+                    ].map((part, i) => (
+                      <div key={i} className="relative z-10 flex gap-4 bg-white p-3 rounded-xl shadow-sm ml-8 before:content-[''] before:absolute before:-left-6 before:top-1/2 before:-translate-y-1/2 before:w-4 before:h-4 before:bg-blue-500 before:rounded-full">
+                        <span className="text-2xl">{part.icon}</span>
+                        <div>
+                          <strong className="block text-blue-700">{part.name}</strong>
+                          <span className="text-sm text-gray-600">{part.desc}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              </div>
+            </div>
+          </div>
+        );
+
+        const GrammarSection = () => {
+          const connectors = [
+            { type: "Causa - Efecto", desc: "Introducen causas o consecuencias.", words: ["Porque", "ya que", "debido a", "por eso"], color: "bg-red-100 border-red-300 text-red-800" },
+            { type: "Oposición", desc: "Oponen una idea a otra.", words: ["Pero", "no obstante", "en cambio", "sin embargo"], color: "bg-yellow-100 border-yellow-300 text-yellow-800" },
+            { type: "Tiempo", desc: "Indican orden o momento temporal.", words: ["Después", "más tarde", "antes", "luego", "mientras"], color: "bg-blue-100 border-blue-300 text-blue-800" },
+            { type: "Adición", desc: "Añaden información nueva a la dicha.", words: ["Y", "también", "además"], color: "bg-green-100 border-green-300 text-green-800" }
+          ];
+
+          return (
+            <div className="space-y-6 animate-fade-in">
+              <h2 className="text-3xl font-bold text-purple-600 flex items-center gap-3">
+                <span>✍️</span> Los Conectores
+              </h2>
+              <Card>
+                <p className="text-lg text-gray-700 mb-6">
+                  Los conectores son como puentes 🌉. Permiten relacionar o unir palabras, oraciones o párrafos para organizar la información y hacerla comprensible en tus artículos.
+                </p>
+                
+                <div className="grid md:grid-cols-2 gap-4">
+                  {connectors.map((c, i) => (
+                    <div key={i} className={`p-5 rounded-2xl border-2 shadow-sm ${c.color} transform transition hover:scale-105`}>
+                      <h3 className="font-bold text-xl mb-2">{c.type}</h3>
+                      <p className="text-sm mb-3 opacity-80">{c.desc}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {c.words.map((w, idx) => (
+                          <span key={idx} className="bg-white/60 px-3 py-1 rounded-lg text-sm font-semibold shadow-sm">
+                            {w}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-8 p-6 bg-purple-50 rounded-2xl border-2 border-purple-200">
+                  <h4 className="font-bold text-purple-800 mb-3">Ejemplo en un texto:</h4>
+                  <p className="text-gray-700 text-lg leading-relaxed">
+                    El zapatero quería ser rico, <strong className="text-yellow-600 bg-yellow-100 px-1 rounded">pero</strong> (Oposición) los nobles no le pagaron. 
+                    <strong className="text-red-600 bg-red-100 px-1 rounded ml-1">Por eso</strong> (Causa-Efecto), volvió a su taller 
+                    <strong className="text-green-600 bg-green-100 px-1 rounded ml-1">y</strong> (Adición) se sintió feliz, 
+                    <strong className="text-blue-600 bg-blue-100 px-1 rounded ml-1">ya que</strong> (Causa-Efecto) sus verdaderos amigos lo esperaban.
+                  </p>
+                </div>
+              </Card>
+            </div>
+          );
+        };
+
+        const GameQuiz = ({ onComplete }) => {
+          const [qIndex, setQIndex] = useState(0);
+          const [score, setScore] = useState(0);
+          const [showResult, setShowResult] = useState(false);
+          const [selectedAnswer, setSelectedAnswer] = useState(null);
+          const [isCorrect, setIsCorrect] = useState(null);
+          const [userAnswers, setUserAnswers] = useState([]);
+          const [isReviewing, setIsReviewing] = useState(false);
+          
+          const questions = [
+            { q: "¿Qué proponía el viejo tonto para llegar al mar?", options: ["Volar en avión", "Mover las montañas", "Construir un barco"], a: 1 },
+            { q: "¿Qué era en realidad 'La flor del cobre'?", options: ["Una flor de metal", "Semillas de rosas", "Choclos (Maíz)"], a: 2 },
+            { q: "¿Con qué le pagaban sus vecinos al zapatero?", options: ["Billetes y oro", "Comida y materiales", "No le pagaban"], a: 1 },
+            { q: "¿Qué espacio físico corresponde al 'ambiente narrativo' de La flor del cobre?", options: ["Una ciudad espacial", "El puerto", "Un campito en el sur"], a: 2 }
+          ];
+
+          const handleAnswer = (idx) => {
+            if (selectedAnswer !== null) return;
+
+            setSelectedAnswer(idx);
+            const correct = idx === questions[qIndex].a;
+            setIsCorrect(correct);
+            setUserAnswers(prev => [...prev, { selected: idx, isCorrect: correct }]);
+
+            if (correct) {
+              playSound('success');
+              setScore(s => s + 1);
+            } else {
+              playSound('error');
+            }
+            
+            setTimeout(() => {
+              setSelectedAnswer(null);
+              setIsCorrect(null);
+              if (qIndex < questions.length - 1) {
+                setQIndex(qIndex + 1);
+              } else {
+                playSound('tada');
+                setShowResult(true);
+              }
+            }, 1200);
+          };
+
+          const resetGame = () => {
+            setQIndex(0);
+            setScore(0);
+            setShowResult(false);
+            setSelectedAnswer(null);
+            setIsCorrect(null);
+            setUserAnswers([]);
+            setIsReviewing(false);
+          };
+
+          if (isReviewing) {
+            return (
+              <div className="bg-white p-8 rounded-3xl shadow-xl animate-fade-in max-h-[80vh] overflow-y-auto">
+                <h3 className="text-3xl font-bold mb-6 text-pink-600 text-center">👀 Revisión del Quiz</h3>
+                <div className="space-y-6 mb-8">
+                  {questions.map((q, i) => (
+                    <div key={i} className={`p-4 rounded-xl border-2 ${userAnswers[i]?.isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'}`}>
+                      <p className="font-bold text-lg mb-2">{q.q}</p>
+                      <p className="text-gray-700">Tu respuesta: <span className="font-semibold">{q.options[userAnswers[i]?.selected]}</span> {userAnswers[i]?.isCorrect ? '✔️' : '❌'}</p>
+                      {!userAnswers[i]?.isCorrect && <p className="text-green-600 mt-1">Respuesta correcta: <span className="font-semibold">{q.options[q.a]}</span></p>}
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-center">
+                  <button onClick={() => { playSound('pop'); setIsReviewing(false); }} className="bg-gray-500 text-white px-6 py-3 rounded-full font-bold hover:bg-gray-600 transition shadow-md">
+                    ⬅️ Volver a Resultados
+                  </button>
+                </div>
+              </div>
+            );
+          }
+
+          if (showResult) {
+            return (
+              <div className="text-center p-8 bg-white rounded-3xl shadow-xl relative overflow-hidden">
+                <Confetti />
+                <h3 className="text-3xl font-bold mb-4 text-pink-600">¡Quiz Terminado! 🎉</h3>
+                <div className="text-6xl mb-4">{score === questions.length ? '🏆' : '👍'}</div>
+                <p className="text-2xl mb-8 font-bold text-gray-700">Puntaje: {score} de {questions.length}</p>
+                <div className="flex justify-center gap-4 flex-wrap">
+                  <button onClick={() => { playSound('pop'); setIsReviewing(true); }} className="bg-blue-500 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-600 transition transform hover:scale-105 shadow-md">
+                    👀 Revisar
+                  </button>
+                  <button onClick={() => { playSound('pop'); resetGame(); }} className="bg-orange-500 text-white px-6 py-3 rounded-full font-bold hover:bg-orange-600 transition transform hover:scale-105 shadow-md">
+                    🔄 Volver a Jugar
+                  </button>
+                  <button onClick={() => { playSound('pop'); onComplete(); }} className="bg-pink-500 text-white px-6 py-3 rounded-full font-bold hover:bg-pink-600 transition transform hover:scale-105 shadow-md">
+                    ⬅️ Otros Juegos
+                  </button>
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div className="bg-white p-8 rounded-3xl shadow-xl">
+              <div className="flex justify-between text-gray-500 font-bold mb-6">
+                <span>Pregunta {qIndex + 1} de {questions.length}</span>
+                <span className="text-orange-500">⭐ {score} Puntos</span>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">{questions[qIndex].q}</h3>
+              <div className="space-y-3">
+                {questions[qIndex].options.map((opt, i) => {
+                  let btnClass = "w-full text-left p-4 rounded-xl border-2 font-medium text-lg transition-all duration-300 ";
+                  
+                  if (selectedAnswer === i) {
+                    btnClass += isCorrect ? "bg-green-100 border-green-500 text-green-800 scale-[1.02]" : "bg-red-100 border-red-500 text-red-800 scale-[0.98]";
+                  } else if (selectedAnswer !== null && i === questions[qIndex].a) {
+                    btnClass += "bg-green-50 border-green-400 text-green-700";
+                  } else {
+                    btnClass += "border-gray-200 hover:border-pink-500 hover:bg-pink-50 text-gray-700";
+                  }
+
+                  return (
+                    <button 
+                      key={i} 
+                      onClick={() => handleAnswer(i)}
+                      disabled={selectedAnswer !== null}
+                      className={btnClass}
+                    >
+                      {opt}
+                      {selectedAnswer === i && isCorrect && <span className="float-right">✔️</span>}
+                      {selectedAnswer === i && !isCorrect && <span className="float-right">❌</span>}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        };
+
+        const GameFarming = ({ onComplete }) => {
+          const [order, setOrder] = useState([]);
+          const [showResult, setShowResult] = useState(false);
+          const [isReviewing, setIsReviewing] = useState(false);
+          const steps = [
+            { id: 1, name: "Barbechar", emoji: "⛏️" },
+            { id: 2, name: "Sembrar", emoji: "🌱" },
+            { id: 3, name: "Cosechar", emoji: "🧺" }
+          ];
+          const [options, setOptions] = useState([...steps].sort(() => Math.random() - 0.5));
+
+          const handleClick = (item) => {
+            playSound('pop');
+            setOrder([...order, item]);
+            setOptions(options.filter(o => o.id !== item.id));
+          };
+
+          const resetGame = () => {
+            setOrder([]);
+            setOptions([...steps].sort(() => Math.random() - 0.5));
+            setShowResult(false);
+            setIsReviewing(false);
+          };
+
+          useEffect(() => {
+            if (order.length === 3) {
+              if (order[0].id === 1 && order[1].id === 2 && order[2].id === 3) {
+                playSound('tada');
+                setShowResult(true);
+              } else {
+                playSound('error');
+                setTimeout(() => {
+                  setOrder([]);
+                  setOptions([...steps].sort(() => Math.random() - 0.5));
+                }, 1000);
+              }
+            }
+          }, [order]);
+
+          if (isReviewing) {
+            return (
+              <div className="bg-white p-8 rounded-3xl shadow-xl text-center animate-fade-in">
+                <h3 className="text-3xl font-bold text-green-700 mb-6">👀 Orden Correcto</h3>
+                <div className="flex flex-col gap-4 mb-8 max-w-xs mx-auto">
+                  {steps.map((s, i) => (
+                    <div key={s.id} className="flex items-center gap-4 bg-green-50 p-4 rounded-xl border-2 border-green-200">
+                      <span className="text-3xl bg-white w-12 h-12 flex items-center justify-center rounded-full font-bold text-green-600 shadow-sm">{i + 1}</span>
+                      <span className="text-4xl">{s.emoji}</span>
+                      <span className="font-bold text-green-800 text-xl">{s.name}</span>
+                    </div>
+                  ))}
+                </div>
+                <button onClick={() => { playSound('pop'); setIsReviewing(false); }} className="bg-gray-500 text-white px-6 py-3 rounded-full font-bold hover:bg-gray-600 transition shadow-md">
+                  ⬅️ Volver a Resultados
+                </button>
+              </div>
+            );
+          }
+
+          if (showResult) {
+            return (
+              <div className="bg-white p-8 rounded-3xl shadow-xl text-center relative overflow-hidden">
+                <Confetti />
+                <h3 className="text-3xl font-bold text-green-700 mb-4">¡Excelente! 🌱✨</h3>
+                <p className="text-xl text-gray-600 mb-8">Eres un gran agricultor, ordenaste todo perfectamente.</p>
+                <div className="flex justify-center gap-4 flex-wrap">
+                  <button onClick={() => { playSound('pop'); setIsReviewing(true); }} className="bg-blue-500 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-600 transition transform hover:scale-105 shadow-md">
+                    👀 Revisar
+                  </button>
+                  <button onClick={() => { playSound('pop'); resetGame(); }} className="bg-orange-500 text-white px-6 py-3 rounded-full font-bold hover:bg-orange-600 transition transform hover:scale-105 shadow-md">
+                    🔄 Volver a Jugar
+                  </button>
+                  <button onClick={() => { playSound('pop'); onComplete(); }} className="bg-green-600 text-white px-6 py-3 rounded-full font-bold hover:bg-green-700 transition transform hover:scale-105 shadow-md">
+                    ⬅️ Otros Juegos
+                  </button>
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div className="bg-white p-8 rounded-3xl shadow-xl text-center">
+              <h3 className="text-2xl font-bold text-green-700 mb-2">Ordena el Cultivo 🚜</h3>
+              <p className="text-gray-600 mb-8">Haz clic en los pasos en el orden correcto para cultivar la tierra.</p>
+              
+              <div className="flex justify-center gap-4 mb-8 min-h-[100px]">
+                {[0,1,2].map((i) => (
+                  <div key={i} className={`w-28 h-28 border-4 ${order[i] ? 'border-green-400 bg-green-50 text-green-800 scale-105' : 'border-dashed border-gray-300 bg-gray-50 text-gray-400'} rounded-2xl flex flex-col items-center justify-center text-3xl transition-all duration-300`}>
+                    {order[i] ? (
+                      <>
+                        <span>{order[i].emoji}</span>
+                        <span className="text-sm mt-1 font-bold">{order[i].name}</span>
+                      </>
+                    ) : '?'}
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex justify-center gap-4">
+                {options.map((opt) => (
+                  <button 
+                    key={opt.id}
+                    onClick={() => handleClick(opt)}
+                    className="px-6 py-3 bg-green-100 hover:bg-green-500 hover:text-white text-green-800 font-bold rounded-full transition transform hover:scale-110 shadow-sm flex flex-col items-center"
+                  >
+                    <span className="text-2xl">{opt.emoji}</span>
+                    <span>{opt.name}</span>
+                  </button>
+                ))}
+              </div>
+              
+              {order.length > 0 && order.length < 3 && (
+                <div className="mt-6 text-gray-500 font-medium animate-pulse">Sigue así...</div>
+              )}
+            </div>
+          );
+        };
+
+        const GameConnectors = ({ onComplete }) => {
+          const words = [
+            { word: "Porque", type: "Causa", color: "red" },
+            { word: "Pero", type: "Oposición", color: "yellow" },
+            { word: "Después", type: "Tiempo", color: "blue" },
+            { word: "Además", type: "Adición", color: "green" },
+            { word: "Sin embargo", type: "Oposición", color: "yellow" },
+          ];
+          
+          const [currentIndex, setCurrentIndex] = useState(0);
+          const [score, setScore] = useState(0);
+          const [feedback, setFeedback] = useState(null);
+          const [showResult, setShowResult] = useState(false);
+          const [history, setHistory] = useState([]);
+          const [isReviewing, setIsReviewing] = useState(false);
+
+          const handleGuess = (type) => {
+            if (feedback !== null) return;
+
+            const isCorrect = words[currentIndex].type === type;
+            setHistory(prev => [...prev, { word: words[currentIndex].word, guess: type, correct: words[currentIndex].type, isCorrect }]);
+            
+            if (isCorrect) {
+              playSound('success');
+              setScore(s => s + 1);
+              setFeedback('correct');
+            } else {
+              playSound('error');
+              setFeedback('wrong');
+            }
+            
+            setTimeout(() => {
+              setFeedback(null);
+              if (currentIndex < words.length - 1) {
+                setCurrentIndex(c => c + 1);
+              } else {
+                playSound('tada');
+                setShowResult(true);
+              }
+            }, 1000);
+          };
+
+          const resetGame = () => {
+            setCurrentIndex(0);
+            setScore(0);
+            setFeedback(null);
+            setShowResult(false);
+            setHistory([]);
+            setIsReviewing(false);
+          };
+
+          if (isReviewing) {
+            return (
+              <div className="bg-white p-8 rounded-3xl shadow-xl animate-fade-in max-h-[80vh] overflow-y-auto">
+                <h3 className="text-3xl font-bold text-purple-700 mb-6 text-center">👀 Revisión de Conectores</h3>
+                <div className="space-y-4 mb-8">
+                  {history.map((h, i) => (
+                    <div key={i} className={`p-4 rounded-xl border-2 flex flex-col md:flex-row md:items-center justify-between gap-2 ${h.isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'}`}>
+                      <div className="text-xl font-bold text-gray-800">"{h.word}"</div>
+                      <div className="text-gray-700">
+                        Tu respuesta: <span className={`font-semibold px-2 py-1 rounded shadow-sm ${h.isCorrect ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}`}>{h.guess}</span>
+                        {!h.isCorrect && <span className="ml-2 text-green-700 block md:inline mt-2 md:mt-0">Correcto: <strong className="bg-green-200 px-2 py-1 rounded shadow-sm">{h.correct}</strong></span>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-center">
+                  <button onClick={() => { playSound('pop'); setIsReviewing(false); }} className="bg-gray-500 text-white px-6 py-3 rounded-full font-bold hover:bg-gray-600 transition shadow-md">
+                    ⬅️ Volver a Resultados
+                  </button>
+                </div>
+              </div>
+            );
+          }
+
+          if (showResult) {
+            return (
+              <div className="text-center p-8 bg-white rounded-3xl shadow-xl relative overflow-hidden">
+                <Confetti />
+                <h3 className="text-3xl font-bold mb-4 text-purple-700">¡Puentes Construidos! 🌉</h3>
+                <p className="text-2xl mb-8 font-bold text-gray-700">Clasificaste {score} de {words.length} conectores.</p>
+                <div className="flex justify-center gap-4 flex-wrap">
+                  <button onClick={() => { playSound('pop'); setIsReviewing(true); }} className="bg-blue-500 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-600 transition transform hover:scale-105 shadow-md">
+                    👀 Revisar
+                  </button>
+                  <button onClick={() => { playSound('pop'); resetGame(); }} className="bg-orange-500 text-white px-6 py-3 rounded-full font-bold hover:bg-orange-600 transition transform hover:scale-105 shadow-md">
+                    🔄 Volver a Jugar
+                  </button>
+                  <button onClick={() => { playSound('pop'); onComplete(); }} className="bg-purple-600 text-white px-6 py-3 rounded-full font-bold hover:bg-purple-700 transition transform hover:scale-105 shadow-md">
+                    ⬅️ Otros Juegos
+                  </button>
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div className="bg-white p-8 rounded-3xl shadow-xl text-center">
+              <div className="flex justify-between text-gray-500 font-bold mb-4">
+                <span>Palabra {currentIndex + 1} de {words.length}</span>
+                <span className="text-purple-500">⭐ {score}</span>
+              </div>
+              <h3 className="text-2xl font-bold text-purple-700 mb-2">Clasifica el Conector 🌉</h3>
+              <p className="text-gray-600 mb-6">¿A qué tipo pertenece la siguiente palabra?</p>
+              
+              <div className={`text-4xl md:text-5xl font-extrabold text-gray-800 p-8 rounded-3xl mb-8 inline-block shadow-inner transition-colors duration-300 ${feedback === 'correct' ? 'bg-green-200' : feedback === 'wrong' ? 'bg-red-200' : 'bg-gray-100'}`}>
+                "{words[currentIndex].word}"
+                {feedback === 'correct' && <span className="absolute ml-4 text-green-600">✔️</span>}
+                {feedback === 'wrong' && <span className="absolute ml-4 text-red-600">❌</span>}
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                {["Causa", "Oposición", "Tiempo", "Adición"].map(type => (
+                  <button 
+                    key={type}
+                    onClick={() => handleGuess(type)}
+                    disabled={feedback !== null}
+                    className="p-4 rounded-xl font-bold text-white shadow-md transform transition hover:scale-105 active:scale-95 disabled:opacity-80 disabled:hover:scale-100"
+                    style={{ backgroundColor: type === "Causa" ? '#ef4444' : type === "Oposición" ? '#eab308' : type === "Tiempo" ? '#3b82f6' : '#22c55e' }}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+            </div>
+          );
+        };
+
+        const GameTrueFalse = ({ onComplete }) => {
+          const questions = [
+            { q: "El zapatero cobraba carísimo a sus vecinos desde el principio.", a: false },
+            { q: "La dama millonaria le pagó al zapatero con mucho oro.", a: false },
+            { q: "Al final, el zapatero valoró más la amistad y el trueque que el dinero.", a: true },
+            { q: "El almirante le dio las gracias al zapatero por sus botas.", a: false }
+          ];
+          const [qIndex, setQIndex] = useState(0);
+          const [score, setScore] = useState(0);
+          const [showResult, setShowResult] = useState(false);
+          const [feedback, setFeedback] = useState(null);
+          const [history, setHistory] = useState([]);
+          const [isReviewing, setIsReviewing] = useState(false);
+
+          const handleAnswer = (answer) => {
+            if (feedback !== null) return;
+
+            const isCorrect = answer === questions[qIndex].a;
+            setHistory(prev => [...prev, { q: questions[qIndex].q, guess: answer, correct: questions[qIndex].a, isCorrect }]);
+            
+            if (isCorrect) {
+              playSound('success');
+              setScore(s => s + 1);
+              setFeedback('correct');
+            } else {
+              playSound('error');
+              setFeedback('wrong');
+            }
+            
+            setTimeout(() => {
+              setFeedback(null);
+              if (qIndex < questions.length - 1) {
+                setQIndex(qIndex + 1);
+              } else {
+                playSound('tada');
+                setShowResult(true);
+              }
+            }, 1200);
+          };
+
+          const resetGame = () => {
+            setQIndex(0);
+            setScore(0);
+            setShowResult(false);
+            setFeedback(null);
+            setHistory([]);
+            setIsReviewing(false);
+          };
+
+          if (isReviewing) {
+            return (
+              <div className="bg-white p-8 rounded-3xl shadow-xl animate-fade-in max-h-[80vh] overflow-y-auto">
+                <h3 className="text-3xl font-bold text-blue-700 mb-6 text-center">👀 Revisión</h3>
+                <div className="space-y-4 mb-8">
+                  {history.map((h, i) => (
+                    <div key={i} className={`p-4 rounded-xl border-2 ${h.isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'}`}>
+                      <p className="font-bold text-lg mb-2 text-gray-800">{h.q}</p>
+                      <p className="text-gray-700">
+                        Tu respuesta: <span className="font-semibold">{h.guess ? 'Verdadero' : 'Falso'}</span> {h.isCorrect ? '✔️' : '❌'}
+                      </p>
+                      {!h.isCorrect && <p className="text-green-600 mt-1">Respuesta correcta: <span className="font-semibold">{h.correct ? 'Verdadero' : 'Falso'}</span></p>}
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-center">
+                  <button onClick={() => { playSound('pop'); setIsReviewing(false); }} className="bg-gray-500 text-white px-6 py-3 rounded-full font-bold hover:bg-gray-600 transition shadow-md">
+                    ⬅️ Volver a Resultados
+                  </button>
+                </div>
+              </div>
+            );
+          }
+
+          if (showResult) {
+            return (
+              <div className="bg-white p-8 rounded-3xl shadow-xl text-center relative overflow-hidden">
+                <Confetti />
+                <h3 className="text-3xl font-bold text-blue-700 mb-4">¡Fin del Juego! 👞</h3>
+                <p className="text-2xl font-bold text-gray-700 mb-8">Acertaste {score} de {questions.length}</p>
+                <div className="flex justify-center gap-4 flex-wrap">
+                  <button onClick={() => { playSound('pop'); setIsReviewing(true); }} className="bg-blue-500 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-600 transition transform hover:scale-105 shadow-md">
+                    👀 Revisar
+                  </button>
+                  <button onClick={() => { playSound('pop'); resetGame(); }} className="bg-orange-500 text-white px-6 py-3 rounded-full font-bold hover:bg-orange-600 transition transform hover:scale-105 shadow-md">
+                    🔄 Volver a Jugar
+                  </button>
+                  <button onClick={() => { playSound('pop'); onComplete(); }} className="bg-blue-600 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-700 transition transform hover:scale-105 shadow-md">
+                    ⬅️ Otros Juegos
+                  </button>
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div className="bg-white p-8 rounded-3xl shadow-xl text-center">
+              <div className="flex justify-between text-gray-500 font-bold mb-4">
+                <span>Enunciado {qIndex + 1} de {questions.length}</span>
+                <span className="text-blue-500">⭐ {score}</span>
+              </div>
+              <h3 className="text-2xl font-bold text-blue-700 mb-6">Verdadero o Falso 👞</h3>
+              
+              <div className={`p-6 rounded-2xl mb-8 transition-colors duration-300 min-h-[120px] flex items-center justify-center ${feedback === 'correct' ? 'bg-green-100 border-2 border-green-400' : feedback === 'wrong' ? 'bg-red-100 border-2 border-red-400' : 'bg-gray-50 border-2 border-gray-200'}`}>
+                <p className="text-xl md:text-2xl font-medium text-gray-800">
+                  {questions[qIndex].q}
+                </p>
+                {feedback === 'correct' && <div className="absolute text-5xl opacity-50">✔️</div>}
+                {feedback === 'wrong' && <div className="absolute text-5xl opacity-50">❌</div>}
+              </div>
+
+              <div className="flex justify-center gap-4 md:gap-8">
+                <button 
+                  onClick={() => handleAnswer(true)} 
+                  disabled={feedback !== null}
+                  className="w-full md:w-auto px-8 py-4 bg-green-500 text-white rounded-2xl font-bold text-xl hover:bg-green-600 transition shadow-lg transform hover:scale-105 active:scale-95 disabled:opacity-70 disabled:hover:scale-100"
+                >
+                  ✔️ Verdadero
+                </button>
+                <button 
+                  onClick={() => handleAnswer(false)} 
+                  disabled={feedback !== null}
+                  className="w-full md:w-auto px-8 py-4 bg-red-500 text-white rounded-2xl font-bold text-xl hover:bg-red-600 transition shadow-lg transform hover:scale-105 active:scale-95 disabled:opacity-70 disabled:hover:scale-100"
+                >
+                  ❌ Falso
+                </button>
+              </div>
+            </div>
+          );
+        };
+
+        const GameArticle = ({ onComplete }) => {
+          const parts = ["Título", "Introducción", "Desarrollo", "Conclusión"];
+          const definitions = [
+            { def: "Resume o valora la información.", match: "Conclusión" },
+            { def: "Informa de qué trata el texto brevemente.", match: "Título" },
+            { def: "Presenta el tema general.", match: "Introducción" },
+            { def: "Párrafos con características y detalles.", match: "Desarrollo" }
+          ];
+          
+          const [currentDef, setCurrentDef] = useState(0);
+          const [showResult, setShowResult] = useState(false);
+          const [feedback, setFeedback] = useState(null);
+          const [matched, setMatched] = useState([]);
+          const [isReviewing, setIsReviewing] = useState(false);
+
+          const handleMatch = (part) => {
+            if (feedback !== null || matched.includes(part)) return;
+
+            if (part === definitions[currentDef].match) {
+              playSound('success');
+              setFeedback({ part, status: 'correct' });
+              setMatched([...matched, part]);
+              
+              setTimeout(() => {
+                setFeedback(null);
+                if (currentDef < definitions.length - 1) {
+                  setCurrentDef(c => c + 1);
+                } else {
+                  playSound('tada');
+                  setShowResult(true);
+                }
+              }, 1000);
+            } else {
+              playSound('error');
+              setFeedback({ part, status: 'wrong' });
+              setTimeout(() => setFeedback(null), 800);
+            }
+          };
+
+          const resetGame = () => {
+            setCurrentDef(0);
+            setShowResult(false);
+            setFeedback(null);
+            setMatched([]);
+            setIsReviewing(false);
+          };
+
+          if (isReviewing) {
+            return (
+              <div className="bg-white p-8 rounded-3xl shadow-xl animate-fade-in">
+                <h3 className="text-3xl font-bold text-teal-700 mb-6 text-center">👀 Estructura Correcta</h3>
+                <div className="space-y-4 mb-8">
+                  {definitions.map((d, i) => (
+                    <div key={i} className="flex flex-col md:flex-row md:items-center bg-teal-50 border-2 border-teal-200 p-4 rounded-xl gap-4">
+                      <div className="bg-teal-500 text-white px-4 py-2 rounded-lg font-bold min-w-[140px] text-center shadow-sm">
+                        {d.match}
+                      </div>
+                      <div className="text-gray-700 font-medium">
+                        {d.def}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-center">
+                  <button onClick={() => { playSound('pop'); setIsReviewing(false); }} className="bg-gray-500 text-white px-6 py-3 rounded-full font-bold hover:bg-gray-600 transition shadow-md">
+                    ⬅️ Volver a Resultados
+                  </button>
+                </div>
+              </div>
+            );
+          }
+
+          if (showResult) {
+            return (
+              <div className="bg-white p-8 rounded-3xl shadow-xl text-center relative overflow-hidden">
+                 <Confetti />
+                 <h3 className="text-3xl font-bold text-teal-700 mb-4">¡Artículo Armado! 📝</h3>
+                 <p className="text-xl text-gray-600 mb-8">Conoces perfectamente la estructura de un artículo informativo.</p>
+                 <div className="flex justify-center gap-4 flex-wrap">
+                  <button onClick={() => { playSound('pop'); setIsReviewing(true); }} className="bg-blue-500 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-600 transition transform hover:scale-105 shadow-md">
+                    👀 Revisar
+                  </button>
+                  <button onClick={() => { playSound('pop'); resetGame(); }} className="bg-orange-500 text-white px-6 py-3 rounded-full font-bold hover:bg-orange-600 transition transform hover:scale-105 shadow-md">
+                    🔄 Volver a Jugar
+                  </button>
+                  <button onClick={() => { playSound('pop'); onComplete(); }} className="bg-teal-600 text-white px-6 py-3 rounded-full font-bold hover:bg-teal-700 transition transform hover:scale-105 shadow-md">
+                    ⬅️ Otros Juegos
+                  </button>
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div className="bg-white p-8 rounded-3xl shadow-xl text-center">
+              <div className="flex justify-between text-gray-500 font-bold mb-4">
+                <span>Definición {currentDef + 1} de {definitions.length}</span>
+              </div>
+              <h3 className="text-2xl font-bold text-teal-700 mb-2">Estructura del Artículo 📰</h3>
+              <p className="text-gray-600 mb-8">¿A qué parte del artículo corresponde esta definición?</p>
+              
+              <div className="text-xl md:text-2xl font-bold text-gray-800 bg-teal-50 border-2 border-teal-200 p-6 rounded-2xl mb-8 min-h-[100px] flex items-center justify-center shadow-inner">
+                "{definitions[currentDef].def}"
+              </div>
+              
+              <div className="flex flex-wrap justify-center gap-4">
+                {parts.map(p => {
+                  const isMatched = matched.includes(p);
+                  let btnClass = "px-6 py-3 border-2 rounded-xl font-bold transition-all duration-300 ";
+                  
+                  if (isMatched) {
+                     btnClass += "bg-green-100 border-green-500 text-green-700 opacity-50 cursor-not-allowed";
+                  } else if (feedback?.part === p && feedback.status === 'correct') {
+                     btnClass += "bg-green-500 border-green-600 text-white transform scale-110 shadow-lg";
+                  } else if (feedback?.part === p && feedback.status === 'wrong') {
+                     btnClass += "bg-red-500 border-red-600 text-white animate-shake";
+                  } else {
+                     btnClass += "bg-white border-gray-300 text-gray-700 hover:border-teal-500 hover:bg-teal-50 hover:text-teal-700 hover:-translate-y-1";
+                  }
+
+                  return (
+                    <button 
+                      key={p} 
+                      onClick={() => handleMatch(p)}
+                      disabled={isMatched || feedback !== null}
+                      className={btnClass}
+                    >
+                      {p}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        };
+
+        const GamesHub = () => {
+          const [activeGame, setActiveGame] = useState(null);
+
+          const gamesList = [
+            { id: 1, name: "Quiz de Cuentos", icon: "❓", color: "bg-pink-100 text-pink-700" },
+            { id: 2, name: "Ordena el Cultivo", icon: "🚜", color: "bg-green-100 text-green-700" },
+            { id: 3, name: "Clasifica el Conector", icon: "🌉", color: "bg-purple-100 text-purple-700" },
+            { id: 4, name: "Verdadero o Falso", icon: "✔️", color: "bg-blue-100 text-blue-700" },
+            { id: 5, name: "Arma el Artículo", icon: "📰", color: "bg-teal-100 text-teal-700" }
+          ];
+
+          if (activeGame) {
+            return (
+              <div className="animate-fade-in relative max-w-3xl mx-auto">
+                <button 
+                  onClick={() => { playSound('pop'); setActiveGame(null); }}
+                  className="absolute -top-12 left-0 font-bold text-gray-500 hover:text-pink-600 flex items-center gap-2"
+                >
+                  ⬅️ Volver a los juegos
+                </button>
+                {activeGame === 1 && <GameQuiz onComplete={() => setActiveGame(null)} />}
+                {activeGame === 2 && <GameFarming onComplete={() => setActiveGame(null)} />}
+                {activeGame === 3 && <GameConnectors onComplete={() => setActiveGame(null)} />}
+                {activeGame === 4 && <GameTrueFalse onComplete={() => setActiveGame(null)} />}
+                {activeGame === 5 && <GameArticle onComplete={() => setActiveGame(null)} />}
+              </div>
+            );
+          }
+
+          return (
+            <div className="space-y-6 animate-fade-in">
+              <h2 className="text-3xl font-bold text-pink-600 flex items-center gap-3">
+                <span>🎮</span> Zona de Juegos
+              </h2>
+              <p className="text-lg text-gray-700 mb-4">
+                ¡Demuestra lo que aprendiste! Elige un juego para empezar. Cada acierto suena bien. 🎵
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {gamesList.map((g) => (
+                  <button
+                    key={g.id}
+                    onClick={() => { playSound('pop'); setActiveGame(g.id); }}
+                    className={`${g.color} p-6 rounded-3xl border-2 border-transparent hover:border-current transition-all transform hover:-translate-y-2 hover:shadow-xl flex flex-col items-center justify-center min-h-[160px]`}
+                  >
+                    <span className="text-5xl mb-3">{g.icon}</span>
+                    <span className="font-bold text-xl">{g.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          );
+        };
+
+        const App = () => {
+          const [tab, setTab] = useState('inicio');
+
+          return (
+            <div className="min-h-screen font-sans text-gray-800 pb-20">
+              {/* Header */}
+              <header className="bg-white shadow-sm sticky top-0 z-50">
+                <div className="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-orange-500 text-white w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-lg">
+                      🦉
+                    </div>
+                    <h1 className="text-2xl font-extrabold text-gray-800 tracking-tight">
+                      Edu<span className="text-orange-500">Cuentos</span>
+                    </h1>
+                  </div>
+                  
+                  <nav className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
+                    <NavButton active={tab === 'inicio'} onClick={() => setTab('inicio')} icon="🏠" text="Inicio" />
+                    <NavButton active={tab === 'cuentos'} onClick={() => setTab('cuentos')} icon="📚" text="Cuentos" />
+                    <NavButton active={tab === 'textos'} onClick={() => setTab('textos')} icon="🚜" text="Textos" />
+                    <NavButton active={tab === 'gramatica'} onClick={() => setTab('gramatica')} icon="✍️" text="Gramática" />
+                    <NavButton active={tab === 'juegos'} onClick={() => setTab('juegos')} icon="🎮" text="Juegos" />
+                  </nav>
+                </div>
+              </header>
+
+              {/* Main Content Area */}
+              <main className="max-w-6xl mx-auto px-4 py-8">
+                {tab === 'inicio' && <HomeSection setTab={setTab} />}
+                {tab === 'cuentos' && <StoriesSection />}
+                {tab === 'textos' && <TextsSection />}
+                {tab === 'gramatica' && <GrammarSection />}
+                {tab === 'juegos' && <GamesHub />}
+              </main>
+              
+              {/* Footer */}
+              <footer className="text-center text-gray-400 text-sm py-8">
+                Materia basada en: "Unidad 3 tema 2: Con esfuerzo y dedicación".
+              </footer>
+            </div>
+          );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
