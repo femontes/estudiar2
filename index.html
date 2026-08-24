@@ -542,7 +542,7 @@
   .btn-action:active { transform: translateY(3px); box-shadow: 0 2px 0 #333; }
   .btn-action.back { background: linear-gradient(135deg, #999, #666); }
   
-  /* Juego de memoria */
+  /* Juego de memoria - CORREGIDO */
   .memory-game {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -558,22 +558,52 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
     color: white;
-    transition: all 0.3s;
+    transition: all 0.4s;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     border: 3px solid white;
+    position: relative;
+    perspective: 1000px;
   }
-  .memory-card.flipped {
+  .memory-card .card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    backface-visibility: hidden;
+    transition: transform 0.6s;
+  }
+  .memory-card .card-front {
+    background: linear-gradient(135deg, var(--purple), var(--pink));
+    color: white;
+    font-size: 2.5rem;
+    transform: rotateY(0deg);
+  }
+  .memory-card .card-back {
     background: white;
     color: #333;
     transform: rotateY(180deg);
+    padding: 5px;
+    text-align: center;
+  }
+  .memory-card.flipped .card-front {
+    transform: rotateY(-180deg);
+  }
+  .memory-card.flipped .card-back {
+    transform: rotateY(0deg);
   }
   .memory-card.matched {
     background: var(--green);
-    color: white;
     animation: correct 0.5s;
+  }
+  .memory-card.matched .card-back {
+    background: var(--green);
+    color: white;
   }
   
   /* Juego de arrastrar */
@@ -1350,7 +1380,6 @@ function drawPizza(id, total, filled) {
     slice.style.transform = `rotate(${i * angleStep - 90}deg)`;
     pizza.appendChild(slice);
   }
-  // Líneas divisorias
   for (let i = 0; i < total; i++) {
     const line = document.createElement('div');
     line.style.cssText = `position:absolute; top:50%; left:50%; width:50%; height:2px; background:#c44569; transform-origin:left center; transform:rotate(${i * (360/total)}deg);`;
@@ -1364,7 +1393,6 @@ function drawNumberLine(id, denominator, numerator) {
   if (!nl) return;
   nl.innerHTML = '<div class="number-line-bar"></div>';
   const totalWidth = nl.offsetWidth - 40;
-  // Marcas del 0 al 1
   for (let i = 0; i <= denominator; i++) {
     const tick = document.createElement('div');
     tick.className = 'number-line-tick';
@@ -1377,7 +1405,6 @@ function drawNumberLine(id, denominator, numerator) {
     label.textContent = i === 0 ? '0' : i === denominator ? '1' : `${i}/${denominator}`;
     nl.appendChild(label);
   }
-  // Punto de la fracción
   const point = document.createElement('div');
   point.className = 'number-line-point';
   point.style.left = (20 + (numerator / denominator) * totalWidth) + 'px';
@@ -1429,7 +1456,6 @@ function loadPracticeContent(id) {
   }
 }
 
-// Práctica tema 1
 let practice1Index = 0;
 const practice1Questions = [
   { q: '¿Qué fracción representa la parte pintada?', pizza: [6, 2], options: ['2/6', '4/6', '6/2', '2/4'], correct: 0 },
@@ -1478,7 +1504,6 @@ function checkPractice1(selected, correct) {
   practice1Index++;
 }
 
-// Práctica tema 2
 let practice2Index = 0;
 const practice2Questions = [
   { q: '2/7 + 3/7 = ?', options: ['5/14', '5/7', '6/7', '1/7'], correct: 1 },
@@ -1521,7 +1546,6 @@ function checkPractice2(selected, correct) {
   practice2Index++;
 }
 
-// Práctica tema 3
 let practice3Index = 0;
 const practice3Questions = [
   { q: 'x + 2/5 = 4/5. ¿Cuánto vale x?', options: ['1/5', '2/5', '6/5', '3/5'], correct: 1 },
@@ -1563,7 +1587,6 @@ function checkPractice3(selected, correct) {
   practice3Index++;
 }
 
-// Práctica tema 4 - Ángulos
 function loadAnglePractice() {
   const area = document.getElementById('practiceArea4');
   area.innerHTML = `
@@ -1631,7 +1654,6 @@ function checkAngleType(type) {
   }
 }
 
-// Práctica tema 5 - Transformaciones
 function loadTransformPractice() {
   const area = document.getElementById('practiceArea5');
   area.innerHTML = `
@@ -1739,10 +1761,11 @@ function loadGameContent(id) {
   }
 }
 
-// ============ JUEGO MEMORIA ============
+// ============ JUEGO MEMORIA - CORREGIDO ============
 let memoryCards = [];
 let flippedCards = [];
 let matchedPairs = 0;
+let memoryLocked = false;
 
 function initMemoryGame() {
   const pairs = [
@@ -1753,12 +1776,13 @@ function initMemoryGame() {
   ];
   memoryCards = [];
   pairs.forEach(p => {
-    memoryCards.push({ id: p.id, text: p.text, pairId: p.id });
-    memoryCards.push({ id: p.id, text: p.match, pairId: p.id });
+    memoryCards.push({ pairId: p.id, front: '?', back: p.text, flipped: false, matched: false });
+    memoryCards.push({ pairId: p.id, front: '?', back: p.match, flipped: false, matched: false });
   });
   memoryCards.sort(() => Math.random() - 0.5);
   flippedCards = [];
   matchedPairs = 0;
+  memoryLocked = false;
   renderMemory();
 }
 
@@ -1768,21 +1792,31 @@ function renderMemory() {
   game.innerHTML = '';
   memoryCards.forEach((card, i) => {
     const div = document.createElement('div');
-    div.className = 'memory-card' + (card.flipped ? ' flipped' : '') + (card.matched ? ' matched' : '');
-    div.textContent = card.flipped || card.matched ? card.text : '?';
+    let classes = 'memory-card';
+    if (card.flipped) classes += ' flipped';
+    if (card.matched) classes += ' matched';
+    div.className = classes;
+    div.innerHTML = `
+      <div class="card-face card-front">${card.front}</div>
+      <div class="card-face card-back">${card.back}</div>
+    `;
     div.onclick = () => flipCard(i);
     game.appendChild(div);
   });
 }
 
 function flipCard(i) {
-  if (memoryCards[i].flipped || memoryCards[i].matched || flippedCards.length >= 2) return;
+  if (memoryLocked) return;
+  if (memoryCards[i].flipped || memoryCards[i].matched) return;
+  if (flippedCards.length >= 2) return;
+  
   playPop();
   memoryCards[i].flipped = true;
   flippedCards.push(i);
   renderMemory();
   
   if (flippedCards.length === 2) {
+    memoryLocked = true;
     const [a, b] = flippedCards;
     if (memoryCards[a].pairId === memoryCards[b].pairId) {
       setTimeout(() => {
@@ -1792,19 +1826,21 @@ function flipCard(i) {
         matchedPairs++;
         addPoints(15);
         flippedCards = [];
+        memoryLocked = false;
         renderMemory();
         if (matchedPairs === 4) {
           setTimeout(() => showReward('¡Ganaste el juego!', '¡Encontraste todos los pares!', 3), 500);
         }
-      }, 500);
+      }, 700);
     } else {
       setTimeout(() => {
         playWrong();
         memoryCards[a].flipped = false;
         memoryCards[b].flipped = false;
         flippedCards = [];
+        memoryLocked = false;
         renderMemory();
-      }, 1000);
+      }, 1200);
     }
   }
 }
