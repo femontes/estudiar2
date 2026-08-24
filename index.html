@@ -4,1994 +4,2116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎨 Mundo de las Fracciones - 4° Básico</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/fredoka-one@4.5.0/index.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/nunito@4.5.0/index.css">
+<title>🎨 Aventura Matemática - 4° Básico</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/comic-neue@3.0.1/comic-neue.min.css">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --pink: #ff6b9d;
-  --purple: #a06cd5;
-  --blue: #4d96ff;
-  --green: #6bcf7f;
-  --yellow: #ffd93d;
-  --orange: #ff8c42;
-  --red: #ff5e5e;
-}
-
-body {
-  font-family: 'Nunito', sans-serif;
-  background: linear-gradient(135deg, #ffe5ec 0%, #e0c3fc 50%, #b8e0ff 100%);
-  min-height: 100vh;
-  overflow-x: hidden;
-  color: #333;
-}
-
-h1, h2, h3, .title-font { font-family: 'Fredoka One', cursive; }
-
-/* Nubes flotantes de fondo */
-.bg-cloud {
-  position: fixed;
-  background: rgba(255,255,255,0.5);
-  border-radius: 50%;
-  filter: blur(20px);
-  z-index: 0;
-  pointer-events: none;
-  animation: floatCloud 20s infinite ease-in-out;
-}
-.bg-cloud:nth-child(1) { width: 300px; height: 300px; top: 10%; left: -100px; }
-.bg-cloud:nth-child(2) { width: 400px; height: 400px; top: 50%; right: -150px; animation-delay: -5s; }
-.bg-cloud:nth-child(3) { width: 250px; height: 250px; bottom: 10%; left: 30%; animation-delay: -10s; }
-
-@keyframes floatCloud {
-  0%, 100% { transform: translate(0,0); }
-  50% { transform: translate(50px, -30px); }
-}
-
-/* Header */
-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: linear-gradient(90deg, var(--pink), var(--purple), var(--blue));
-  padding: 15px 30px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.logo {
-  color: white;
-  font-size: 1.8rem;
-  text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo-icon {
-  font-size: 2.5rem;
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0) rotate(0); }
-  50% { transform: translateY(-10px) rotate(10deg); }
-}
-
-.score-bar {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-}
-
-.score-item {
-  background: rgba(255,255,255,0.3);
-  padding: 8px 16px;
-  border-radius: 20px;
-  color: white;
-  font-weight: bold;
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-nav {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 15px;
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(10px);
-  border-bottom: 3px dashed var(--purple);
-}
-
-.nav-btn {
-  background: white;
-  border: 3px solid var(--purple);
-  padding: 10px 20px;
-  border-radius: 25px;
-  font-family: 'Fredoka One', cursive;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  color: var(--purple);
-}
-
-.nav-btn:hover {
-  background: var(--purple);
-  color: white;
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 6px 15px rgba(160,108,213,0.4);
-}
-
-.nav-btn.active {
-  background: var(--pink);
-  color: white;
-  border-color: var(--pink);
-}
-
-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 30px 20px;
-  position: relative;
-  z-index: 1;
-}
-
-.section {
-  display: none;
-  animation: fadeIn 0.6s ease;
-}
-
-.section.active { display: block; }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Hero */
-.hero {
-  text-align: center;
-  padding: 40px 20px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,230,240,0.9));
-  border-radius: 30px;
-  box-shadow: 0 10px 40px rgba(160,108,213,0.2);
-  margin-bottom: 30px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero h1 {
-  font-size: 3rem;
-  background: linear-gradient(90deg, var(--pink), var(--purple), var(--blue));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 15px;
-  animation: titlePop 1s ease;
-}
-
-@keyframes titlePop {
-  0% { transform: scale(0.5); opacity: 0; }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-.hero p {
-  font-size: 1.3rem;
-  color: #555;
-  margin-bottom: 20px;
-}
-
-.mascot {
-  font-size: 5rem;
-  display: inline-block;
-  animation: mascotWave 3s infinite;
-}
-
-@keyframes mascotWave {
-  0%, 100% { transform: rotate(-5deg); }
-  50% { transform: rotate(5deg); }
-}
-
-/* Cards */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin: 20px 0;
-}
-
-.card {
-  background: white;
-  border-radius: 20px;
-  padding: 25px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-  border: 3px solid transparent;
-}
-
-.card:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-}
-
-.card.pink { border-color: var(--pink); }
-.card.purple { border-color: var(--purple); }
-.card.blue { border-color: var(--blue); }
-.card.green { border-color: var(--green); }
-.card.orange { border-color: var(--orange); }
-.card.yellow { border-color: var(--yellow); }
-
-.card-icon {
-  font-size: 4rem;
-  margin-bottom: 10px;
-  display: block;
-}
-
-.card h3 {
-  color: var(--purple);
-  font-size: 1.4rem;
-  margin-bottom: 10px;
-}
-
-/* Lesson section */
-.lesson-box {
-  background: white;
-  border-radius: 25px;
-  padding: 30px;
-  margin: 20px 0;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  border-left: 8px solid var(--purple);
-}
-
-.lesson-box h2 {
-  color: var(--purple);
-  font-size: 2rem;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.lesson-box h3 {
-  color: var(--pink);
-  font-size: 1.5rem;
-  margin: 20px 0 10px;
-}
-
-.lesson-box p {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  margin-bottom: 15px;
-}
-
-.fraction-display {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 10px;
-  font-family: 'Fredoka One', cursive;
-  font-size: 1.5rem;
-  vertical-align: middle;
-}
-
-.fraction-display .num {
-  color: var(--pink);
-  border-bottom: 3px solid #333;
-  padding: 0 10px;
-}
-
-.fraction-display .den {
-  color: var(--blue);
-  padding: 0 10px;
-}
-
-.visual-fraction {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.piece {
-  width: 50px;
-  height: 50px;
-  border: 3px solid #333;
-  border-radius: 10px;
-  transition: all 0.3s;
-  cursor: pointer;
-}
-
-.piece.filled {
-  background: linear-gradient(135deg, var(--pink), var(--purple));
-  box-shadow: 0 3px 10px rgba(160,108,213,0.4);
-}
-
-.piece.empty {
-  background: #f0f0f0;
-}
-
-.piece:hover { transform: scale(1.1); }
-
-/* Pizza visual */
-.pizza-container {
-  display: inline-block;
-  margin: 20px;
-  position: relative;
-}
-
-.pizza {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  position: relative;
-  background: #f4d35e;
-  border: 5px solid #8b4513;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-}
-
-.pizza-slice {
-  position: absolute;
-  width: 50%;
-  height: 50%;
-  top: 0;
-  left: 50%;
-  transform-origin: 0% 100%;
-  clip-path: polygon(0 100%, 100% 0, 0 0);
-}
-
-/* Buttons */
-.btn {
-  background: linear-gradient(135deg, var(--pink), var(--purple));
-  color: white;
-  border: none;
-  padding: 12px 30px;
-  border-radius: 25px;
-  font-family: 'Fredoka One', cursive;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 5px 15px rgba(160,108,213,0.3);
-  margin: 5px;
-}
-
-.btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(160,108,213,0.5);
-}
-
-.btn:active { transform: translateY(0); }
-
-.btn.green { background: linear-gradient(135deg, var(--green), #4caf50); }
-.btn.orange { background: linear-gradient(135deg, var(--orange), var(--red)); }
-.btn.blue { background: linear-gradient(135deg, var(--blue), var(--purple)); }
-
-/* Quiz */
-.quiz-container {
-  background: linear-gradient(135deg, #fff, #f8f0ff);
-  border-radius: 25px;
-  padding: 30px;
-  margin: 20px 0;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-.quiz-question {
-  font-size: 1.3rem;
-  color: var(--purple);
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.options-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
-  margin: 20px 0;
-}
-
-.option-btn {
-  background: white;
-  border: 3px solid var(--blue);
-  padding: 20px;
-  border-radius: 15px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s;
-  color: var(--blue);
-}
-
-.option-btn:hover {
-  background: var(--blue);
-  color: white;
-  transform: scale(1.05);
-}
-
-.option-btn.correct {
-  background: var(--green);
-  color: white;
-  border-color: var(--green);
-  animation: correctPulse 0.5s;
-}
-
-.option-btn.wrong {
-  background: var(--red);
-  color: white;
-  border-color: var(--red);
-  animation: shake 0.5s;
-}
-
-@keyframes correctPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-10px); }
-  75% { transform: translateX(10px); }
-}
-
-/* Number line */
-.number-line {
-  position: relative;
-  height: 100px;
-  margin: 40px 20px;
-  background: white;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.number-line-bar {
-  position: absolute;
-  top: 50%;
-  left: 20px;
-  right: 20px;
-  height: 4px;
-  background: #333;
-  transform: translateY(-50%);
-}
-
-.number-line-point {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: var(--purple);
-}
-
-.number-line-tick {
-  position: absolute;
-  top: 50%;
-  width: 2px;
-  height: 15px;
-  background: #333;
-  transform: translate(-50%, -50%);
-}
-
-.fraction-marker {
-  position: absolute;
-  top: -30px;
-  transform: translateX(-50%);
-  background: var(--pink);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.fraction-marker:hover {
-  transform: translateX(-50%) scale(1.1);
-}
-
-/* Game */
-.game-area {
-  background: white;
-  border-radius: 25px;
-  padding: 30px;
-  margin: 20px 0;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
-.game-header {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.game-stat {
-  background: linear-gradient(135deg, var(--yellow), var(--orange));
-  padding: 10px 20px;
-  border-radius: 15px;
-  color: white;
-  font-weight: bold;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-}
-
-.target-fraction {
-  font-size: 3rem;
-  color: var(--purple);
-  margin: 20px 0;
-}
-
-.drag-pieces {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.drag-piece {
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, var(--green), var(--blue));
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: bold;
-  font-size: 1.5rem;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-}
-
-.drag-piece:hover { transform: scale(1.1) rotate(5deg); }
-.drag-piece.used { opacity: 0.3; pointer-events: none; }
-
-.drop-zone {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  min-height: 100px;
-  padding: 20px;
-  border: 4px dashed var(--purple);
-  border-radius: 20px;
-  margin: 20px auto;
-  max-width: 500px;
-  background: rgba(160,108,213,0.05);
-}
-
-.drop-piece {
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, var(--pink), var(--purple));
-  border-radius: 10px;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  animation: popIn 0.3s;
-}
-
-@keyframes popIn {
-  from { transform: scale(0); }
-  to { transform: scale(1); }
-}
-
-/* Feedback */
-.feedback {
-  padding: 20px;
-  border-radius: 15px;
-  margin: 15px 0;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: bold;
-  animation: slideIn 0.5s;
-}
-
-@keyframes slideIn {
-  from { transform: translateY(-20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.feedback.success {
-  background: linear-gradient(135deg, #d4f5d4, #a8e6a8);
-  color: #2e7d32;
-  border: 3px solid var(--green);
-}
-
-.feedback.error {
-  background: linear-gradient(135deg, #ffd4d4, #ffb3b3);
-  color: #c62828;
-  border: 3px solid var(--red);
-}
-
-/* Confetti */
-.confetti {
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  pointer-events: none;
-  z-index: 1000;
-  animation: confettiFall 3s linear forwards;
-}
-
-@keyframes confettiFall {
-  to {
-    transform: translateY(100vh) rotate(720deg);
-    opacity: 0;
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Comic Neue', cursive, sans-serif; }
+  
+  :root {
+    --pink: #ff6b9d;
+    --yellow: #ffd93d;
+    --blue: #4d96ff;
+    --green: #6bcf7f;
+    --purple: #a66cff;
+    --orange: #ff9f45;
+    --red: #ff5252;
+    --cream: #fff8e7;
   }
-}
-
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  z-index: 200;
-  justify-content: center;
-  align-items: center;
-  animation: fadeIn 0.3s;
-}
-
-.modal.show { display: flex; }
-
-.modal-content {
-  background: white;
-  border-radius: 25px;
-  padding: 40px;
-  max-width: 500px;
-  text-align: center;
-  animation: popIn 0.5s;
-}
-
-.modal-content h2 {
-  color: var(--purple);
-  margin-bottom: 20px;
-  font-size: 2rem;
-}
-
-.trophy {
-  font-size: 5rem;
-  animation: trophySpin 2s infinite;
-}
-
-@keyframes trophySpin {
-  0%, 100% { transform: rotate(-10deg) scale(1); }
-  50% { transform: rotate(10deg) scale(1.1); }
-}
-
-/* Progress bar */
-.progress-container {
-  background: #eee;
-  border-radius: 20px;
-  height: 25px;
-  margin: 20px 0;
-  overflow: hidden;
-  box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--green), var(--blue));
-  border-radius: 20px;
-  transition: width 0.5s;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 10px;
-  color: white;
-  font-weight: bold;
-  font-size: 0.9rem;
-}
-
-/* Comparison game */
-.compare-container {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin: 30px 0;
-}
-
-.fraction-card {
-  background: white;
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  min-width: 150px;
-  text-align: center;
-  border: 3px solid var(--blue);
-}
-
-.compare-symbol {
-  font-size: 3rem;
-  color: var(--orange);
-  font-weight: bold;
-  padding: 0 10px;
-}
-
-.compare-btns {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.compare-btns button {
-  font-size: 2rem;
-  padding: 10px 25px;
-  border-radius: 15px;
-  border: 3px solid var(--purple);
-  background: white;
-  color: var(--purple);
-  cursor: pointer;
-  transition: all 0.3s;
-  font-weight: bold;
-}
-
-.compare-btns button:hover {
-  background: var(--purple);
-  color: white;
-  transform: scale(1.1);
-}
-
-/* Mixed number */
-.mixed-number {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: 'Fredoka One', cursive;
-  font-size: 2rem;
-  color: var(--purple);
-}
-
-.mixed-number .whole {
-  color: var(--orange);
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  .hero h1 { font-size: 2rem; }
-  .logo { font-size: 1.3rem; }
-  .nav-btn { font-size: 0.85rem; padding: 8px 14px; }
-  .lesson-box { padding: 20px; }
-}
-
-/* Animations utility */
-.wiggle { animation: wiggle 0.5s; }
-@keyframes wiggle {
-  0%, 100% { transform: rotate(0); }
-  25% { transform: rotate(-5deg); }
-  75% { transform: rotate(5deg); }
-}
-
-.sparkle {
-  position: absolute;
-  pointer-events: none;
-  font-size: 2rem;
-  animation: sparkleFade 1s forwards;
-}
-
-@keyframes sparkleFade {
-  0% { transform: scale(0) rotate(0); opacity: 1; }
-  100% { transform: scale(1.5) rotate(360deg); opacity: 0; }
-}
-
-.info-box {
-  background: linear-gradient(135deg, #fff9e6, #fff3cc);
-  border-left: 6px solid var(--yellow);
-  padding: 15px 20px;
-  border-radius: 10px;
-  margin: 15px 0;
-}
-
-.info-box::before {
-  content: "💡 ";
-  font-size: 1.3rem;
-}
-
-.example-box {
-  background: linear-gradient(135deg, #e6f7ff, #cceeff);
-  border-left: 6px solid var(--blue);
-  padding: 15px 20px;
-  border-radius: 10px;
-  margin: 15px 0;
-}
-
-.example-box::before {
-  content: "📚 Ejemplo: ";
-  font-weight: bold;
-  color: var(--blue);
-}
-
-.tab-content { display: none; }
-.tab-content.active { display: block; animation: fadeIn 0.5s; }
-
-.tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.tab-btn {
-  background: white;
-  border: 3px solid var(--blue);
-  padding: 10px 20px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
-  color: var(--blue);
-  transition: all 0.3s;
-}
-
-.tab-btn.active {
-  background: var(--blue);
-  color: white;
-}
+  
+  body {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 50%, #ffecd2 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: #333;
+  }
+  
+  /* Burbujas flotantes de fondo */
+  .bubbles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .bubble {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: float 15s infinite ease-in-out;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-100px) rotate(180deg); }
+  }
+  
+  /* Pantalla de bienvenida */
+  #welcome {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fbc2eb 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.8s, transform 0.8s;
+  }
+  #welcome.hide { opacity: 0; transform: scale(1.2); pointer-events: none; }
+  
+  .welcome-title {
+    font-size: 4rem;
+    color: white;
+    text-shadow: 4px 4px 0 #ff6b9d, 8px 8px 20px rgba(0,0,0,0.2);
+    text-align: center;
+    animation: bounce 2s infinite;
+    margin-bottom: 20px;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  .welcome-subtitle {
+    font-size: 1.8rem;
+    color: white;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  
+  .mascot {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    animation: wiggle 3s infinite ease-in-out;
+    margin-bottom: 30px;
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+  .mascot-body {
+    width: 180px; height: 180px;
+    background: radial-gradient(circle at 30% 30%, #ffd93d, #ff9f45);
+    border-radius: 50%;
+    position: relative;
+    border: 5px solid #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  .mascot-eye {
+    width: 30px; height: 40px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50px;
+    border: 3px solid #333;
+  }
+  .mascot-eye.left { left: 40px; }
+  .mascot-eye.right { right: 40px; }
+  .mascot-pupil {
+    width: 15px; height: 15px;
+    background: #333;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px; left: 8px;
+    animation: look 4s infinite;
+  }
+  @keyframes look {
+    0%, 100% { transform: translate(0,0); }
+    25% { transform: translate(5px,0); }
+    75% { transform: translate(-5px,0); }
+  }
+  .mascot-mouth {
+    width: 60px; height: 30px;
+    border-bottom: 5px solid #333;
+    border-radius: 0 0 50% 50%;
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .mascot-hat {
+    position: absolute;
+    top: -30px; left: 50%;
+    transform: translateX(-50%);
+    width: 80px; height: 50px;
+    background: var(--purple);
+    border-radius: 50% 50% 10px 10px;
+    border: 4px solid white;
+  }
+  .mascot-hat::before {
+    content: "★";
+    position: absolute;
+    color: var(--yellow);
+    font-size: 30px;
+    top: 5px; left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .btn-start {
+    padding: 20px 60px;
+    font-size: 2rem;
+    background: linear-gradient(135deg, #ff6b9d, #ff9f45);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 0 #c44569, 0 15px 30px rgba(0,0,0,0.3);
+    transition: all 0.2s;
+    font-weight: bold;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+  }
+  .btn-start:hover { transform: translateY(-3px); box-shadow: 0 11px 0 #c44569, 0 18px 35px rgba(0,0,0,0.3); }
+  .btn-start:active { transform: translateY(5px); box-shadow: 0 3px 0 #c44569; }
+  
+  /* Contenedor principal */
+  #app {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    padding: 15px 30px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    margin-bottom: 30px;
+    border: 4px solid white;
+  }
+  .logo {
+    font-size: 2rem;
+    color: white;
+    font-weight: bold;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
+  }
+  .score-board {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .score-item {
+    background: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  .score-item .icon { font-size: 1.5rem; }
+  
+  /* Menú principal */
+  .main-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .topic-card {
+    background: white;
+    border-radius: 25px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 5px solid transparent;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .topic-card::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .topic-card:hover { transform: translateY(-10px) scale(1.03); }
+  .topic-card:hover::before { opacity: 1; }
+  
+  .topic-card.t1 { border-color: var(--pink); background: linear-gradient(135deg, #fff, #ffe0ec); }
+  .topic-card.t2 { border-color: var(--blue); background: linear-gradient(135deg, #fff, #e0ecff); }
+  .topic-card.t3 { border-color: var(--green); background: linear-gradient(135deg, #fff, #e0ffe6); }
+  .topic-card.t4 { border-color: var(--orange); background: linear-gradient(135deg, #fff, #fff0d6); }
+  .topic-card.t5 { border-color: var(--purple); background: linear-gradient(135deg, #fff, #f0e0ff); }
+  
+  .topic-icon {
+    font-size: 5rem;
+    margin-bottom: 15px;
+    display: inline-block;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+  .topic-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  .topic-desc {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+  }
+  .topic-stars {
+    font-size: 1.5rem;
+    color: var(--yellow);
+  }
+  
+  /* Vista de tema */
+  .topic-view {
+    display: none;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeIn 0.5s;
+  }
+  .topic-view.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .topic-header {
+    background: white;
+    border-radius: 25px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 5px solid var(--pink);
+  }
+  .topic-header .icon { font-size: 4rem; }
+  .topic-header h1 { font-size: 2rem; color: #333; }
+  
+  .tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    flex: 1;
+    min-width: 120px;
+    padding: 15px 20px;
+    background: white;
+    border: 4px solid #ddd;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 0.3s;
+    text-align: center;
+  }
+  .tab:hover { transform: translateY(-3px); }
+  .tab.active {
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: white;
+    border-color: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+  
+  .tab-content {
+    display: none;
+    background: white;
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    animation: fadeIn 0.4s;
+  }
+  .tab-content.active { display: block; }
+  
+  .tab-content h2 {
+    color: var(--pink);
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .tab-content h3 {
+    color: var(--purple);
+    font-size: 1.5rem;
+    margin: 20px 0 10px;
+  }
+  .tab-content p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 15px;
+  }
+  
+  /* Conceptos visuales */
+  .concept-box {
+    background: linear-gradient(135deg, #fff8e7, #ffe0ec);
+    border-radius: 20px;
+    padding: 25px;
+    margin: 20px 0;
+    border-left: 8px solid var(--pink);
+  }
+  .concept-box.blue { background: linear-gradient(135deg, #e0ecff, #fff8e7); border-color: var(--blue); }
+  .concept-box.green { background: linear-gradient(135deg, #e0ffe6, #fff8e7); border-color: var(--green); }
+  
+  /* Pizza visual */
+  .pizza-demo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+  .pizza {
+    width: 200px; height: 200px;
+    position: relative;
+    border-radius: 50%;
+    background: #ffd93d;
+    border: 5px solid #c44569;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+  .pizza-slice {
+    position: absolute;
+    width: 50%; height: 50%;
+    top: 0; left: 50%;
+    transform-origin: 0% 100%;
+    background: #ff6b9d;
+    clip-path: polygon(0 100%, 100% 100%, 100% 0);
+    transition: all 0.5s;
+  }
+  .pizza-slice.empty { background: #ffe0ec; }
+  
+  /* Recta numérica */
+  .number-line {
+    position: relative;
+    height: 80px;
+    margin: 30px 20px;
+    background: linear-gradient(90deg, #fff, #ffe0ec);
+    border-radius: 15px;
+    padding: 20px;
+  }
+  .number-line-bar {
+    position: absolute;
+    top: 40px;
+    left: 20px; right: 20px;
+    height: 4px;
+    background: #333;
+  }
+  .number-line-tick {
+    position: absolute;
+    top: 30px;
+    width: 2px; height: 24px;
+    background: #333;
+  }
+  .number-line-label {
+    position: absolute;
+    top: 60px;
+    font-size: 1rem;
+    font-weight: bold;
+    transform: translateX(-50%);
+  }
+  .number-line-point {
+    position: absolute;
+    top: 25px;
+    width: 30px; height: 30px;
+    background: var(--red);
+    border-radius: 50%;
+    border: 3px solid white;
+    transform: translateX(-50%);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    animation: pop 0.5s;
+  }
+  @keyframes pop {
+    0% { transform: translateX(-50%) scale(0); }
+    100% { transform: translateX(-50%) scale(1); }
+  }
+  
+  /* Fracción visual */
+  .fraction-display {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0 10px;
+    vertical-align: middle;
+  }
+  .fraction-display .num {
+    color: var(--pink);
+    padding: 0 10px;
+  }
+  .fraction-display .line {
+    width: 100%;
+    height: 3px;
+    background: #333;
+    margin: 3px 0;
+  }
+  .fraction-display .den {
+    color: var(--blue);
+    padding: 0 10px;
+  }
+  
+  /* Ejercicios */
+  .exercise {
+    background: linear-gradient(135deg, #fff, #f0f8ff);
+    border: 4px dashed var(--blue);
+    border-radius: 20px;
+    padding: 25px;
+    margin: 20px 0;
+  }
+  .exercise-title {
+    font-size: 1.3rem;
+    color: var(--blue);
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+  .options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+  }
+  .option-btn {
+    padding: 15px;
+    background: white;
+    border: 4px solid var(--blue);
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 1.3rem;
+    font-weight: bold;
+    transition: all 0.3s;
+    color: #333;
+  }
+  .option-btn:hover { background: var(--blue); color: white; transform: scale(1.05); }
+  .option-btn.correct { background: var(--green); color: white; border-color: var(--green); animation: correct 0.5s; }
+  .option-btn.wrong { background: var(--red); color: white; border-color: var(--red); animation: shake 0.5s; }
+  @keyframes correct {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+  }
+  
+  .feedback {
+    padding: 15px;
+    border-radius: 15px;
+    margin: 15px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    display: none;
+  }
+  .feedback.show { display: block; animation: fadeIn 0.3s; }
+  .feedback.success { background: var(--green); color: white; }
+  .feedback.error { background: var(--red); color: white; }
+  
+  .btn-action {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    box-shadow: 0 5px 0 #333;
+    transition: all 0.2s;
+    margin: 10px 5px;
+  }
+  .btn-action:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #333; }
+  .btn-action:active { transform: translateY(3px); box-shadow: 0 2px 0 #333; }
+  .btn-action.back { background: linear-gradient(135deg, #999, #666); }
+  
+  /* Juego de memoria */
+  .memory-game {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    max-width: 500px;
+    margin: 20px auto;
+  }
+  .memory-card {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, var(--purple), var(--pink));
+    border-radius: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border: 3px solid white;
+  }
+  .memory-card.flipped {
+    background: white;
+    color: #333;
+    transform: rotateY(180deg);
+  }
+  .memory-card.matched {
+    background: var(--green);
+    color: white;
+    animation: correct 0.5s;
+  }
+  
+  /* Juego de arrastrar */
+  .drag-game {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+  .drag-items, .drop-zones {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+  .drag-item {
+    padding: 15px 25px;
+    background: var(--yellow);
+    border: 3px solid #c44569;
+    border-radius: 15px;
+    cursor: grab;
+    font-size: 1.3rem;
+    font-weight: bold;
+    user-select: none;
+    transition: transform 0.2s;
+  }
+  .drag-item:active { cursor: grabbing; transform: scale(1.1); }
+  .drop-zone {
+    width: 200px;
+    min-height: 60px;
+    border: 4px dashed var(--blue);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #999;
+    background: #f0f8ff;
+  }
+  .drop-zone.over { background: #fff0d6; border-color: var(--orange); }
+  .drop-zone.filled { background: var(--green); color: white; border-style: solid; }
+  
+  /* Transportador para ángulos */
+  .protractor-game {
+    text-align: center;
+  }
+  .angle-display {
+    width: 250px; height: 250px;
+    margin: 20px auto;
+    position: relative;
+    border-radius: 50%;
+    background: white;
+    border: 5px solid var(--orange);
+  }
+  .angle-line {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    width: 4px; height: 50%;
+    background: var(--red);
+    transform-origin: bottom center;
+    border-radius: 2px;
+  }
+  .angle-base {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    width: 4px; height: 50%;
+    background: var(--blue);
+    transform-origin: bottom center;
+    transform: translateX(-50%) rotate(0deg);
+  }
+  
+  .slider-container {
+    margin: 20px 0;
+  }
+  input[type="range"] {
+    width: 100%;
+    max-width: 400px;
+    height: 10px;
+    border-radius: 5px;
+    background: #ddd;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--pink);
+    cursor: pointer;
+    border: 3px solid white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  }
+  
+  /* Confeti */
+  .confetti {
+    position: fixed;
+    width: 10px; height: 10px;
+    pointer-events: none;
+    z-index: 9999;
+    animation: confetti-fall 3s linear forwards;
+  }
+  @keyframes confetti-fall {
+    to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+  
+  /* Modal de recompensa */
+  .reward-modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+  }
+  .reward-modal.show { display: flex; animation: fadeIn 0.3s; }
+  .reward-content {
+    background: white;
+    border-radius: 30px;
+    padding: 40px;
+    text-align: center;
+    max-width: 400px;
+    border: 8px solid var(--yellow);
+    animation: pop 0.5s;
+  }
+  .reward-content h2 {
+    font-size: 2.5rem;
+    color: var(--pink);
+    margin-bottom: 20px;
+  }
+  .reward-stars {
+    font-size: 4rem;
+    margin: 20px 0;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .welcome-title { font-size: 2.5rem; }
+    .welcome-subtitle { font-size: 1.3rem; }
+    .logo { font-size: 1.3rem; }
+    .score-item { padding: 5px 12px; font-size: 1rem; }
+    .topic-header h1 { font-size: 1.5rem; }
+    .topic-header .icon { font-size: 3rem; }
+  }
+  
+  /* Animación de estrellas ganando */
+  .star-earned {
+    display: inline-block;
+    animation: star-spin 1s;
+  }
+  @keyframes star-spin {
+    0% { transform: scale(0) rotate(0); }
+    50% { transform: scale(1.5) rotate(360deg); }
+    100% { transform: scale(1) rotate(720deg); }
+  }
+  
+  .info-box {
+    background: #fff8e7;
+    border-left: 6px solid var(--yellow);
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin: 15px 0;
+    font-size: 1.1rem;
+  }
+  .info-box strong { color: var(--pink); }
+  
+  .mixed-number {
+    display: inline-flex;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0 10px;
+  }
+  .mixed-number .whole {
+    color: var(--green);
+    font-size: 2.5rem;
+  }
+  
+  .interactive-fraction {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+  .fraction-grid {
+    display: grid;
+    gap: 3px;
+    padding: 10px;
+    background: white;
+    border: 4px solid var(--blue);
+    border-radius: 15px;
+  }
+  .fraction-cell {
+    width: 40px; height: 40px;
+    background: #f0f0f0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .fraction-cell.active { background: var(--pink); transform: scale(1.1); }
+  .fraction-cell:hover { background: #ffe0ec; }
+  
+  .progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 15px 0;
+    border: 3px solid white;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--blue));
+    transition: width 0.5s;
+    border-radius: 10px;
+  }
+  
+  .sound-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px; height: 60px;
+    background: var(--pink);
+    border: 4px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 100;
+    transition: all 0.3s;
+  }
+  .sound-toggle:hover { transform: scale(1.1); }
+  
+  .equation {
+    font-size: 2rem;
+    text-align: center;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    margin: 15px 0;
+    border: 3px solid var(--purple);
+  }
+  
+  .shape-transform {
+    display: inline-block;
+    transition: all 1s;
+  }
 </style>
 </head>
 <body>
 
-<div class="bg-cloud"></div>
-<div class="bg-cloud"></div>
-<div class="bg-cloud"></div>
+<!-- Burbujas de fondo -->
+<div class="bubbles" id="bubbles"></div>
 
-<header>
-  <div class="logo">
-    <span class="logo-icon">🎨</span>
-    <span>Mundo Fracciones</span>
+<!-- Pantalla de bienvenida -->
+<div id="welcome">
+  <div class="mascot">
+    <div class="mascot-body">
+      <div class="mascot-hat"></div>
+      <div class="mascot-eye left"><div class="mascot-pupil"></div></div>
+      <div class="mascot-eye right"><div class="mascot-pupil"></div></div>
+      <div class="mascot-mouth"></div>
+    </div>
   </div>
-  <div class="score-bar">
-    <div class="score-item">⭐ <span id="totalStars">0</span></div>
-    <div class="score-item">🏆 <span id="totalPoints">0</span> pts</div>
+  <h1 class="welcome-title">🎨 Aventura Matemática 🎨</h1>
+  <p class="welcome-subtitle">¡Aprende fracciones jugando! - 4° Básico</p>
+  <button class="btn-start" onclick="startApp()">¡COMENZAR! 🚀</button>
+</div>
+
+<!-- App principal -->
+<div id="app" style="display:none;">
+  <div class="header">
+    <div class="logo" onclick="showMainMenu()">🏠 Menú Principal</div>
+    <div class="score-board">
+      <div class="score-item"><span class="icon">⭐</span><span id="stars">0</span></div>
+      <div class="score-item"><span class="icon">💎</span><span id="points">0</span></div>
+    </div>
   </div>
-</header>
+  
+  <div id="mainMenu" class="main-menu"></div>
+  
+  <div id="topicView" class="topic-view"></div>
+</div>
 
-<nav>
-  <button class="nav-btn active" onclick="showSection('inicio', this)">🏠 Inicio</button>
-  <button class="nav-btn" onclick="showSection('lecciones', this)">📖 Lecciones</button>
-  <button class="nav-btn" onclick="showSection('mixtos', this)">🍕 Números Mixtos</button>
-  <button class="nav-btn" onclick="showSection('comparar', this)">⚖️ Comparar</button>
-  <button class="nav-btn" onclick="showSection('juegos', this)">🎮 Juegos</button>
-  <button class="nav-btn" onclick="showSection('quiz', this)">📝 Evaluación</button>
-</nav>
-
-<main>
-  <!-- INICIO -->
-  <section id="inicio" class="section active">
-    <div class="hero">
-      <div class="mascot">🦊</div>
-      <h1>¡Bienvenidos al Mundo de las Fracciones!</h1>
-      <p>Aprende, juega y diviértete con las fracciones y números mixtos 🎉</p>
-      <button class="btn" onclick="playSound('click'); showSection('lecciones', document.querySelectorAll('.nav-btn')[1])">¡Comenzar aventura! 🚀</button>
-    </div>
-
-    <div class="card-grid">
-      <div class="card pink" onclick="showSection('lecciones', document.querySelectorAll('.nav-btn')[1])">
-        <span class="card-icon">📐</span>
-        <h3>Fracciones</h3>
-        <p>Aprende qué son las fracciones y cómo se representan</p>
-      </div>
-      <div class="card purple" onclick="showSection('mixtos', document.querySelectorAll('.nav-btn')[2])">
-        <span class="card-icon">🍕</span>
-        <h3>Números Mixtos</h3>
-        <p>Descubre los números mixtos y fracciones impropias</p>
-      </div>
-      <div class="card blue" onclick="showSection('comparar', document.querySelectorAll('.nav-btn')[3])">
-        <span class="card-icon">⚖️</span>
-        <h3>Comparar</h3>
-        <p>Aprende a comparar y ordenar fracciones</p>
-      </div>
-      <div class="card green" onclick="showSection('juegos', document.querySelectorAll('.nav-btn')[4])">
-        <span class="card-icon">🎮</span>
-        <h3>Juegos</h3>
-        <p>Practica jugando y gana estrellas</p>
-      </div>
-      <div class="card orange" onclick="showSection('quiz', document.querySelectorAll('.nav-btn')[5])">
-        <span class="card-icon">📝</span>
-        <h3>Evaluación</h3>
-        <p>Pon a prueba lo que aprendiste</p>
-      </div>
-      <div class="card yellow" onclick="showSection('lecciones', document.querySelectorAll('.nav-btn')[1])">
-        <span class="card-icon">🎯</span>
-        <h3>Recta Numérica</h3>
-        <p>Ubica fracciones en la recta numérica</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- LECCIONES -->
-  <section id="lecciones" class="section">
-    <div class="lesson-box">
-      <h2>📐 ¿Qué es una Fracción?</h2>
-      <p>Una <strong>fracción</strong> representa una o más partes iguales de un todo. Imagina que tienes una pizza y la divides en partes iguales 🍕</p>
-      
-      <div class="info-box">
-        Una fracción tiene dos números: el <strong style="color:var(--pink)">NUMERADOR</strong> (arriba) y el <strong style="color:var(--blue)">DENOMINADOR</strong> (abajo).
-      </div>
-
-      <div style="text-align:center; margin: 20px 0;">
-        <div class="fraction-display" style="font-size: 2.5rem;">
-          <span class="num">3</span>
-          <span class="den">4</span>
-        </div>
-      </div>
-
-      <h3>🔢 Partes de una fracción</h3>
-      <p><strong style="color:var(--pink)">Numerador (3):</strong> Indica cuántas partes tomamos del total.</p>
-      <p><strong style="color:var(--blue)">Denominador (4):</strong> Indica en cuántas partes iguales dividimos el todo.</p>
-
-      <div class="example-box">
-        Si una pizza tiene 4 porciones y comemos 3, la fracción es <strong>3/4</strong> (tres cuartos). ¡Comimos tres de las cuatro partes!
-      </div>
-
-      <h3>🎨 Representación Gráfica</h3>
-      <p>Haz clic en las piezas para pintarlas y ver la fracción:</p>
-      
-      <div id="interactiveFraction" style="text-align:center; margin: 20px 0;">
-        <div class="visual-fraction" id="piecesContainer"></div>
-        <p style="font-size:1.5rem; margin-top:15px;">
-          Fracción: 
-          <span class="fraction-display">
-            <span class="num" id="numDisplay">0</span>
-            <span class="den">8</span>
-          </span>
-        </p>
-        <p id="fractionWords" style="color:var(--purple); font-weight:bold; font-size:1.2rem;"></p>
-      </div>
-
-      <h3>📖 ¿Cómo se leen las fracciones?</h3>
-      <div class="info-box">
-        El denominador se lee así: 2=medios, 3=tercios, 4=cuartos, 5=quintos, 6=sextos, 7=séptimos, 8=octavos, 9=novenos, 10=décimos, 100=centésimos.
-      </div>
-
-      <button class="btn green" onclick="playSound('success'); nextLesson()">Siguiente lección ➡️</button>
-    </div>
-
-    <div class="lesson-box" id="lesson2" style="display:none;">
-      <h2>📏 La Recta Numérica</h2>
-      <p>Las fracciones también se pueden ubicar en la <strong>recta numérica</strong>. ¡Mira cómo!</p>
-      
-      <div class="number-line" id="numberLine1">
-        <div class="number-line-bar"></div>
-        <div class="number-line-point" style="left: 20px;">0</div>
-        <div class="number-line-point" style="right: 20px;">1</div>
-      </div>
-
-      <div class="example-box">
-        Para ubicar <strong>3/4</strong>, dividimos el segmento entre 0 y 1 en 4 partes iguales, y contamos 3 partes desde el 0.
-      </div>
-
-      <h3>🎯 ¡Practica tú!</h3>
-      <p>¿Qué fracción está marcada en la recta?</p>
-      
-      <div class="number-line" id="practiceLine" style="position:relative;">
-        <div class="number-line-bar"></div>
-        <div class="number-line-point" style="left: 20px;">0</div>
-        <div class="number-line-point" style="right: 20px;">1</div>
-        <div id="practiceMarker"></div>
-      </div>
-
-      <div class="options-grid" id="rectaOptions"></div>
-      <div id="rectaFeedback"></div>
-      
-      <button class="btn blue" onclick="generateRectaQuestion()">🔄 Nueva pregunta</button>
-    </div>
-  </section>
-
-  <!-- NÚMEROS MIXTOS -->
-  <section id="mixtos" class="section">
-    <div class="lesson-box">
-      <h2>🍕 Números Mixtos</h2>
-      <p>Cuando tenemos <strong>más de un entero</strong> y además una parte fraccionaria, usamos un <strong>número mixto</strong>.</p>
-
-      <div style="text-align:center; margin: 30px 0;">
-        <div style="display:inline-block; margin: 20px;">
-          <div style="font-size:1.2rem; color:var(--purple); font-weight:bold;">Dos enteros y tres octavos</div>
-          <div class="mixed-number">
-            <span class="whole">2</span>
-            <span class="fraction-display">
-              <span class="num">3</span>
-              <span class="den">8</span>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="info-box">
-        Un <strong>número mixto</strong> tiene una parte entera y una parte fraccionaria. Por ejemplo: 2 3/8 significa 2 enteros más 3 octavos.
-      </div>
-
-      <h3>🔄 Fracciones Impropias</h3>
-      <p>Cuando el numerador es <strong>mayor</strong> que el denominador, se llama <strong>fracción impropia</strong> y se puede escribir como número mixto.</p>
-
-      <div class="example-box">
-        <strong>11/4</strong> es una fracción impropia (11 > 4).<br>
-        Como número mixto es: <strong>2 3/4</strong> (2 enteros y 3 cuartos)
-      </div>
-
-      <h3>🎨 Visualización Interactiva</h3>
-      <p>Observa cómo se representa un número mixto con piezas:</p>
-
-      <div id="mixedVisual" style="text-align:center; margin: 20px 0;">
-        <div id="mixedPieces" style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;"></div>
-        <div style="margin-top:20px; font-size:1.5rem;">
-          <span class="mixed-number">
-            <span class="whole" id="mixedWhole">2</span>
-            <span class="fraction-display">
-              <span class="num" id="mixedNum">3</span>
-              <span class="den" id="mixedDen">4</span>
-            </span>
-          </span>
-        </div>
-        <div style="margin-top:10px;">
-          <button class="btn" onclick="changeMixed(-1)">◀ Anterior</button>
-          <button class="btn green" onclick="changeMixed(1)">Siguiente ▶</button>
-        </div>
-      </div>
-
-      <h3>🧮 ¿Cómo convertir?</h3>
-      <div class="info-box">
-        <strong>De fracción impropia a mixto:</strong><br>
-        Divide el numerador por el denominador. El cociente es la parte entera, el resto es el nuevo numerador.<br><br>
-        Ejemplo: 11 ÷ 4 = 2 (resto 3) → <strong>2 3/4</strong>
-      </div>
-
-      <button class="btn" onclick="playSound('click'); showSection('comparar', document.querySelectorAll('.nav-btn')[3])">Siguiente tema ➡️</button>
-    </div>
-  </section>
-
-  <!-- COMPARAR -->
-  <section id="comparar" class="section">
-    <div class="lesson-box">
-      <h2>⚖️ Comparar Fracciones</h2>
-      <p>Para comparar fracciones, debemos ver cuál representa <strong>mayor parte</strong> del entero.</p>
-
-      <h3>📏 Reglas importantes</h3>
-      <div class="info-box">
-        <strong>• Mismo denominador:</strong> Es mayor la que tiene mayor numerador.<br>
-        Ejemplo: 5/8 > 3/8<br><br>
-        <strong>• Distinto denominador:</strong> Buscamos un denominador común o usamos la recta numérica.
-      </div>
-
-      <h3>🎮 ¡Juega a comparar!</h3>
-      <p>¿Cuál fracción es mayor? Elige el símbolo correcto:</p>
-
-      <div class="compare-container" id="compareGame">
-        <div class="fraction-card">
-          <div class="fraction-display" style="font-size:2.5rem;">
-            <span class="num" id="frac1Num">3</span>
-            <span class="den" id="frac1Den">4</span>
-          </div>
-          <div id="visual1" style="margin-top:10px;"></div>
-        </div>
-        <div class="compare-symbol" id="compareSymbol">?</div>
-        <div class="fraction-card">
-          <div class="fraction-display" style="font-size:2.5rem;">
-            <span class="num" id="frac2Num">2</span>
-            <span class="den" id="frac2Den">4</span>
-          </div>
-          <div id="visual2" style="margin-top:10px;"></div>
-        </div>
-      </div>
-
-      <div class="compare-btns">
-        <button onclick="checkCompare('<')">&lt;</button>
-        <button onclick="checkCompare('=')">=</button>
-        <button onclick="checkCompare('>')">&gt;</button>
-      </div>
-
-      <div id="compareFeedback"></div>
-      <button class="btn blue" onclick="newCompare()">🔄 Nueva comparación</button>
-    </div>
-  </section>
-
-  <!-- JUEGOS -->
-  <section id="juegos" class="section">
-    <div class="hero">
-      <h1>🎮 ¡A Jugar!</h1>
-      <p>Elige un juego y gana estrellas ⭐</p>
-    </div>
-
-    <div class="tabs">
-      <button class="tab-btn active" onclick="showGame('game1', this)">🧩 Construir Fracción</button>
-      <button class="tab-btn" onclick="showGame('game2', this)">🎯 Adivina la Fracción</button>
-      <button class="tab-btn" onclick="showGame('game3', this)">🏃 Carrera de Fracciones</button>
-    </div>
-
-    <!-- Juego 1: Construir fracción -->
-    <div id="game1" class="tab-content active">
-      <div class="game-area">
-        <h2 style="color:var(--purple);">🧩 Construye la fracción</h2>
-        <p>Forma la fracción que se pide usando las piezas</p>
-        
-        <div class="game-header">
-          <div class="game-stat">⭐ Estrellas: <span id="g1Stars">0</span></div>
-          <div class="game-stat">🎯 Ronda: <span id="g1Round">1</span>/5</div>
-        </div>
-
-        <div class="target-fraction">
-          Forma: 
-          <span class="fraction-display" style="font-size:3rem;">
-            <span class="num" id="targetNum">2</span>
-            <span class="den" id="targetDen">5</span>
-          </span>
-        </div>
-
-        <p>Piezas disponibles (denominador = <span id="gameDen">5</span>):</p>
-        <div class="drag-pieces" id="gamePieces"></div>
-        
-        <p>Tu fracción:</p>
-        <div class="drop-zone" id="dropZone"></div>
-        
-        <div style="margin-top:15px;">
-          <button class="btn green" onclick="checkGame1()">✅ Verificar</button>
-          <button class="btn orange" onclick="resetGame1()">🔄 Reiniciar</button>
-        </div>
-        
-        <div id="game1Feedback"></div>
-      </div>
-    </div>
-
-    <!-- Juego 2: Adivina -->
-    <div id="game2" class="tab-content">
-      <div class="game-area">
-        <h2 style="color:var(--purple);">🎯 Adivina la fracción</h2>
-        <p>Observa las piezas pintadas y elige la fracción correcta</p>
-        
-        <div class="game-header">
-          <div class="game-stat">⭐ Estrellas: <span id="g2Stars">0</span></div>
-          <div class="game-stat">🎯 Ronda: <span id="g2Round">1</span>/5</div>
-        </div>
-
-        <div id="game2Visual" class="visual-fraction"></div>
-        <div class="options-grid" id="game2Options"></div>
-        <div id="game2Feedback"></div>
-      </div>
-    </div>
-
-    <!-- Juego 3: Carrera -->
-    <div id="game3" class="tab-content">
-      <div class="game-area">
-        <h2 style="color:var(--purple);">🏃 Ordena las fracciones</h2>
-        <p>Ordena las fracciones de MENOR a MAYOR haciendo clic en el orden correcto</p>
-        
-        <div class="game-header">
-          <div class="game-stat">⭐ Estrellas: <span id="g3Stars">0</span></div>
-          <div class="game-stat">🎯 Ronda: <span id="g3Round">1</span>/5</div>
-        </div>
-
-        <div id="game3Fracs" style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center; margin:20px 0;"></div>
-        
-        <p>Tu orden (de menor a mayor):</p>
-        <div class="drop-zone" id="game3Order" style="min-height:80px;"></div>
-        
-        <div>
-          <button class="btn green" onclick="checkGame3()">✅ Verificar</button>
-          <button class="btn orange" onclick="resetGame3()">🔄 Reiniciar</button>
-        </div>
-        
-        <div id="game3Feedback"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- QUIZ -->
-  <section id="quiz" class="section">
-    <div class="lesson-box">
-      <h2>📝 Evaluación Final</h2>
-      <p>¡Demuestra lo que aprendiste! Responde las preguntas y gana tu trofeo 🏆</p>
-      
-      <div class="progress-container">
-        <div class="progress-bar" id="quizProgress" style="width:0%">0/10</div>
-      </div>
-
-      <div class="quiz-container" id="quizContainer">
-        <div class="quiz-question" id="quizQuestion"></div>
-        <div class="options-grid" id="quizOptions"></div>
-        <div id="quizFeedback"></div>
-      </div>
-
-      <div id="quizResult" style="display:none; text-align:center;">
-        <div class="trophy">🏆</div>
-        <h2 style="color:var(--purple); margin:20px 0;">¡Felicidades!</h2>
-        <p style="font-size:1.5rem;">Aciertos: <strong id="quizScore">0</strong>/10</p>
-        <p id="quizMessage" style="font-size:1.2rem; margin:20px 0;"></p>
-        <button class="btn" onclick="startQuiz()">🔄 Intentar de nuevo</button>
-      </div>
-    </div>
-  </section>
-</main>
-
-<!-- Modal de celebración -->
-<div class="modal" id="celebrationModal">
-  <div class="modal-content">
-    <div class="trophy">🎉</div>
-    <h2 id="modalTitle">¡Excelente!</h2>
-    <p id="modalText" style="font-size:1.2rem; margin:20px 0;"></p>
-    <button class="btn" onclick="closeModal()">Continuar ▶️</button>
+<!-- Modal de recompensa -->
+<div class="reward-modal" id="rewardModal">
+  <div class="reward-content">
+    <h2 id="rewardTitle">¡FELICITACIONES!</h2>
+    <div class="reward-stars" id="rewardStars">⭐⭐⭐</div>
+    <p id="rewardText" style="font-size:1.3rem; margin-bottom:20px;"></p>
+    <button class="btn-action" onclick="closeReward()">¡Seguir jugando! 🎮</button>
   </div>
 </div>
 
-<script>
-// ============ ESTADO GLOBAL ============
-let state = {
-  stars: 0,
-  points: 0,
-  currentRecta: null,
-  compareAnswer: null,
-  mixedIndex: 0,
-  mixedExamples: [
-    {whole:1, num:1, den:2},
-    {whole:2, num:3, den:4},
-    {whole:1, num:2, den:3},
-    {whole:3, num:1, den:5},
-    {whole:2, num:5, den:6}
-  ],
-  game1: { target:{n:2,d:5}, selected:[], round:1, stars:0 },
-  game2: { correct:null, round:1, stars:0 },
-  game3: { fracs:[], order:[], sorted:[], round:1, stars:0 },
-  quiz: { questions:[], current:0, score:0 }
-};
+<!-- Botón de sonido -->
+<button class="sound-toggle" id="soundToggle" onclick="toggleSound()" style="display:none;">🔊</button>
 
-// ============ SONIDOS ============
-let audioCtx;
+<script>
+// ============ AUDIO ============
+let audioCtx = null;
+let soundEnabled = true;
+
 function initAudio() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (!audioCtx) {
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch(e) { console.log('Audio no disponible'); }
+  }
 }
 
-function playSound(type) {
+function playTone(freq, duration, type = 'sine', volume = 0.2) {
+  if (!soundEnabled || !audioCtx) return;
   try {
-    initAudio();
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
     osc.connect(gain);
     gain.connect(audioCtx.destination);
-    
-    const now = audioCtx.currentTime;
-    
-    if (type === 'click') {
-      osc.frequency.setValueAtTime(600, now);
-      osc.frequency.exponentialRampToValueAtTime(800, now + 0.1);
-      gain.gain.setValueAtTime(0.2, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-      osc.start(now); osc.stop(now + 0.1);
-    } else if (type === 'success') {
-      osc.frequency.setValueAtTime(523, now);
-      osc.frequency.setValueAtTime(659, now + 0.1);
-      osc.frequency.setValueAtTime(784, now + 0.2);
-      gain.gain.setValueAtTime(0.2, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
-      osc.start(now); osc.stop(now + 0.4);
-    } else if (type === 'error') {
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(200, now);
-      osc.frequency.exponentialRampToValueAtTime(100, now + 0.3);
-      gain.gain.setValueAtTime(0.15, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-      osc.start(now); osc.stop(now + 0.3);
-    } else if (type === 'win') {
-      [523, 659, 784, 1047].forEach((f, i) => {
-        const o = audioCtx.createOscillator();
-        const g = audioCtx.createGain();
-        o.connect(g); g.connect(audioCtx.destination);
-        o.frequency.setValueAtTime(f, now + i*0.1);
-        g.gain.setValueAtTime(0.2, now + i*0.1);
-        g.gain.exponentialRampToValueAtTime(0.01, now + i*0.1 + 0.2);
-        o.start(now + i*0.1); o.stop(now + i*0.1 + 0.2);
-      });
-    }
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
   } catch(e) {}
 }
 
-// ============ NAVEGACIÓN ============
-function showSection(id, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  playSound('click');
-  window.scrollTo({top: 0, behavior: 'smooth'});
-  
-  if (id === 'lecciones') initLecciones();
-  if (id === 'mixtos') renderMixed();
-  if (id === 'comparar') newCompare();
-  if (id === 'juegos') { initGame1(); initGame2(); initGame3(); }
-  if (id === 'quiz') startQuiz();
+function playCorrect() {
+  playTone(523, 0.1, 'sine', 0.2);
+  setTimeout(() => playTone(659, 0.1, 'sine', 0.2), 100);
+  setTimeout(() => playTone(784, 0.2, 'sine', 0.2), 200);
 }
 
-// ============ LECCIONES ============
-let piecesFilled = 0;
-function initLecciones() {
-  const container = document.getElementById('piecesContainer');
-  container.innerHTML = '';
-  piecesFilled = 0;
-  for (let i = 0; i < 8; i++) {
-    const piece = document.createElement('div');
-    piece.className = 'piece empty';
-    piece.onclick = () => togglePiece(i, piece);
-    container.appendChild(piece);
+function playWrong() {
+  playTone(200, 0.15, 'sawtooth', 0.15);
+  setTimeout(() => playTone(150, 0.2, 'sawtooth', 0.15), 150);
+}
+
+function playClick() {
+  playTone(800, 0.05, 'square', 0.1);
+}
+
+function playWin() {
+  const notes = [523, 659, 784, 1047];
+  notes.forEach((n, i) => setTimeout(() => playTone(n, 0.2, 'sine', 0.2), i * 100));
+}
+
+function playPop() {
+  playTone(600, 0.1, 'sine', 0.15);
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  document.getElementById('soundToggle').textContent = soundEnabled ? '🔊' : '🔇';
+}
+
+// ============ ESTADO ============
+let state = {
+  stars: 0,
+  points: 0,
+  topicProgress: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+};
+
+// ============ TEMAS ============
+const topics = [
+  {
+    id: 1,
+    icon: '🍕',
+    title: 'Fracciones y Números Mixtos',
+    desc: 'Aprende qué son las fracciones y cómo representarlas',
+    color: 't1',
+    borderColor: '#ff6b9d'
+  },
+  {
+    id: 2,
+    icon: '➕',
+    title: 'Adición y Sustracción',
+    desc: 'Suma y resta fracciones con igual denominador',
+    color: 't2',
+    borderColor: '#4d96ff'
+  },
+  {
+    id: 3,
+    icon: '🔢',
+    title: 'Ecuaciones',
+    desc: 'Resuelve ecuaciones simples con fracciones',
+    color: 't3',
+    borderColor: '#6bcf7f'
+  },
+  {
+    id: 4,
+    icon: '📐',
+    title: 'Ángulos',
+    desc: 'Mide y construye ángulos con transportador',
+    color: 't4',
+    borderColor: '#ff9f45'
+  },
+  {
+    id: 5,
+    icon: '🔄',
+    title: 'Transformaciones',
+    desc: 'Traslada, rota y refleja figuras 2D',
+    color: 't5',
+    borderColor: '#a66cff'
   }
-  updateFractionDisplay();
-  generateRectaQuestion();
-}
+];
 
-function togglePiece(idx, el) {
-  if (el.classList.contains('filled')) {
-    el.classList.remove('filled');
-    el.classList.add('empty');
-    piecesFilled--;
-  } else {
-    el.classList.remove('empty');
-    el.classList.add('filled');
-    piecesFilled++;
-    playSound('click');
-    createSparkle(el);
-  }
-  updateFractionDisplay();
-}
-
-function updateFractionDisplay() {
-  document.getElementById('numDisplay').textContent = piecesFilled;
-  const words = {
-    0: 'Cero octavos',
-    1: 'Un octavo',
-    2: 'Dos octavos',
-    3: 'Tres octavos',
-    4: 'Cuatro octavos',
-    5: 'Cinco octavos',
-    6: 'Seis octavos',
-    7: 'Siete octavos',
-    8: 'Ocho octavos (¡un entero!)'
-  };
-  document.getElementById('fractionWords').textContent = words[piecesFilled] || '';
-}
-
-function nextLesson() {
-  document.getElementById('lesson2').style.display = 'block';
-  document.getElementById('lesson2').scrollIntoView({behavior:'smooth'});
-}
-
-function generateRectaQuestion() {
-  const den = [2,3,4,5,6,8,10][Math.floor(Math.random()*7)];
-  const num = Math.floor(Math.random()*(den-1))+1;
-  state.currentRecta = {num, den};
-  
-  const marker = document.getElementById('practiceMarker');
-  const pos = 20 + (num/den) * (100 - 40*2/10); // ajustar
-  const lineEl = document.getElementById('practiceLine');
-  const width = lineEl.offsetWidth - 40;
-  const leftPx = 20 + (num/den) * width;
-  
-  marker.innerHTML = `<div class="fraction-marker" style="left:${leftPx}px;">?</div>`;
-  
-  // Generar opciones
-  const options = [];
-  options.push({n:num, d:den});
-  while (options.length < 4) {
-    const rn = Math.floor(Math.random()*(den-1))+1;
-    const rd = [2,3,4,5,6,8,10][Math.floor(Math.random()*7)];
-    if (!options.find(o => o.n===rn && o.d===rd) && rn/rd !== num/den) {
-      options.push({n:rn, d:rd});
-    }
-  }
-  options.sort(() => Math.random()-0.5);
-  
-  const optContainer = document.getElementById('rectaOptions');
-  optContainer.innerHTML = '';
-  options.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'option-btn';
-    btn.innerHTML = `<span class="fraction-display"><span class="num">${opt.n}</span><span class="den">${opt.d}</span></span>`;
-    btn.onclick = () => checkRecta(opt, btn);
-    optContainer.appendChild(btn);
-  });
-  document.getElementById('rectaFeedback').innerHTML = '';
-}
-
-function checkRecta(opt, btn) {
-  const correct = opt.n === state.currentRecta.num && opt.d === state.currentRecta.den;
-  document.querySelectorAll('#rectaOptions .option-btn').forEach(b => b.disabled = true);
-  
-  if (correct) {
-    btn.classList.add('correct');
-    document.getElementById('rectaFeedback').innerHTML = '<div class="feedback success">✅ ¡Correcto! ¡Muy bien!</div>';
-    playSound('success');
-    addPoints(10);
-    createConfetti();
-  } else {
-    btn.classList.add('wrong');
-    document.getElementById('rectaFeedback').innerHTML = `<div class="feedback error">❌ La respuesta correcta era ${state.currentRecta.num}/${state.currentRecta.den}</div>`;
-    playSound('error');
-  }
+// ============ INICIO ============
+function startApp() {
+  initAudio();
+  playWin();
+  document.getElementById('welcome').classList.add('hide');
   setTimeout(() => {
-    document.querySelectorAll('#rectaOptions .option-btn').forEach(b => b.disabled = false);
-  }, 2000);
+    document.getElementById('welcome').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    document.getElementById('soundToggle').style.display = 'flex';
+    renderMainMenu();
+    createBubbles();
+  }, 800);
 }
 
-// ============ NÚMEROS MIXTOS ============
-function renderMixed() {
-  const ex = state.mixedExamples[state.mixedIndex];
-  document.getElementById('mixedWhole').textContent = ex.whole;
-  document.getElementById('mixedNum').textContent = ex.num;
-  document.getElementById('mixedDen').textContent = ex.den;
-  
-  const container = document.getElementById('mixedPieces');
-  container.innerHTML = '';
-  
-  // Enteros completos
-  for (let i = 0; i < ex.whole; i++) {
-    const group = document.createElement('div');
-    group.style.display = 'flex';
-    group.style.gap = '3px';
-    group.style.background = 'rgba(160,108,213,0.1)';
-    group.style.padding = '8px';
-    group.style.borderRadius = '10px';
-    for (let j = 0; j < ex.den; j++) {
-      const p = document.createElement('div');
-      p.className = 'piece filled';
-      p.style.width = '30px';
-      p.style.height = '30px';
-      group.appendChild(p);
-    }
-    container.appendChild(group);
-  }
-  
-  // Parte fraccionaria
-  const fracGroup = document.createElement('div');
-  fracGroup.style.display = 'flex';
-  fracGroup.style.gap = '3px';
-  fracGroup.style.background = 'rgba(255,107,157,0.1)';
-  fracGroup.style.padding = '8px';
-  fracGroup.style.borderRadius = '10px';
-  for (let j = 0; j < ex.den; j++) {
-    const p = document.createElement('div');
-    p.className = j < ex.num ? 'piece filled' : 'piece empty';
-    p.style.width = '30px';
-    p.style.height = '30px';
-    fracGroup.appendChild(p);
-  }
-  container.appendChild(fracGroup);
-}
-
-function changeMixed(dir) {
-  playSound('click');
-  state.mixedIndex = (state.mixedIndex + dir + state.mixedExamples.length) % state.mixedExamples.length;
-  renderMixed();
-}
-
-// ============ COMPARAR ============
-function newCompare() {
-  const den = [4,5,6,8,10][Math.floor(Math.random()*5)];
-  const n1 = Math.floor(Math.random()*(den-1))+1;
-  let n2 = Math.floor(Math.random()*(den-1))+1;
-  
-  document.getElementById('frac1Num').textContent = n1;
-  document.getElementById('frac1Den').textContent = den;
-  document.getElementById('frac2Num').textContent = n2;
-  document.getElementById('frac2Den').textContent = den;
-  
-  // Visualizaciones
-  renderCompareVisual('visual1', n1, den);
-  renderCompareVisual('visual2', n2, den);
-  
-  if (n1 < n2) state.compareAnswer = '<';
-  else if (n1 > n2) state.compareAnswer = '>';
-  else state.compareAnswer = '=';
-  
-  document.getElementById('compareSymbol').textContent = '?';
-  document.getElementById('compareFeedback').innerHTML = '';
-}
-
-function renderCompareVisual(containerId, num, den) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = '';
-  container.style.display = 'flex';
-  container.style.gap = '3px';
-  container.style.justifyContent = 'center';
-  for (let i = 0; i < den; i++) {
-    const p = document.createElement('div');
-    p.className = i < num ? 'piece filled' : 'piece empty';
-    p.style.width = '25px';
-    p.style.height = '25px';
-    container.appendChild(p);
+function createBubbles() {
+  const container = document.getElementById('bubbles');
+  const colors = ['#ff6b9d', '#ffd93d', '#4d96ff', '#6bcf7f', '#a66cff', '#ff9f45'];
+  for (let i = 0; i < 15; i++) {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const size = Math.random() * 60 + 30;
+    b.style.width = size + 'px';
+    b.style.height = size + 'px';
+    b.style.left = Math.random() * 100 + '%';
+    b.style.top = Math.random() * 100 + '%';
+    b.style.background = colors[Math.floor(Math.random() * colors.length)];
+    b.style.animationDelay = Math.random() * 5 + 's';
+    b.style.animationDuration = (Math.random() * 10 + 10) + 's';
+    container.appendChild(b);
   }
 }
 
-function checkCompare(symbol) {
-  playSound('click');
-  const correct = symbol === state.compareAnswer;
-  document.getElementById('compareSymbol').textContent = symbol;
+// ============ MENÚ PRINCIPAL ============
+function renderMainMenu() {
+  const menu = document.getElementById('mainMenu');
+  menu.innerHTML = '';
+  topics.forEach(t => {
+    const stars = state.topicProgress[t.id] || 0;
+    const starDisplay = '⭐'.repeat(stars) + '☆'.repeat(3 - stars);
+    const card = document.createElement('div');
+    card.className = `topic-card ${t.color}`;
+    card.innerHTML = `
+      <div class="topic-icon">${t.icon}</div>
+      <div class="topic-title">${t.title}</div>
+      <div class="topic-desc">${t.desc}</div>
+      <div class="topic-stars">${starDisplay}</div>
+    `;
+    card.onclick = () => openTopic(t.id);
+    menu.appendChild(card);
+  });
+}
+
+function showMainMenu() {
+  playClick();
+  document.getElementById('mainMenu').style.display = 'grid';
+  document.getElementById('topicView').classList.remove('active');
+  renderMainMenu();
+}
+
+// ============ ABRIR TEMA ============
+function openTopic(id) {
+  playClick();
+  document.getElementById('mainMenu').style.display = 'none';
+  const view = document.getElementById('topicView');
+  view.classList.add('active');
+  
+  const topic = topics.find(t => t.id === id);
+  view.innerHTML = `
+    <div class="topic-header" style="border-color:${topic.borderColor}">
+      <div class="icon">${topic.icon}</div>
+      <div>
+        <h1>${topic.title}</h1>
+        <p style="color:#666;">${topic.desc}</p>
+      </div>
+    </div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(1, ${id})">📚 Aprende</div>
+      <div class="tab" onclick="switchTab(2, ${id})">✏️ Practica</div>
+      <div class="tab" onclick="switchTab(3, ${id})">🎮 Juega</div>
+    </div>
+    <div id="tab1" class="tab-content active"></div>
+    <div id="tab2" class="tab-content"></div>
+    <div id="tab3" class="tab-content"></div>
+    <div style="text-align:center; margin-top:20px;">
+      <button class="btn-action back" onclick="showMainMenu()">← Volver al Menú</button>
+    </div>
+  `;
+  
+  loadLearnContent(id);
+  loadPracticeContent(id);
+  loadGameContent(id);
+}
+
+function switchTab(num, topicId) {
+  playClick();
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === num - 1));
+  document.querySelectorAll('.tab-content').forEach((c, i) => c.classList.toggle('active', i === num - 1));
+}
+
+// ============ APRENDER ============
+function loadLearnContent(id) {
+  const content = document.getElementById('tab1');
+  if (id === 1) {
+    content.innerHTML = `
+      <h2>🍕 ¿Qué es una Fracción?</h2>
+      <p>Una <strong>fracción</strong> representa una o más partes iguales de un todo. ¡Imagina que cortas una pizza en partes iguales!</p>
+      
+      <div class="concept-box">
+        <h3>📌 Partes de una fracción</h3>
+        <div style="text-align:center; font-size:2rem; margin:20px 0;">
+          <div style="display:inline-block; text-align:center;">
+            <div style="color:var(--pink); font-weight:bold;">3 ← Numerador</div>
+            <div style="background:#333; height:4px; width:100px; margin:5px auto;"></div>
+            <div style="color:var(--blue); font-weight:bold;">4 ← Denominador</div>
+          </div>
+        </div>
+        <p><strong style="color:var(--pink);">Numerador:</strong> Indica cuántas partes tomamos.</p>
+        <p><strong style="color:var(--blue);">Denominador:</strong> Indica en cuántas partes iguales se divide el todo.</p>
+      </div>
+      
+      <h3>🍕 Ejemplo: La Pizza</h3>
+      <p>Si una pizza tiene 8 porciones y comemos 3, hemos comido <span class="fraction-display"><span class="num">3</span><span class="line"></span><span class="den">8</span></span> de la pizza.</p>
+      
+      <div class="pizza-demo">
+        <div>
+          <div class="pizza" id="pizza1"></div>
+          <p style="text-align:center; margin-top:10px; font-weight:bold;">Comido: <span class="fraction-display"><span class="num">3</span><span class="line"></span><span class="den">8</span></span></p>
+        </div>
+        <div>
+          <div class="pizza" id="pizza2"></div>
+          <p style="text-align:center; margin-top:10px; font-weight:bold;">Restante: <span class="fraction-display"><span class="num">5</span><span class="line"></span><span class="den">8</span></span></p>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        💡 <strong>Dato curioso:</strong> El denominador se lee así: 2=medios, 3=tercios, 4=cuartos, 5=quintos, 6=sextos, 7=séptimos, 8=octavos, 9=novenos, 10=décimos, 100=centésimos.
+      </div>
+      
+      <h3>📏 Fracciones en la Recta Numérica</h3>
+      <p>Las fracciones también se pueden ubicar en una recta numérica:</p>
+      <div class="number-line" id="numberLine1"></div>
+      
+      <h3>🎯 Números Mixtos</h3>
+      <p>Cuando una fracción es mayor que 1, la podemos escribir como <strong>número mixto</strong>: tiene una parte entera y una fraccionaria.</p>
+      
+      <div class="concept-box blue">
+        <p style="text-align:center; font-size:1.5rem;">
+          <span class="fraction-display"><span class="num">11</span><span class="line"></span><span class="den">4</span></span>
+          = 
+          <span class="mixed-number"><span class="whole">2</span><span class="fraction-display"><span class="num">3</span><span class="line"></span><span class="den">4</span></span></span>
+        </p>
+        <p style="text-align:center;">Se lee: <strong>dos enteros y tres cuartos</strong></p>
+      </div>
+      
+      <h3>⚖️ Comparar Fracciones</h3>
+      <p>Para comparar fracciones:</p>
+      <ul style="font-size:1.2rem; line-height:2; padding-left:20px;">
+        <li>Si tienen <strong>igual denominador</strong>: gana la que tenga mayor numerador.</li>
+        <li>Si tienen <strong>distinto denominador</strong>: las convertimos a un denominador común.</li>
+      </ul>
+      <div class="info-box">
+        🌟 <strong>Ejemplo:</strong> <span class="fraction-display"><span class="num">3</span><span class="line"></span><span class="den">8</span></span> &lt; <span class="fraction-display"><span class="num">1</span><span class="line"></span><span class="den">2</span></span> &lt; <span class="fraction-display"><span class="num">3</span><span class="line"></span><span class="den">4</span></span>
+      </div>
+      
+      <div style="text-align:center; margin-top:30px;">
+        <button class="btn-action" onclick="switchTab(2, 1)">¡A practicar! ✏️</button>
+      </div>
+    `;
+    drawPizza('pizza1', 8, 3);
+    drawPizza('pizza2', 8, 5);
+    drawNumberLine('numberLine1', 4, 3);
+  } else if (id === 2) {
+    content.innerHTML = `
+      <h2>➕ Suma y Resta de Fracciones</h2>
+      <p>Cuando las fracciones tienen el <strong>mismo denominador</strong>, sumar y restar es muy fácil!</p>
+      
+      <div class="concept-box">
+        <h3>🟢 Suma (Adición)</h3>
+        <p>Para sumar fracciones con igual denominador:</p>
+        <p style="text-align:center; font-size:1.5rem; margin:15px 0;">
+          <span class="fraction-display"><span class="num">a</span><span class="line"></span><span class="den">c</span></span>
+          + 
+          <span class="fraction-display"><span class="num">b</span><span class="line"></span><span class="den">c</span></span>
+          = 
+          <span class="fraction-display"><span class="num">a+b</span><span class="line"></span><span class="den">c</span></span>
+        </p>
+        <p style="text-align:center;"><strong>¡Sumamos los numeradores y mantenemos el denominador!</strong></p>
+      </div>
+      
+      <h3>📝 Ejemplo de Suma</h3>
+      <div class="equation">
+        <span class="fraction-display"><span class="num">2</span><span class="line"></span><span class="den">7</span></span>
+        + 
+        <span class="fraction-display"><span class="num">3</span><span class="line"></span><span class="den">7</span></span>
+        = 
+        <span class="fraction-display"><span class="num">5</span><span class="line"></span><span class="den">7</span></span>
+      </div>
+      
+      <div class="concept-box blue">
+        <h3>🔴 Resta (Sustracción)</h3>
+        <p>Para restar fracciones con igual denominador:</p>
+        <p style="text-align:center; font-size:1.5rem; margin:15px 0;">
+          <span class="fraction-display"><span class="num">a</span><span class="line"></span><span class="den">c</span></span>
+          - 
+          <span class="fraction-display"><span class="num">b</span><span class="line"></span><span class="den">c</span></span>
+          = 
+          <span class="fraction-display"><span class="num">a-b</span><span class="line"></span><span class="den">c</span></span>
+        </p>
+        <p style="text-align:center;"><strong>¡Restamos los numeradores y mantenemos el denominador!</strong></p>
+      </div>
+      
+      <h3>📝 Ejemplo de Resta</h3>
+      <div class="equation">
+        <span class="fraction-display"><span class="num">5</span><span class="line"></span><span class="den">8</span></span>
+        - 
+        <span class="fraction-display"><span class="num">2</span><span class="line"></span><span class="den">8</span></span>
+        = 
+        <span class="fraction-display"><span class="num">3</span><span class="line"></span><span class="den">8</span></span>
+      </div>
+      
+      <div class="info-box">
+        💡 <strong>Recuerda:</strong> El denominador NO se suma ni se resta. Solo cambian los numeradores.
+      </div>
+      
+      <div style="text-align:center; margin-top:30px;">
+        <button class="btn-action" onclick="switchTab(2, 2)">¡A practicar! ✏️</button>
+      </div>
+    `;
+  } else if (id === 3) {
+    content.innerHTML = `
+      <h2>🔢 Ecuaciones con Fracciones</h2>
+      <p>Una <strong>ecuación</strong> es como una balanza: lo que está a un lado del "=" debe ser igual al otro lado.</p>
+      
+      <div class="concept-box">
+        <h3>⚖️ ¿Qué es una ecuación?</h3>
+        <p>Es una igualdad donde hay un valor desconocido (la <strong>incógnita</strong>), generalmente representada por una letra como <strong>x</strong>.</p>
+        <div class="equation">x + 3 = 10</div>
+        <p style="text-align:center;">Debemos encontrar el valor de <strong>x</strong> que hace verdadera la igualdad.</p>
+      </div>
+      
+      <h3>🎯 ¿Cómo resolver una ecuación?</h3>
+      <p>Despejamos la incógnita haciendo la operación contraria:</p>
+      <ul style="font-size:1.2rem; line-height:2; padding-left:20px;">
+        <li>Si <strong>suma</strong>, usamos <strong>resta</strong>.</li>
+        <li>Si <strong>resta</strong>, usamos <strong>suma</strong>.</li>
+      </ul>
+      
+      <div class="concept-box blue">
+        <h3>📝 Ejemplo 1</h3>
+        <div class="equation">x + <span class="fraction-display"><span class="num">2</span><span class="line"></span><span class="den">5</span></span> = <span class="fraction-display"><span class="num">4</span><span class="line"></span><span class="den">5</span></span></div>
+        <p>Restamos <span class="fraction-display"><span class="num">2</span><span class="line"></span><span class="den">5</span></span> en ambos lados:</p>
+        <div class="equation">x = <span class="fraction-display"><span class="num">4</span><span class="line"></span><span class="den">5</span></span> - <span class="fraction-display"><span class="num">2</span><span class="line"></span><span class="den">5</span></span> = <span class="fraction-display"><span class="num">2</span><span class="line"></span><span class="den">5</span></span></div>
+      </div>
+      
+      <div class="concept-box green">
+        <h3>📝 Ejemplo 2</h3>
+        <div class="equation"><span class="fraction-display"><span class="num">3</span><span class="line"></span><span class="den">7</span></span> + x = <span class="fraction-display"><span class="num">6</span><span class="line"></span><span class="den">7</span></span></div>
+        <div class="equation">x = <span class="fraction-display"><span class="num">6</span><span class="line"></span><span class="den">7</span></span> - <span class="fraction-display"><span class="num">3</span><span class="line"></span><span class="den">7</span></span> = <span class="fraction-display"><span class="num">3</span><span class="line"></span><span class="den">7</span></span></div>
+      </div>
+      
+      <div style="text-align:center; margin-top:30px;">
+        <button class="btn-action" onclick="switchTab(2, 3)">¡A practicar! ✏️</button>
+      </div>
+    `;
+  } else if (id === 4) {
+    content.innerHTML = `
+      <h2>📐 Los Ángulos</h2>
+      <p>Un <strong>ángulo</strong> es la abertura formada por dos rectas (lados) que se juntan en un punto llamado <strong>vértice</strong>.</p>
+      
+      <div class="concept-box">
+        <h3>📏 Medir ángulos</h3>
+        <p>Los ángulos se miden en <strong>grados (°)</strong> usando un <strong>transportador</strong>.</p>
+        <p>Un giro completo = 360°</p>
+      </div>
+      
+      <h3>🎯 Tipos de ángulos</h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:15px; margin:20px 0;">
+        <div class="concept-box" style="text-align:center;">
+          <div style="font-size:3rem;">📐</div>
+          <h3 style="color:var(--green);">Agudo</h3>
+          <p>Menor que 90°</p>
+        </div>
+        <div class="concept-box blue" style="text-align:center;">
+          <div style="font-size:3rem;">📏</div>
+          <h3 style="color:var(--blue);">Recto</h3>
+          <p>Exactamente 90°</p>
+        </div>
+        <div class="concept-box green" style="text-align:center;">
+          <div style="font-size:3rem;">📐</div>
+          <h3 style="color:var(--orange);">Obtuso</h3>
+          <p>Mayor que 90° y menor que 180°</p>
+        </div>
+        <div class="concept-box" style="text-align:center; background:linear-gradient(135deg, #ffe0ec, #fff);">
+          <div style="font-size:3rem;">➖</div>
+          <h3 style="color:var(--red);">Llano</h3>
+          <p>Exactamente 180°</p>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        💡 <strong>Recuerda:</strong> Los ángulos están en todas partes: en las manecillas del reloj, en las esquinas de una habitación, en las tijeras...
+      </div>
+      
+      <div style="text-align:center; margin-top:30px;">
+        <button class="btn-action" onclick="switchTab(2, 4)">¡A practicar! ✏️</button>
+      </div>
+    `;
+  } else if (id === 5) {
+    content.innerHTML = `
+      <h2>🔄 Transformaciones Isométricas</h2>
+      <p>Las <strong>transformaciones isométricas</strong> son movimientos que cambian la posición de una figura, pero <strong>NO cambian su forma ni tamaño</strong>.</p>
+      
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:20px; margin:20px 0;">
+        <div class="concept-box">
+          <h3>➡️ Traslación</h3>
+          <p style="font-size:3rem; text-align:center;">🟦 → 🟦</p>
+          <p>Desplazamos la figura en línea recta, sin girarla.</p>
+        </div>
+        <div class="concept-box blue">
+          <h3>🔄 Rotación</h3>
+          <p style="font-size:3rem; text-align:center;">🟦 ↻ 🟦</p>
+          <p>Giramos la figura alrededor de un punto.</p>
+        </div>
+        <div class="concept-box green">
+          <h3>🪞 Reflexión</h3>
+          <p style="font-size:3rem; text-align:center;">🟦 | 🟧</p>
+          <p>Creamos una imagen especular (como en un espejo).</p>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        💡 <strong>Importante:</strong> En las tres transformaciones, la figura mantiene su tamaño y forma. ¡Solo cambia su posición u orientación!
+      </div>
+      
+      <h3>🎨 Ejemplos en la vida real</h3>
+      <ul style="font-size:1.2rem; line-height:2; padding-left:20px;">
+        <li><strong>Traslación:</strong> Mover una silla por el piso.</li>
+        <li><strong>Rotación:</strong> Las manecillas del reloj girando.</li>
+        <li><strong>Reflexión:</strong> Tu imagen en el espejo.</li>
+      </ul>
+      
+      <div style="text-align:center; margin-top:30px;">
+        <button class="btn-action" onclick="switchTab(2, 5)">¡A practicar! ✏️</button>
+      </div>
+    `;
+  }
+}
+
+// ============ DIBUJAR PIZZA ============
+function drawPizza(id, total, filled) {
+  const pizza = document.getElementById(id);
+  if (!pizza) return;
+  pizza.innerHTML = '';
+  const angleStep = 360 / total;
+  for (let i = 0; i < total; i++) {
+    const slice = document.createElement('div');
+    slice.className = 'pizza-slice' + (i < filled ? '' : ' empty');
+    slice.style.transform = `rotate(${i * angleStep - 90}deg)`;
+    pizza.appendChild(slice);
+  }
+  // Líneas divisorias
+  for (let i = 0; i < total; i++) {
+    const line = document.createElement('div');
+    line.style.cssText = `position:absolute; top:50%; left:50%; width:50%; height:2px; background:#c44569; transform-origin:left center; transform:rotate(${i * (360/total)}deg);`;
+    pizza.appendChild(line);
+  }
+}
+
+// ============ RECTA NUMÉRICA ============
+function drawNumberLine(id, denominator, numerator) {
+  const nl = document.getElementById(id);
+  if (!nl) return;
+  nl.innerHTML = '<div class="number-line-bar"></div>';
+  const totalWidth = nl.offsetWidth - 40;
+  // Marcas del 0 al 1
+  for (let i = 0; i <= denominator; i++) {
+    const tick = document.createElement('div');
+    tick.className = 'number-line-tick';
+    tick.style.left = (20 + (i / denominator) * totalWidth) + 'px';
+    nl.appendChild(tick);
+    
+    const label = document.createElement('div');
+    label.className = 'number-line-label';
+    label.style.left = (20 + (i / denominator) * totalWidth) + 'px';
+    label.textContent = i === 0 ? '0' : i === denominator ? '1' : `${i}/${denominator}`;
+    nl.appendChild(label);
+  }
+  // Punto de la fracción
+  const point = document.createElement('div');
+  point.className = 'number-line-point';
+  point.style.left = (20 + (numerator / denominator) * totalWidth) + 'px';
+  nl.appendChild(point);
+}
+
+// ============ PRACTICAR ============
+function loadPracticeContent(id) {
+  const content = document.getElementById('tab2');
+  if (id === 1) {
+    content.innerHTML = `
+      <h2>✏️ Practica: Fracciones</h2>
+      <div id="practiceArea1"></div>
+      <div style="text-align:center;">
+        <button class="btn-action" onclick="nextPractice1()">Siguiente ejercicio ➡️</button>
+      </div>
+    `;
+    nextPractice1();
+  } else if (id === 2) {
+    content.innerHTML = `
+      <h2>✏️ Practica: Suma y Resta</h2>
+      <div id="practiceArea2"></div>
+      <div style="text-align:center;">
+        <button class="btn-action" onclick="nextPractice2()">Siguiente ejercicio ➡️</button>
+      </div>
+    `;
+    nextPractice2();
+  } else if (id === 3) {
+    content.innerHTML = `
+      <h2>✏️ Practica: Ecuaciones</h2>
+      <div id="practiceArea3"></div>
+      <div style="text-align:center;">
+        <button class="btn-action" onclick="nextPractice3()">Siguiente ejercicio ➡️</button>
+      </div>
+    `;
+    nextPractice3();
+  } else if (id === 4) {
+    content.innerHTML = `
+      <h2>✏️ Practica: Ángulos</h2>
+      <div id="practiceArea4"></div>
+    `;
+    loadAnglePractice();
+  } else if (id === 5) {
+    content.innerHTML = `
+      <h2>✏️ Practica: Transformaciones</h2>
+      <div id="practiceArea5"></div>
+    `;
+    loadTransformPractice();
+  }
+}
+
+// Práctica tema 1
+let practice1Index = 0;
+const practice1Questions = [
+  { q: '¿Qué fracción representa la parte pintada?', pizza: [6, 2], options: ['2/6', '4/6', '6/2', '2/4'], correct: 0 },
+  { q: '¿Qué fracción representa la parte pintada?', pizza: [8, 5], options: ['3/8', '5/8', '8/5', '5/3'], correct: 1 },
+  { q: '¿Qué fracción representa la parte pintada?', pizza: [4, 3], options: ['1/4', '3/4', '4/3', '2/4'], correct: 1 },
+  { q: '¿Cuál fracción es MAYOR?', options: ['3/8', '5/8', '1/8', '2/8'], correct: 1 },
+  { q: '¿Cuál fracción es MENOR?', options: ['2/5', '4/5', '1/5', '3/5'], correct: 2 },
+  { q: 'El número mixto 1 3/4 equivale a la fracción:', options: ['4/4', '3/4', '7/4', '5/4'], correct: 2 }
+];
+
+function nextPractice1() {
+  playClick();
+  const area = document.getElementById('practiceArea1');
+  const q = practice1Questions[practice1Index % practice1Questions.length];
+  let html = `<div class="exercise"><div class="exercise-title">Pregunta ${practice1Index + 1}: ${q.q}</div>`;
+  if (q.pizza) {
+    html += `<div class="pizza-demo"><div class="pizza" id="pqPizza"></div></div>`;
+  }
+  html += `<div class="options">`;
+  q.options.forEach((opt, i) => {
+    html += `<button class="option-btn" onclick="checkPractice1(${i}, ${q.correct})">${opt}</button>`;
+  });
+  html += `</div><div class="feedback" id="fb1"></div></div>`;
+  area.innerHTML = html;
+  if (q.pizza) drawPizza('pqPizza', q.pizza[0], q.pizza[1]);
+}
+
+function checkPractice1(selected, correct) {
+  const btns = document.querySelectorAll('#practiceArea1 .option-btn');
+  const fb = document.getElementById('fb1');
+  btns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === selected) b.classList.add('wrong');
+  });
+  if (selected === correct) {
+    playCorrect();
+    fb.className = 'feedback success show';
+    fb.textContent = '¡Excelente! 🎉 ¡Respuesta correcta!';
+    addPoints(10);
+  } else {
+    playWrong();
+    fb.className = 'feedback error show';
+    fb.textContent = '¡Ups! 😅 La respuesta correcta está marcada en verde.';
+  }
+  practice1Index++;
+}
+
+// Práctica tema 2
+let practice2Index = 0;
+const practice2Questions = [
+  { q: '2/7 + 3/7 = ?', options: ['5/14', '5/7', '6/7', '1/7'], correct: 1 },
+  { q: '1/5 + 2/5 = ?', options: ['3/10', '3/5', '2/5', '1/5'], correct: 1 },
+  { q: '5/8 - 2/8 = ?', options: ['7/8', '3/8', '3/16', '2/8'], correct: 1 },
+  { q: '6/9 - 4/9 = ?', options: ['10/9', '2/9', '2/18', '4/9'], correct: 1 },
+  { q: '3/10 + 4/10 = ?', options: ['7/20', '7/10', '1/10', '12/10'], correct: 1 }
+];
+
+function nextPractice2() {
+  playClick();
+  const area = document.getElementById('practiceArea2');
+  const q = practice2Questions[practice2Index % practice2Questions.length];
+  let html = `<div class="exercise"><div class="exercise-title">Pregunta ${practice2Index + 1}: ${q.q}</div><div class="options">`;
+  q.options.forEach((opt, i) => {
+    html += `<button class="option-btn" onclick="checkPractice2(${i}, ${q.correct})">${opt}</button>`;
+  });
+  html += `</div><div class="feedback" id="fb2"></div></div>`;
+  area.innerHTML = html;
+}
+
+function checkPractice2(selected, correct) {
+  const btns = document.querySelectorAll('#practiceArea2 .option-btn');
+  const fb = document.getElementById('fb2');
+  btns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === selected) b.classList.add('wrong');
+  });
+  if (selected === correct) {
+    playCorrect();
+    fb.className = 'feedback success show';
+    fb.textContent = '¡Muy bien! 🎉 ¡Correcto!';
+    addPoints(10);
+  } else {
+    playWrong();
+    fb.className = 'feedback error show';
+    fb.textContent = '¡Casi! Recuerda: solo se suman/restan los numeradores.';
+  }
+  practice2Index++;
+}
+
+// Práctica tema 3
+let practice3Index = 0;
+const practice3Questions = [
+  { q: 'x + 2/5 = 4/5. ¿Cuánto vale x?', options: ['1/5', '2/5', '6/5', '3/5'], correct: 1 },
+  { q: 'x + 1/6 = 5/6. ¿Cuánto vale x?', options: ['4/6', '6/6', '3/6', '5/6'], correct: 0 },
+  { q: '3/8 + x = 7/8. ¿Cuánto vale x?', options: ['3/8', '4/8', '10/8', '2/8'], correct: 1 },
+  { q: 'x - 1/4 = 2/4. ¿Cuánto vale x?', options: ['1/4', '2/4', '3/4', '4/4'], correct: 2 }
+];
+
+function nextPractice3() {
+  playClick();
+  const area = document.getElementById('practiceArea3');
+  const q = practice3Questions[practice3Index % practice3Questions.length];
+  let html = `<div class="exercise"><div class="exercise-title">Pregunta ${practice3Index + 1}: ${q.q}</div><div class="options">`;
+  q.options.forEach((opt, i) => {
+    html += `<button class="option-btn" onclick="checkPractice3(${i}, ${q.correct})">${opt}</button>`;
+  });
+  html += `</div><div class="feedback" id="fb3"></div></div>`;
+  area.innerHTML = html;
+}
+
+function checkPractice3(selected, correct) {
+  const btns = document.querySelectorAll('#practiceArea3 .option-btn');
+  const fb = document.getElementById('fb3');
+  btns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === selected) b.classList.add('wrong');
+  });
+  if (selected === correct) {
+    playCorrect();
+    fb.className = 'feedback success show';
+    fb.textContent = '¡Eres un genio! 🧠 ¡Correcto!';
+    addPoints(15);
+  } else {
+    playWrong();
+    fb.className = 'feedback error show';
+    fb.textContent = '¡Intenta despejar la x haciendo la operación contraria!';
+  }
+  practice3Index++;
+}
+
+// Práctica tema 4 - Ángulos
+function loadAnglePractice() {
+  const area = document.getElementById('practiceArea4');
+  area.innerHTML = `
+    <div class="exercise">
+      <div class="exercise-title">🎯 Identifica el tipo de ángulo</div>
+      <div class="protractor-game">
+        <div class="angle-display" id="angleDisplay">
+          <div class="angle-base"></div>
+          <div class="angle-line" id="angleLine"></div>
+        </div>
+        <p style="font-size:1.3rem; margin:15px 0;">Ángulo actual: <strong id="angleValue">45</strong>°</p>
+        <div class="slider-container">
+          <input type="range" id="angleSlider" min="0" max="180" value="45" oninput="updateAngle()">
+        </div>
+        <div class="options">
+          <button class="option-btn" onclick="checkAngleType('agudo')">Agudo (&lt;90°)</button>
+          <button class="option-btn" onclick="checkAngleType('recto')">Recto (=90°)</button>
+          <button class="option-btn" onclick="checkAngleType('obtuso')">Obtuso (&gt;90°)</button>
+          <button class="option-btn" onclick="checkAngleType('llano')">Llano (=180°)</button>
+        </div>
+        <div class="feedback" id="fb4"></div>
+        <button class="btn-action" onclick="newAngle()">🎲 Nuevo ángulo</button>
+      </div>
+    </div>
+  `;
+  updateAngle();
+}
+
+let currentAngle = 45;
+function updateAngle() {
+  const slider = document.getElementById('angleSlider');
+  if (!slider) return;
+  currentAngle = parseInt(slider.value);
+  document.getElementById('angleValue').textContent = currentAngle;
+  document.getElementById('angleLine').style.transform = `translateX(-50%) rotate(-${currentAngle}deg)`;
+}
+
+function newAngle() {
+  playClick();
+  const angles = [30, 45, 60, 75, 90, 105, 120, 135, 150, 180];
+  const newA = angles[Math.floor(Math.random() * angles.length)];
+  document.getElementById('angleSlider').value = newA;
+  updateAngle();
+}
+
+function checkAngleType(type) {
+  const fb = document.getElementById('fb4');
+  let correct = false;
+  if (currentAngle < 90 && type === 'agudo') correct = true;
+  else if (currentAngle === 90 && type === 'recto') correct = true;
+  else if (currentAngle > 90 && currentAngle < 180 && type === 'obtuso') correct = true;
+  else if (currentAngle === 180 && type === 'llano') correct = true;
   
   if (correct) {
-    document.getElementById('compareFeedback').innerHTML = '<div class="feedback success">✅ ¡Correcto!</div>';
-    playSound('success');
-    addPoints(15);
-    createConfetti();
+    playCorrect();
+    fb.className = 'feedback success show';
+    fb.textContent = `¡Correcto! ${currentAngle}° es un ángulo ${type}. 🎉`;
+    addPoints(10);
+    setTimeout(newAngle, 1500);
   } else {
-    document.getElementById('compareFeedback').innerHTML = `<div class="feedback error">❌ La respuesta correcta era ${state.compareAnswer}</div>`;
-    playSound('error');
+    playWrong();
+    fb.className = 'feedback error show';
+    let tipo = currentAngle < 90 ? 'agudo' : currentAngle === 90 ? 'recto' : currentAngle < 180 ? 'obtuso' : 'llano';
+    fb.textContent = `¡Ups! ${currentAngle}° es un ángulo ${tipo}.`;
+  }
+}
+
+// Práctica tema 5 - Transformaciones
+function loadTransformPractice() {
+  const area = document.getElementById('practiceArea5');
+  area.innerHTML = `
+    <div class="exercise">
+      <div class="exercise-title">🎯 ¿Qué transformación es?</div>
+      <div id="transformDemo" style="text-align:center; font-size:3rem; padding:30px; background:#f0f8ff; border-radius:15px; margin:15px 0;">
+        🟦 ➡️ 🟦
+      </div>
+      <p style="text-align:center; font-size:1.2rem;" id="transformDesc">La figura se movió hacia la derecha sin girar.</p>
+      <div class="options">
+        <button class="option-btn" onclick="checkTransform('traslacion')">➡️ Traslación</button>
+        <button class="option-btn" onclick="checkTransform('rotacion')">🔄 Rotación</button>
+        <button class="option-btn" onclick="checkTransform('reflexion')">🪞 Reflexión</button>
+      </div>
+      <div class="feedback" id="fb5"></div>
+      <div style="text-align:center;">
+        <button class="btn-action" onclick="newTransform()">🎲 Nueva transformación</button>
+      </div>
+    </div>
+  `;
+  newTransform();
+}
+
+let currentTransform = 'traslacion';
+const transformExamples = {
+  traslacion: { emoji: '🟦 ➡️ 🟦', desc: 'La figura se desplazó en línea recta.' },
+  rotacion: { emoji: '🟦 🔄 🟦', desc: 'La figura giró alrededor de un punto.' },
+  reflexion: { emoji: '🟦 🪞 🟧', desc: 'La figura se reflejó como en un espejo.' }
+};
+
+function newTransform() {
+  playClick();
+  const types = ['traslacion', 'rotacion', 'reflexion'];
+  currentTransform = types[Math.floor(Math.random() * types.length)];
+  const ex = transformExamples[currentTransform];
+  document.getElementById('transformDemo').textContent = ex.emoji;
+  document.getElementById('transformDesc').textContent = ex.desc;
+  document.getElementById('fb5').className = 'feedback';
+}
+
+function checkTransform(type) {
+  const fb = document.getElementById('fb5');
+  if (type === currentTransform) {
+    playCorrect();
+    fb.className = 'feedback success show';
+    fb.textContent = '¡Correcto! 🎉 Es una ' + currentTransform + '.';
+    addPoints(10);
+    setTimeout(newTransform, 1500);
+  } else {
+    playWrong();
+    fb.className = 'feedback error show';
+    fb.textContent = '¡Ups! Observa bien cómo se movió la figura.';
   }
 }
 
 // ============ JUEGOS ============
-function showGame(id, btn) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  playSound('click');
-}
-
-// Juego 1: Construir fracción
-function initGame1() {
-  const dens = [3,4,5,6,8];
-  const d = dens[Math.floor(Math.random()*dens.length)];
-  const n = Math.floor(Math.random()*(d-1))+1;
-  state.game1.target = {n, d};
-  state.game1.selected = [];
-  document.getElementById('targetNum').textContent = n;
-  document.getElementById('targetDen').textContent = d;
-  document.getElementById('gameDen').textContent = d;
-  document.getElementById('g1Round').textContent = state.game1.round;
-  document.getElementById('g1Stars').textContent = state.game1.stars;
-  
-  const pieces = document.getElementById('gamePieces');
-  pieces.innerHTML = '';
-  for (let i = 0; i < d; i++) {
-    const p = document.createElement('div');
-    p.className = 'drag-piece';
-    p.textContent = '🟪';
-    p.onclick = () => selectPiece(p, i);
-    pieces.appendChild(p);
+function loadGameContent(id) {
+  const content = document.getElementById('tab3');
+  if (id === 1) {
+    content.innerHTML = `
+      <h2>🎮 Juego: Memoria de Fracciones</h2>
+      <p style="text-align:center;">Encuentra los pares de fracciones equivalentes</p>
+      <div class="memory-game" id="memoryGame"></div>
+      <div style="text-align:center; margin-top:20px;">
+        <button class="btn-action" onclick="initMemoryGame()">🔄 Reiniciar</button>
+      </div>
+      <div class="feedback" id="fbMem"></div>
+    `;
+    initMemoryGame();
+  } else if (id === 2) {
+    content.innerHTML = `
+      <h2>🎮 Juego: Carrera de Fracciones</h2>
+      <p style="text-align:center;">¡Resuelve operaciones lo más rápido posible!</p>
+      <div class="progress-bar"><div class="progress-fill" id="raceProgress" style="width:0%"></div></div>
+      <div id="raceArea"></div>
+      <div style="text-align:center;">
+        <p style="font-size:1.3rem;">Puntaje: <strong id="raceScore">0</strong> | Tiempo: <strong id="raceTime">30</strong>s</p>
+        <button class="btn-action" onclick="startRace()">🏁 Iniciar Carrera</button>
+      </div>
+    `;
+  } else if (id === 3) {
+    content.innerHTML = `
+      <h2>🎮 Juego: Adivina el Valor</h2>
+      <p style="text-align:center;">Encuentra el valor de x en la ecuación</p>
+      <div id="eqGameArea"></div>
+      <div style="text-align:center;">
+        <p style="font-size:1.3rem;">Aciertos: <strong id="eqScore">0</strong>/5</p>
+        <button class="btn-action" onclick="startEqGame()">🎯 Comenzar</button>
+      </div>
+    `;
+  } else if (id === 4) {
+    content.innerHTML = `
+      <h2>🎮 Juego: Constructor de Ángulos</h2>
+      <p style="text-align:center;">¡Construye el ángulo que se te pide!</p>
+      <div id="angleBuildArea"></div>
+    `;
+    startAngleBuild();
+  } else if (id === 5) {
+    content.innerHTML = `
+      <h2>🎮 Juego: Transforma la Figura</h2>
+      <p style="text-align:center;">Aplica la transformación indicada</p>
+      <div id="transformGameArea" style="text-align:center;"></div>
+    `;
+    startTransformGame();
   }
-  document.getElementById('dropZone').innerHTML = '';
-  document.getElementById('game1Feedback').innerHTML = '';
 }
 
-function selectPiece(pieceEl, idx) {
-  if (pieceEl.classList.contains('used')) return;
-  if (state.game1.selected.length >= state.game1.target.d) return;
-  
-  pieceEl.classList.add('used');
-  state.game1.selected.push(idx);
-  
-  const drop = document.getElementById('dropZone');
-  const p = document.createElement('div');
-  p.className = 'drop-piece';
-  p.textContent = '🟪';
-  p.onclick = () => {
-    p.remove();
-    pieceEl.classList.remove('used');
-    state.game1.selected = state.game1.selected.filter(i => i !== idx);
-  };
-  drop.appendChild(p);
-  playSound('click');
+// ============ JUEGO MEMORIA ============
+let memoryCards = [];
+let flippedCards = [];
+let matchedPairs = 0;
+
+function initMemoryGame() {
+  const pairs = [
+    { id: 1, text: '1/2', match: '2/4' },
+    { id: 2, text: '2/3', match: '4/6' },
+    { id: 3, text: '3/4', match: '6/8' },
+    { id: 4, text: '1/4', match: '2/8' }
+  ];
+  memoryCards = [];
+  pairs.forEach(p => {
+    memoryCards.push({ id: p.id, text: p.text, pairId: p.id });
+    memoryCards.push({ id: p.id, text: p.match, pairId: p.id });
+  });
+  memoryCards.sort(() => Math.random() - 0.5);
+  flippedCards = [];
+  matchedPairs = 0;
+  renderMemory();
 }
 
-function checkGame1() {
-  if (state.game1.selected.length !== state.game1.target.n) {
-    document.getElementById('game1Feedback').innerHTML = `<div class="feedback error">❌ Necesitas ${state.game1.target.n} piezas, tienes ${state.game1.selected.length}</div>`;
-    playSound('error');
-    return;
-  }
-  
-  document.getElementById('game1Feedback').innerHTML = '<div class="feedback success">✅ ¡Perfecto! ¡Ganaste una estrella!</div>';
-  playSound('win');
-  state.game1.stars++;
-  document.getElementById('g1Stars').textContent = state.game1.stars;
-  addPoints(20);
-  createConfetti();
-  
-  setTimeout(() => {
-    state.game1.round++;
-    if (state.game1.round > 5) {
-      showModal('¡Juego completado!', `Conseguiste ${state.game1.stars} estrellas 🌟`);
-      state.game1.round = 1;
-      state.game1.stars = 0;
-    }
-    initGame1();
-  }, 2000);
-}
-
-function resetGame1() {
-  state.game1.selected = [];
-  initGame1();
-}
-
-// Juego 2: Adivina fracción
-function initGame2() {
-  const den = [4,5,6,8][Math.floor(Math.random()*4)];
-  const num = Math.floor(Math.random()*(den-1))+1;
-  state.game2.correct = {n:num, d:den};
-  document.getElementById('g2Round').textContent = state.game2.round;
-  document.getElementById('g2Stars').textContent = state.game2.stars;
-  
-  const visual = document.getElementById('game2Visual');
-  visual.innerHTML = '';
-  for (let i = 0; i < den; i++) {
-    const p = document.createElement('div');
-    p.className = i < num ? 'piece filled' : 'piece empty';
-    visual.appendChild(p);
-  }
-  
-  const options = [{n:num, d:den}];
-  while (options.length < 4) {
-    const rn = Math.floor(Math.random()*(den-1))+1;
-    if (!options.find(o => o.n===rn && o.d===den)) {
-      options.push({n:rn, d:den});
-    }
-  }
-  options.sort(() => Math.random()-0.5);
-  
-  const optContainer = document.getElementById('game2Options');
-  optContainer.innerHTML = '';
-  options.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'option-btn';
-    btn.innerHTML = `<span class="fraction-display"><span class="num">${opt.n}</span><span class="den">${opt.d}</span></span>`;
-    btn.onclick = () => checkGame2(opt, btn);
-    optContainer.appendChild(btn);
-  });
-  document.getElementById('game2Feedback').innerHTML = '';
-}
-
-function checkGame2(opt, btn) {
-  const correct = opt.n === state.game2.correct.n && opt.d === state.game2.correct.d;
-  document.querySelectorAll('#game2Options .option-btn').forEach(b => b.disabled = true);
-  
-  if (correct) {
-    btn.classList.add('correct');
-    document.getElementById('game2Feedback').innerHTML = '<div class="feedback success">✅ ¡Correcto!</div>';
-    playSound('success');
-    state.game2.stars++;
-    document.getElementById('g2Stars').textContent = state.game2.stars;
-    addPoints(15);
-    createConfetti();
-  } else {
-    btn.classList.add('wrong');
-    document.getElementById('game2Feedback').innerHTML = `<div class="feedback error">❌ Era ${state.game2.correct.n}/${state.game2.correct.d}</div>`;
-    playSound('error');
-  }
-  
-  setTimeout(() => {
-    state.game2.round++;
-    if (state.game2.round > 5) {
-      showModal('¡Juego completado!', `Conseguiste ${state.game2.stars} estrellas 🌟`);
-      state.game2.round = 1;
-      state.game2.stars = 0;
-    }
-    initGame2();
-  }, 2000);
-}
-
-// Juego 3: Ordenar fracciones
-function initGame3() {
-  const den = [4,5,6,8][Math.floor(Math.random()*4)];
-  const nums = new Set();
-  while (nums.size < 4) {
-    nums.add(Math.floor(Math.random()*(den-1))+1);
-  }
-  const fracs = Array.from(nums).map(n => ({n, d:den}));
-  state.game3.sorted = [...fracs].sort((a,b) => a.n - b.n);
-  state.game3.order = [];
-  state.game3.fracs = fracs.sort(() => Math.random()-0.5);
-  document.getElementById('g3Round').textContent = state.game3.round;
-  document.getElementById('g3Stars').textContent = state.game3.stars;
-  
-  const container = document.getElementById('game3Fracs');
-  container.innerHTML = '';
-  state.game3.fracs.forEach((f, idx) => {
-    const card = document.createElement('div');
-    card.className = 'fraction-card';
-    card.style.cursor = 'pointer';
-    card.innerHTML = `<span class="fraction-display" style="font-size:2rem;"><span class="num">${f.n}</span><span class="den">${f.d}</span></span>`;
-    card.onclick = () => selectGame3Frac(f, card);
-    container.appendChild(card);
-  });
-  document.getElementById('game3Order').innerHTML = '';
-  document.getElementById('game3Feedback').innerHTML = '';
-}
-
-function selectGame3Frac(f, card) {
-  if (card.style.opacity === '0.3') return;
-  playSound('click');
-  state.game3.order.push(f);
-  card.style.opacity = '0.3';
-  
-  const order = document.getElementById('game3Order');
-  const item = document.createElement('div');
-  item.className = 'drop-piece';
-  item.innerHTML = `<span class="fraction-display" style="font-size:1rem;"><span class="num">${f.n}</span><span class="den">${f.d}</span></span>`;
-  order.appendChild(item);
-}
-
-function checkGame3() {
-  if (state.game3.order.length !== 4) {
-    document.getElementById('game3Feedback').innerHTML = '<div class="feedback error">❌ Selecciona las 4 fracciones</div>';
-    playSound('error');
-    return;
-  }
-  
-  const correct = state.game3.order.every((f, i) => f.n === state.game3.sorted[i].n);
-  if (correct) {
-    document.getElementById('game3Feedback').innerHTML = '<div class="feedback success">✅ ¡Orden perfecto!</div>';
-    playSound('win');
-    state.game3.stars++;
-    document.getElementById('g3Stars').textContent = state.game3.stars;
-    addPoints(25);
-    createConfetti();
-  } else {
-    const correctStr = state.game3.sorted.map(f => `${f.n}/${f.d}`).join(' < ');
-    document.getElementById('game3Feedback').innerHTML = `<div class="feedback error">❌ Orden correcto: ${correctStr}</div>`;
-    playSound('error');
-  }
-  
-  setTimeout(() => {
-    state.game3.round++;
-    if (state.game3.round > 5) {
-      showModal('¡Juego completado!', `Conseguiste ${state.game3.stars} estrellas 🌟`);
-      state.game3.round = 1;
-      state.game3.stars = 0;
-    }
-    initGame3();
-  }, 2500);
-}
-
-function resetGame3() {
-  initGame3();
-}
-
-// ============ QUIZ ============
-function generateQuizQuestions() {
-  const questions = [];
-  
-  // Pregunta 1: Lectura
-  questions.push({
-    q: '¿Cómo se lee la fracción 3/5?',
-    options: ['Tres quintos', 'Cinco tercios', 'Tres cuartos', 'Tres medios'],
-    correct: 0
-  });
-  
-  // Pregunta 2: Numerador/denominador
-  questions.push({
-    q: 'En la fracción 4/7, ¿cuál es el denominador?',
-    options: ['4', '7', '11', '3'],
-    correct: 1
-  });
-  
-  // Pregunta 3: Representación
-  questions.push({
-    q: 'Si una pizza tiene 8 porciones y comemos 3, ¿qué fracción comimos?',
-    options: ['5/8', '3/8', '8/3', '3/5'],
-    correct: 1
-  });
-  
-  // Pregunta 4: Comparación
-  questions.push({
-    q: '¿Cuál fracción es mayor?',
-    options: ['2/6', '4/6', '1/6', '3/6'],
-    correct: 1
-  });
-  
-  // Pregunta 5: Número mixto
-  questions.push({
-    q: 'El número mixto 2 1/3 significa:',
-    options: ['2 enteros y 1 tercio', '2 tercios', '1 entero y 2 tercios', '3 enteros'],
-    correct: 0
-  });
-  
-  // Pregunta 6: Fracción impropia
-  questions.push({
-    q: '¿Cuál es una fracción impropia?',
-    options: ['2/5', '3/4', '7/3', '1/2'],
-    correct: 2
-  });
-  
-  // Pregunta 7: Conversión
-  questions.push({
-    q: 'La fracción 7/4 como número mixto es:',
-    options: ['1 1/4', '1 3/4', '2 1/4', '2 3/4'],
-    correct: 1
-  });
-  
-  // Pregunta 8: Recta numérica
-  questions.push({
-    q: '¿Dónde se ubica 1/2 en la recta numérica?',
-    options: ['Al inicio (0)', 'Justo en el medio entre 0 y 1', 'En el 1', 'Después del 1'],
-    correct: 1
-  });
-  
-  // Pregunta 9: Orden
-  questions.push({
-    q: 'Ordena de menor a mayor: 3/4, 1/4, 2/4',
-    options: ['3/4, 2/4, 1/4', '1/4, 2/4, 3/4', '2/4, 1/4, 3/4', '1/4, 3/4, 2/4'],
-    correct: 1
-  });
-  
-  // Pregunta 10: Problema
-  questions.push({
-    q: 'María pintó 5/8 de una pared y Pedro pintó 3/8. ¿Quién pintó más?',
-    options: ['Pedro', 'María', 'Pintaron igual', 'No se puede saber'],
-    correct: 1
-  });
-  
-  return questions.sort(() => Math.random()-0.5);
-}
-
-function startQuiz() {
-  state.quiz.questions = generateQuizQuestions();
-  state.quiz.current = 0;
-  state.quiz.score = 0;
-  document.getElementById('quizResult').style.display = 'none';
-  document.getElementById('quizContainer').style.display = 'block';
-  showQuizQuestion();
-}
-
-function showQuizQuestion() {
-  const q = state.quiz.questions[state.quiz.current];
-  document.getElementById('quizQuestion').textContent = `${state.quiz.current+1}. ${q.q}`;
-  document.getElementById('quizFeedback').innerHTML = '';
-  
-  const progress = (state.quiz.current / 10) * 100;
-  const bar = document.getElementById('quizProgress');
-  bar.style.width = progress + '%';
-  bar.textContent = `${state.quiz.current}/10`;
-  
-  const optContainer = document.getElementById('quizOptions');
-  optContainer.innerHTML = '';
-  q.options.forEach((opt, idx) => {
-    const btn = document.createElement('button');
-    btn.className = 'option-btn';
-    btn.textContent = opt;
-    btn.onclick = () => checkQuizAnswer(idx, btn);
-    optContainer.appendChild(btn);
+function renderMemory() {
+  const game = document.getElementById('memoryGame');
+  if (!game) return;
+  game.innerHTML = '';
+  memoryCards.forEach((card, i) => {
+    const div = document.createElement('div');
+    div.className = 'memory-card' + (card.flipped ? ' flipped' : '') + (card.matched ? ' matched' : '');
+    div.textContent = card.flipped || card.matched ? card.text : '?';
+    div.onclick = () => flipCard(i);
+    game.appendChild(div);
   });
 }
 
-function checkQuizAnswer(idx, btn) {
-  const q = state.quiz.questions[state.quiz.current];
-  document.querySelectorAll('#quizOptions .option-btn').forEach(b => b.disabled = true);
+function flipCard(i) {
+  if (memoryCards[i].flipped || memoryCards[i].matched || flippedCards.length >= 2) return;
+  playPop();
+  memoryCards[i].flipped = true;
+  flippedCards.push(i);
+  renderMemory();
   
-  if (idx === q.correct) {
-    btn.classList.add('correct');
-    document.getElementById('quizFeedback').innerHTML = '<div class="feedback success">✅ ¡Correcto!</div>';
-    playSound('success');
-    state.quiz.score++;
-    addPoints(10);
-  } else {
-    btn.classList.add('wrong');
-    document.querySelectorAll('#quizOptions .option-btn')[q.correct].classList.add('correct');
-    document.getElementById('quizFeedback').innerHTML = `<div class="feedback error">❌ La respuesta era: ${q.options[q.correct]}</div>`;
-    playSound('error');
-  }
-  
-  setTimeout(() => {
-    state.quiz.current++;
-    if (state.quiz.current >= 10) {
-      finishQuiz();
+  if (flippedCards.length === 2) {
+    const [a, b] = flippedCards;
+    if (memoryCards[a].pairId === memoryCards[b].pairId) {
+      setTimeout(() => {
+        memoryCards[a].matched = true;
+        memoryCards[b].matched = true;
+        playCorrect();
+        matchedPairs++;
+        addPoints(15);
+        flippedCards = [];
+        renderMemory();
+        if (matchedPairs === 4) {
+          setTimeout(() => showReward('¡Ganaste el juego!', '¡Encontraste todos los pares!', 3), 500);
+        }
+      }, 500);
     } else {
-      showQuizQuestion();
+      setTimeout(() => {
+        playWrong();
+        memoryCards[a].flipped = false;
+        memoryCards[b].flipped = false;
+        flippedCards = [];
+        renderMemory();
+      }, 1000);
     }
-  }, 2000);
-}
-
-function finishQuiz() {
-  document.getElementById('quizContainer').style.display = 'none';
-  document.getElementById('quizResult').style.display = 'block';
-  document.getElementById('quizScore').textContent = state.quiz.score;
-  
-  const bar = document.getElementById('quizProgress');
-  bar.style.width = '100%';
-  bar.textContent = '10/10';
-  
-  let msg = '';
-  if (state.quiz.score === 10) {
-    msg = '🌟 ¡PERFECTO! ¡Eres un experto en fracciones!';
-    addPoints(100);
-    playSound('win');
-    createConfetti();
-    createConfetti();
-  } else if (state.quiz.score >= 8) {
-    msg = '🎉 ¡Excelente trabajo! ¡Casi perfecto!';
-    addPoints(50);
-    playSound('win');
-    createConfetti();
-  } else if (state.quiz.score >= 6) {
-    msg = '😊 ¡Muy bien! Sigue practicando.';
-    addPoints(30);
-    playSound('success');
-  } else if (state.quiz.score >= 4) {
-    msg = '💪 ¡Buen intento! Repasa las lecciones.';
-    playSound('click');
-  } else {
-    msg = '📚 ¡No te rindas! Vuelve a revisar las lecciones.';
-    playSound('click');
   }
-  document.getElementById('quizMessage').textContent = msg;
 }
 
-// ============ UTILIDADES ============
-function addPoints(p) {
-  state.points += p;
-  state.stars++;
-  document.getElementById('totalPoints').textContent = state.points;
-  document.getElementById('totalStars').textContent = state.stars;
+// ============ CARRERA DE FRACCIONES ============
+let raceScore = 0;
+let raceTimer = null;
+let raceTime = 30;
+
+function startRace() {
+  raceScore = 0;
+  raceTime = 30;
+  document.getElementById('raceScore').textContent = '0';
+  document.getElementById('raceTime').textContent = '30';
+  document.getElementById('raceProgress').style.width = '0%';
+  nextRaceQuestion();
+  if (raceTimer) clearInterval(raceTimer);
+  raceTimer = setInterval(() => {
+    raceTime--;
+    document.getElementById('raceTime').textContent = raceTime;
+    if (raceTime <= 0) {
+      clearInterval(raceTimer);
+      document.getElementById('raceArea').innerHTML = `<div class="feedback success show">¡Fin del tiempo! Puntaje: ${raceScore}</div>`;
+      if (raceScore >= 5) showReward('¡Increíble!', `Conseguiste ${raceScore} puntos`, raceScore >= 8 ? 3 : raceScore >= 5 ? 2 : 1);
+    }
+  }, 1000);
 }
 
-function createConfetti() {
-  const colors = ['#ff6b9d', '#a06cd5', '#4d96ff', '#6bcf7f', '#ffd93d', '#ff8c42'];
+function nextRaceQuestion() {
+  const den = [4, 5, 6, 7, 8, 10][Math.floor(Math.random() * 6)];
+  const a = Math.floor(Math.random() * (den - 1)) + 1;
+  const b = Math.floor(Math.random() * (den - a)) + 1;
+  const op = Math.random() > 0.5 ? '+' : '-';
+  const result = op === '+' ? a + b : a - b;
+  const correct = `${result}/${den}`;
+  
+  const options = [correct];
+  while (options.length < 4) {
+    const fake = `${Math.floor(Math.random() * den) + 1}/${den}`;
+    if (!options.includes(fake)) options.push(fake);
+  }
+  options.sort(() => Math.random() - 0.5);
+  
+  const area = document.getElementById('raceArea');
+  area.innerHTML = `
+    <div class="exercise">
+      <div class="equation">
+        <span class="fraction-display"><span class="num">${a}</span><span class="line"></span><span class="den">${den}</span></span>
+        ${op}
+        <span class="fraction-display"><span class="num">${b}</span><span class="line"></span><span class="den">${den}</span></span>
+        = ?
+      </div>
+      <div class="options">
+        ${options.map(o => `<button class="option-btn" onclick="answerRace('${o}', '${correct}')">${o}</button>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function answerRace(selected, correct) {
+  if (selected === correct) {
+    playCorrect();
+    raceScore++;
+    document.getElementById('raceScore').textContent = raceScore;
+    document.getElementById('raceProgress').style.width = Math.min(100, raceScore * 10) + '%';
+    addPoints(5);
+    nextRaceQuestion();
+  } else {
+    playWrong();
+  }
+}
+
+// ============ JUEGO ECUACIONES ============
+let eqScore = 0;
+let eqCount = 0;
+
+function startEqGame() {
+  eqScore = 0;
+  eqCount = 0;
+  document.getElementById('eqScore').textContent = '0';
+  nextEqQuestion();
+}
+
+function nextEqQuestion() {
+  if (eqCount >= 5) {
+    document.getElementById('eqGameArea').innerHTML = `<div class="feedback success show">¡Juego terminado! Aciertos: ${eqScore}/5</div>`;
+    if (eqScore >= 4) showReward('¡Excelente!', `Acertaste ${eqScore} de 5`, eqScore === 5 ? 3 : 2);
+    return;
+  }
+  const den = [4, 5, 6, 7, 8][Math.floor(Math.random() * 5)];
+  const x = Math.floor(Math.random() * (den - 1)) + 1;
+  const b = Math.floor(Math.random() * (den - x)) + 1;
+  const result = x + b;
+  
+  const options = [`${x}/${den}`];
+  while (options.length < 4) {
+    const fake = `${Math.floor(Math.random() * den) + 1}/${den}`;
+    if (!options.includes(fake)) options.push(fake);
+  }
+  options.sort(() => Math.random() - 0.5);
+  
+  const area = document.getElementById('eqGameArea');
+  area.innerHTML = `
+    <div class="exercise">
+      <div class="equation">
+        x + <span class="fraction-display"><span class="num">${b}</span><span class="line"></span><span class="den">${den}</span></span>
+        = <span class="fraction-display"><span class="num">${result}</span><span class="line"></span><span class="den">${den}</span></span>
+      </div>
+      <p style="text-align:center;">¿Cuánto vale x?</p>
+      <div class="options">
+        ${options.map(o => `<button class="option-btn" onclick="answerEq('${o}', '${x}/${den}')">${o}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fbEq"></div>
+    </div>
+  `;
+}
+
+function answerEq(selected, correct) {
+  const btns = document.querySelectorAll('#eqGameArea .option-btn');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('fbEq');
+  eqCount++;
+  if (selected === correct) {
+    playCorrect();
+    eqScore++;
+    addPoints(15);
+    fb.className = 'feedback success show';
+    fb.textContent = '¡Correcto! 🎉';
+  } else {
+    playWrong();
+    fb.className = 'feedback error show';
+    fb.textContent = `La respuesta era ${correct}`;
+  }
+  document.getElementById('eqScore').textContent = eqScore;
+  setTimeout(nextEqQuestion, 1500);
+}
+
+// ============ CONSTRUCTOR DE ÁNGULOS ============
+let angleBuildTarget = 45;
+function startAngleBuild() {
+  angleBuildTarget = [30, 45, 60, 90, 120, 135, 150, 180][Math.floor(Math.random() * 8)];
+  const area = document.getElementById('angleBuildArea');
+  area.innerHTML = `
+    <div class="exercise">
+      <p style="text-align:center; font-size:1.5rem;">Construye un ángulo de <strong style="color:var(--orange); font-size:2rem;">${angleBuildTarget}°</strong></p>
+      <div class="protractor-game">
+        <div class="angle-display">
+          <div class="angle-base"></div>
+          <div class="angle-line" id="buildAngleLine" style="transform:translateX(-50%) rotate(-45deg);"></div>
+        </div>
+        <p style="font-size:1.3rem;">Tu ángulo: <strong id="buildAngleValue">45</strong>°</p>
+        <div class="slider-container">
+          <input type="range" id="buildSlider" min="0" max="180" value="45" oninput="updateBuildAngle()">
+        </div>
+        <button class="btn-action" onclick="checkBuildAngle()">✅ Verificar</button>
+        <button class="btn-action" onclick="startAngleBuild()">🎲 Nuevo ángulo</button>
+      </div>
+      <div class="feedback" id="fbBuild"></div>
+    </div>
+  `;
+}
+
+function updateBuildAngle() {
+  const val = document.getElementById('buildSlider').value;
+  document.getElementById('buildAngleValue').textContent = val;
+  document.getElementById('buildAngleLine').style.transform = `translateX(-50%) rotate(-${val}deg)`;
+}
+
+function checkBuildAngle() {
+  const val = parseInt(document.getElementById('buildSlider').value);
+  const fb = document.getElementById('fbBuild');
+  if (Math.abs(val - angleBuildTarget) <= 5) {
+    playCorrect();
+    fb.className = 'feedback success show';
+    fb.textContent = `¡Perfecto! 🎉 Construyiste ${val}° (objetivo: ${angleBuildTarget}°)`;
+    addPoints(20);
+    setTimeout(startAngleBuild, 2000);
+  } else {
+    playWrong();
+    fb.className = 'feedback error show';
+    fb.textContent = `Casi... tu ángulo es ${val}°, pero el objetivo es ${angleBuildTarget}°`;
+  }
+}
+
+// ============ JUEGO TRANSFORMACIONES ============
+let transformGameType = '';
+let transformGameScore = 0;
+function startTransformGame() {
+  transformGameScore = 0;
+  nextTransformChallenge();
+}
+
+function nextTransformChallenge() {
+  const types = ['traslacion', 'rotacion', 'reflexion'];
+  transformGameType = types[Math.floor(Math.random() * 3)];
+  const area = document.getElementById('transformGameArea');
+  let instruction = '';
+  let options = '';
+  
+  if (transformGameType === 'traslacion') {
+    instruction = 'Traslada el cuadrado 3 posiciones a la derecha';
+    options = `
+      <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin:20px 0;">
+        <button class="option-btn" style="font-size:2rem; padding:20px;" onclick="answerTransform('right')">🟦➡️🟦</button>
+        <button class="option-btn" style="font-size:2rem; padding:20px;" onclick="answerTransform('up')">🟦<br>⬆️<br>🟦</button>
+        <button class="option-btn" style="font-size:2rem; padding:20px;" onclick="answerTransform('rotate')">🟦🔄🟧</button>
+      </div>
+    `;
+  } else if (transformGameType === 'rotacion') {
+    instruction = 'Rota el cuadrado 90° en sentido horario';
+    options = `
+      <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin:20px 0;">
+        <button class="option-btn" style="font-size:2rem; padding:20px;" onclick="answerTransform('right')">🟦➡️🟦</button>
+        <button class="option-btn" style="font-size:2rem; padding:20px;" onclick="answerTransform('rotate')">🟦↻🟦</button>
+        <button class="option-btn" style="font-size:2rem; padding:20px;" onclick="answerTransform('mirror')">🟦🪞🟧</button>
+      </div>
+    `;
+  } else {
+    instruction = 'Refleja el cuadrado como en un espejo';
+    options = `
+      <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin:20px 0;">
+        <button class="option-btn" style="font-size:2rem; padding:20px;" onclick="answerTransform('right')">🟦➡️🟦</button>
+        <button class="option-btn" style="font-size:2rem; padding:20px;" onclick="answerTransform('rotate')">🟦↻🟦</button>
+        <button class="option-btn" style="font-size:2rem; padding:20px;" onclick="answerTransform('mirror')">🟦🪞🟧</button>
+      </div>
+    `;
+  }
+  
+  area.innerHTML = `
+    <div class="exercise">
+      <p style="font-size:1.3rem; text-align:center;">${instruction}</p>
+      <p style="text-align:center; font-size:1.1rem; color:#666;">Rondas completadas: <strong>${transformGameScore}</strong></p>
+      ${options}
+      <div class="feedback" id="fbTrans"></div>
+    </div>
+  `;
+}
+
+function answerTransform(choice) {
+  const fb = document.getElementById('fbTrans');
+  const correctMap = { traslacion: 'right', rotacion: 'rotate', reflexion: 'mirror' };
+  if (choice === correctMap[transformGameType]) {
+    playCorrect();
+    transformGameScore++;
+    addPoints(10);
+    fb.className = 'feedback success show';
+    fb.textContent = '¡Correcto! 🎉';
+    if (transformGameScore >= 5) {
+      setTimeout(() => showReward('¡Maestro de las transformaciones!', 'Completaste 5 retos', 3), 1000);
+      return;
+    }
+    setTimeout(nextTransformChallenge, 1200);
+  } else {
+    playWrong();
+    fb.className = 'feedback error show';
+    fb.textContent = '¡Intenta de nuevo!';
+  }
+}
+
+// ============ PUNTOS Y RECOMPENSAS ============
+function addPoints(n) {
+  state.points += n;
+  if (state.points >= 100) {
+    state.stars += Math.floor(state.points / 100);
+    state.points = state.points % 100;
+  }
+  updateScore();
+  launchConfetti();
+}
+
+function updateScore() {
+  document.getElementById('stars').textContent = state.stars;
+  document.getElementById('points').textContent = state.points;
+}
+
+function launchConfetti() {
+  const colors = ['#ff6b9d', '#ffd93d', '#4d96ff', '#6bcf7f', '#a66cff', '#ff9f45'];
   for (let i = 0; i < 30; i++) {
     const c = document.createElement('div');
     c.className = 'confetti';
-    c.style.left = Math.random()*100 + 'vw';
-    c.style.top = '-20px';
-    c.style.background = colors[Math.floor(Math.random()*colors.length)];
-    c.style.animationDelay = Math.random()*0.5 + 's';
-    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+    c.style.left = Math.random() * 100 + '%';
+    c.style.top = '-10px';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.animationDelay = Math.random() * 0.5 + 's';
+    c.style.transform = `rotate(${Math.random() * 360}deg)`;
     document.body.appendChild(c);
-    setTimeout(() => c.remove(), 3500);
+    setTimeout(() => c.remove(), 3000);
   }
 }
 
-function createSparkle(el) {
-  const rect = el.getBoundingClientRect();
-  const s = document.createElement('div');
-  s.className = 'sparkle';
-  s.textContent = '✨';
-  s.style.left = rect.left + rect.width/2 + 'px';
-  s.style.top = rect.top + 'px';
-  s.style.position = 'fixed';
-  document.body.appendChild(s);
-  setTimeout(() => s.remove(), 1000);
+function showReward(title, text, stars) {
+  playWin();
+  launchConfetti();
+  document.getElementById('rewardTitle').textContent = title;
+  document.getElementById('rewardText').textContent = text;
+  document.getElementById('rewardStars').innerHTML = '⭐'.repeat(stars) + '☆'.repeat(3 - stars);
+  document.getElementById('rewardModal').classList.add('show');
+  state.stars += stars;
+  updateScore();
 }
 
-function showModal(title, text) {
-  document.getElementById('modalTitle').textContent = title;
-  document.getElementById('modalText').textContent = text;
-  document.getElementById('celebrationModal').classList.add('show');
-  playSound('win');
-  createConfetti();
+function closeReward() {
+  playClick();
+  document.getElementById('rewardModal').classList.remove('show');
 }
 
-function closeModal() {
-  document.getElementById('celebrationModal').classList.remove('show');
-  playSound('click');
-}
-
-// Inicialización
-window.addEventListener('load', () => {
-  initLecciones();
-  setTimeout(() => {
-    playSound('success');
-  }, 500);
-});
-
-// Click inicial para activar audio
-document.addEventListener('click', () => initAudio(), {once: true});
+// Inicializar
+updateScore();
 </script>
-
 </body>
 </html>
 ```
