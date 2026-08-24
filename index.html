@@ -1,1141 +1,1997 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduCuentos - Con Esfuerzo y Dedicación</title>
-    
-    <!-- Tailwind CSS para los estilos -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- React y ReactDOM para la interactividad -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    
-    <!-- Babel para compilar JSX en el navegador -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎨 Mundo de las Fracciones - 4° Básico</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/fredoka-one@4.5.0/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/nunito@4.5.0/index.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <style>
-        body {
-            background-color: #f4f7f6;
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
-        
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-5px); }
-          50% { transform: translateX(5px); }
-          75% { transform: translateX(-5px); }
-        }
-        .animate-shake { animation: shake 0.4s ease-in-out; }
-        
-        @keyframes fall {
-          to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
-    </style>
+:root {
+  --pink: #ff6b9d;
+  --purple: #a06cd5;
+  --blue: #4d96ff;
+  --green: #6bcf7f;
+  --yellow: #ffd93d;
+  --orange: #ff8c42;
+  --red: #ff5e5e;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(135deg, #ffe5ec 0%, #e0c3fc 50%, #b8e0ff 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: #333;
+}
+
+h1, h2, h3, .title-font { font-family: 'Fredoka One', cursive; }
+
+/* Nubes flotantes de fondo */
+.bg-cloud {
+  position: fixed;
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  filter: blur(20px);
+  z-index: 0;
+  pointer-events: none;
+  animation: floatCloud 20s infinite ease-in-out;
+}
+.bg-cloud:nth-child(1) { width: 300px; height: 300px; top: 10%; left: -100px; }
+.bg-cloud:nth-child(2) { width: 400px; height: 400px; top: 50%; right: -150px; animation-delay: -5s; }
+.bg-cloud:nth-child(3) { width: 250px; height: 250px; bottom: 10%; left: 30%; animation-delay: -10s; }
+
+@keyframes floatCloud {
+  0%, 100% { transform: translate(0,0); }
+  50% { transform: translate(50px, -30px); }
+}
+
+/* Header */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: linear-gradient(90deg, var(--pink), var(--purple), var(--blue));
+  padding: 15px 30px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.logo {
+  color: white;
+  font-size: 1.8rem;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  font-size: 2.5rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-10px) rotate(10deg); }
+}
+
+.score-bar {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.score-item {
+  background: rgba(255,255,255,0.3);
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 15px;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(10px);
+  border-bottom: 3px dashed var(--purple);
+}
+
+.nav-btn {
+  background: white;
+  border: 3px solid var(--purple);
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: var(--purple);
+}
+
+.nav-btn:hover {
+  background: var(--purple);
+  color: white;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 15px rgba(160,108,213,0.4);
+}
+
+.nav-btn.active {
+  background: var(--pink);
+  color: white;
+  border-color: var(--pink);
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.section {
+  display: none;
+  animation: fadeIn 0.6s ease;
+}
+
+.section.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,230,240,0.9));
+  border-radius: 30px;
+  box-shadow: 0 10px 40px rgba(160,108,213,0.2);
+  margin-bottom: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  background: linear-gradient(90deg, var(--pink), var(--purple), var(--blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 15px;
+  animation: titlePop 1s ease;
+}
+
+@keyframes titlePop {
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.hero p {
+  font-size: 1.3rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.mascot {
+  font-size: 5rem;
+  display: inline-block;
+  animation: mascotWave 3s infinite;
+}
+
+@keyframes mascotWave {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+/* Cards */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  border: 3px solid transparent;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.card.pink { border-color: var(--pink); }
+.card.purple { border-color: var(--purple); }
+.card.blue { border-color: var(--blue); }
+.card.green { border-color: var(--green); }
+.card.orange { border-color: var(--orange); }
+.card.yellow { border-color: var(--yellow); }
+
+.card-icon {
+  font-size: 4rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.card h3 {
+  color: var(--purple);
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+/* Lesson section */
+.lesson-box {
+  background: white;
+  border-radius: 25px;
+  padding: 30px;
+  margin: 20px 0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  border-left: 8px solid var(--purple);
+}
+
+.lesson-box h2 {
+  color: var(--purple);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lesson-box h3 {
+  color: var(--pink);
+  font-size: 1.5rem;
+  margin: 20px 0 10px;
+}
+
+.lesson-box p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 15px;
+}
+
+.fraction-display {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.5rem;
+  vertical-align: middle;
+}
+
+.fraction-display .num {
+  color: var(--pink);
+  border-bottom: 3px solid #333;
+  padding: 0 10px;
+}
+
+.fraction-display .den {
+  color: var(--blue);
+  padding: 0 10px;
+}
+
+.visual-fraction {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.piece {
+  width: 50px;
+  height: 50px;
+  border: 3px solid #333;
+  border-radius: 10px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.piece.filled {
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  box-shadow: 0 3px 10px rgba(160,108,213,0.4);
+}
+
+.piece.empty {
+  background: #f0f0f0;
+}
+
+.piece:hover { transform: scale(1.1); }
+
+/* Pizza visual */
+.pizza-container {
+  display: inline-block;
+  margin: 20px;
+  position: relative;
+}
+
+.pizza {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  position: relative;
+  background: #f4d35e;
+  border: 5px solid #8b4513;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.pizza-slice {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 0;
+  left: 50%;
+  transform-origin: 0% 100%;
+  clip-path: polygon(0 100%, 100% 0, 0 0);
+}
+
+/* Buttons */
+.btn {
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 5px 15px rgba(160,108,213,0.3);
+  margin: 5px;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(160,108,213,0.5);
+}
+
+.btn:active { transform: translateY(0); }
+
+.btn.green { background: linear-gradient(135deg, var(--green), #4caf50); }
+.btn.orange { background: linear-gradient(135deg, var(--orange), var(--red)); }
+.btn.blue { background: linear-gradient(135deg, var(--blue), var(--purple)); }
+
+/* Quiz */
+.quiz-container {
+  background: linear-gradient(135deg, #fff, #f8f0ff);
+  border-radius: 25px;
+  padding: 30px;
+  margin: 20px 0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.quiz-question {
+  font-size: 1.3rem;
+  color: var(--purple);
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.option-btn {
+  background: white;
+  border: 3px solid var(--blue);
+  padding: 20px;
+  border-radius: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: var(--blue);
+}
+
+.option-btn:hover {
+  background: var(--blue);
+  color: white;
+  transform: scale(1.05);
+}
+
+.option-btn.correct {
+  background: var(--green);
+  color: white;
+  border-color: var(--green);
+  animation: correctPulse 0.5s;
+}
+
+.option-btn.wrong {
+  background: var(--red);
+  color: white;
+  border-color: var(--red);
+  animation: shake 0.5s;
+}
+
+@keyframes correctPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+/* Number line */
+.number-line {
+  position: relative;
+  height: 100px;
+  margin: 40px 20px;
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.number-line-bar {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  right: 20px;
+  height: 4px;
+  background: #333;
+  transform: translateY(-50%);
+}
+
+.number-line-point {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--purple);
+}
+
+.number-line-tick {
+  position: absolute;
+  top: 50%;
+  width: 2px;
+  height: 15px;
+  background: #333;
+  transform: translate(-50%, -50%);
+}
+
+.fraction-marker {
+  position: absolute;
+  top: -30px;
+  transform: translateX(-50%);
+  background: var(--pink);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.fraction-marker:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+/* Game */
+.game-area {
+  background: white;
+  border-radius: 25px;
+  padding: 30px;
+  margin: 20px 0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.game-stat {
+  background: linear-gradient(135deg, var(--yellow), var(--orange));
+  padding: 10px 20px;
+  border-radius: 15px;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.target-fraction {
+  font-size: 3rem;
+  color: var(--purple);
+  margin: 20px 0;
+}
+
+.drag-pieces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.drag-piece {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--green), var(--blue));
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.drag-piece:hover { transform: scale(1.1) rotate(5deg); }
+.drag-piece.used { opacity: 0.3; pointer-events: none; }
+
+.drop-zone {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  min-height: 100px;
+  padding: 20px;
+  border: 4px dashed var(--purple);
+  border-radius: 20px;
+  margin: 20px auto;
+  max-width: 500px;
+  background: rgba(160,108,213,0.05);
+}
+
+.drop-piece {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  animation: popIn 0.3s;
+}
+
+@keyframes popIn {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+/* Feedback */
+.feedback {
+  padding: 20px;
+  border-radius: 15px;
+  margin: 15px 0;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  animation: slideIn 0.5s;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.feedback.success {
+  background: linear-gradient(135deg, #d4f5d4, #a8e6a8);
+  color: #2e7d32;
+  border: 3px solid var(--green);
+}
+
+.feedback.error {
+  background: linear-gradient(135deg, #ffd4d4, #ffb3b3);
+  color: #c62828;
+  border: 3px solid var(--red);
+}
+
+/* Confetti */
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  z-index: 1000;
+  animation: confettiFall 3s linear forwards;
+}
+
+@keyframes confettiFall {
+  to {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 200;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s;
+}
+
+.modal.show { display: flex; }
+
+.modal-content {
+  background: white;
+  border-radius: 25px;
+  padding: 40px;
+  max-width: 500px;
+  text-align: center;
+  animation: popIn 0.5s;
+}
+
+.modal-content h2 {
+  color: var(--purple);
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.trophy {
+  font-size: 5rem;
+  animation: trophySpin 2s infinite;
+}
+
+@keyframes trophySpin {
+  0%, 100% { transform: rotate(-10deg) scale(1); }
+  50% { transform: rotate(10deg) scale(1.1); }
+}
+
+/* Progress bar */
+.progress-container {
+  background: #eee;
+  border-radius: 20px;
+  height: 25px;
+  margin: 20px 0;
+  overflow: hidden;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--blue));
+  border-radius: 20px;
+  transition: width 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* Comparison game */
+.compare-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.fraction-card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  min-width: 150px;
+  text-align: center;
+  border: 3px solid var(--blue);
+}
+
+.compare-symbol {
+  font-size: 3rem;
+  color: var(--orange);
+  font-weight: bold;
+  padding: 0 10px;
+}
+
+.compare-btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.compare-btns button {
+  font-size: 2rem;
+  padding: 10px 25px;
+  border-radius: 15px;
+  border: 3px solid var(--purple);
+  background: white;
+  color: var(--purple);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+}
+
+.compare-btns button:hover {
+  background: var(--purple);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Mixed number */
+.mixed-number {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 2rem;
+  color: var(--purple);
+}
+
+.mixed-number .whole {
+  color: var(--orange);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .hero h1 { font-size: 2rem; }
+  .logo { font-size: 1.3rem; }
+  .nav-btn { font-size: 0.85rem; padding: 8px 14px; }
+  .lesson-box { padding: 20px; }
+}
+
+/* Animations utility */
+.wiggle { animation: wiggle 0.5s; }
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+.sparkle {
+  position: absolute;
+  pointer-events: none;
+  font-size: 2rem;
+  animation: sparkleFade 1s forwards;
+}
+
+@keyframes sparkleFade {
+  0% { transform: scale(0) rotate(0); opacity: 1; }
+  100% { transform: scale(1.5) rotate(360deg); opacity: 0; }
+}
+
+.info-box {
+  background: linear-gradient(135deg, #fff9e6, #fff3cc);
+  border-left: 6px solid var(--yellow);
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin: 15px 0;
+}
+
+.info-box::before {
+  content: "💡 ";
+  font-size: 1.3rem;
+}
+
+.example-box {
+  background: linear-gradient(135deg, #e6f7ff, #cceeff);
+  border-left: 6px solid var(--blue);
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin: 15px 0;
+}
+
+.example-box::before {
+  content: "📚 Ejemplo: ";
+  font-weight: bold;
+  color: var(--blue);
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.5s; }
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tab-btn {
+  background: white;
+  border: 3px solid var(--blue);
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--blue);
+  transition: all 0.3s;
+}
+
+.tab-btn.active {
+  background: var(--blue);
+  color: white;
+}
+</style>
 </head>
 <body>
-    <div id="root"></div>
 
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+<div class="bg-cloud"></div>
+<div class="bg-cloud"></div>
+<div class="bg-cloud"></div>
 
-        // Simple Audio Engine using Web Audio API for self-contained sound effects
-        const playSound = (type) => {
-          try {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            
-            if (type === 'success') {
-              // Happy upward chime
-              osc.type = 'sine';
-              osc.frequency.setValueAtTime(440, ctx.currentTime);
-              osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.1);
-              osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.3);
-            } else if (type === 'error') {
-              // Low boop
-              osc.type = 'sawtooth';
-              osc.frequency.setValueAtTime(300, ctx.currentTime);
-              osc.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.3);
-            } else if (type === 'pop') {
-              // Quick pop for clicks
-              osc.type = 'sine';
-              osc.frequency.setValueAtTime(600, ctx.currentTime);
-              osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.05);
-            } else if (type === 'tada') {
-              // Tada sound for completion
-              osc.type = 'triangle';
-              osc.frequency.setValueAtTime(440, ctx.currentTime);
-              osc.frequency.setValueAtTime(554, ctx.currentTime + 0.1);
-              osc.frequency.setValueAtTime(659, ctx.currentTime + 0.2);
-              osc.frequency.setValueAtTime(880, ctx.currentTime + 0.3);
-              gain.gain.setValueAtTime(0.2, ctx.currentTime);
-              gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.6);
-              osc.stop(ctx.currentTime + 0.6);
-              return;
-            }
-            
-            osc.start();
-            gain.gain.setValueAtTime(0.1, ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.4);
-            osc.stop(ctx.currentTime + 0.4);
-          } catch (e) {
-            console.log("Audio not supported or blocked by browser.");
-          }
-        };
+<header>
+  <div class="logo">
+    <span class="logo-icon">🎨</span>
+    <span>Mundo Fracciones</span>
+  </div>
+  <div class="score-bar">
+    <div class="score-item">⭐ <span id="totalStars">0</span></div>
+    <div class="score-item">🏆 <span id="totalPoints">0</span> pts</div>
+  </div>
+</header>
 
-        const NavButton = ({ active, onClick, icon, text }) => (
-          <button
-            onClick={() => {
-              playSound('pop');
-              onClick();
-            }}
-            className={`flex items-center gap-2 px-4 py-3 rounded-2xl font-bold transition-all duration-300 ${
-              active 
-                ? 'bg-orange-500 text-white shadow-lg transform scale-105' 
-                : 'bg-white text-gray-600 hover:bg-orange-100 hover:text-orange-500'
-            }`}
-          >
-            <span className="text-2xl">{icon}</span>
-            <span className="hidden md:inline">{text}</span>
-          </button>
-        );
+<nav>
+  <button class="nav-btn active" onclick="showSection('inicio', this)">🏠 Inicio</button>
+  <button class="nav-btn" onclick="showSection('lecciones', this)">📖 Lecciones</button>
+  <button class="nav-btn" onclick="showSection('mixtos', this)">🍕 Números Mixtos</button>
+  <button class="nav-btn" onclick="showSection('comparar', this)">⚖️ Comparar</button>
+  <button class="nav-btn" onclick="showSection('juegos', this)">🎮 Juegos</button>
+  <button class="nav-btn" onclick="showSection('quiz', this)">📝 Evaluación</button>
+</nav>
 
-        const Card = ({ children, className = "" }) => (
-          <div className={`bg-white rounded-3xl shadow-xl p-6 md:p-8 ${className}`}>
-            {children}
+<main>
+  <!-- INICIO -->
+  <section id="inicio" class="section active">
+    <div class="hero">
+      <div class="mascot">🦊</div>
+      <h1>¡Bienvenidos al Mundo de las Fracciones!</h1>
+      <p>Aprende, juega y diviértete con las fracciones y números mixtos 🎉</p>
+      <button class="btn" onclick="playSound('click'); showSection('lecciones', document.querySelectorAll('.nav-btn')[1])">¡Comenzar aventura! 🚀</button>
+    </div>
+
+    <div class="card-grid">
+      <div class="card pink" onclick="showSection('lecciones', document.querySelectorAll('.nav-btn')[1])">
+        <span class="card-icon">📐</span>
+        <h3>Fracciones</h3>
+        <p>Aprende qué son las fracciones y cómo se representan</p>
+      </div>
+      <div class="card purple" onclick="showSection('mixtos', document.querySelectorAll('.nav-btn')[2])">
+        <span class="card-icon">🍕</span>
+        <h3>Números Mixtos</h3>
+        <p>Descubre los números mixtos y fracciones impropias</p>
+      </div>
+      <div class="card blue" onclick="showSection('comparar', document.querySelectorAll('.nav-btn')[3])">
+        <span class="card-icon">⚖️</span>
+        <h3>Comparar</h3>
+        <p>Aprende a comparar y ordenar fracciones</p>
+      </div>
+      <div class="card green" onclick="showSection('juegos', document.querySelectorAll('.nav-btn')[4])">
+        <span class="card-icon">🎮</span>
+        <h3>Juegos</h3>
+        <p>Practica jugando y gana estrellas</p>
+      </div>
+      <div class="card orange" onclick="showSection('quiz', document.querySelectorAll('.nav-btn')[5])">
+        <span class="card-icon">📝</span>
+        <h3>Evaluación</h3>
+        <p>Pon a prueba lo que aprendiste</p>
+      </div>
+      <div class="card yellow" onclick="showSection('lecciones', document.querySelectorAll('.nav-btn')[1])">
+        <span class="card-icon">🎯</span>
+        <h3>Recta Numérica</h3>
+        <p>Ubica fracciones en la recta numérica</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LECCIONES -->
+  <section id="lecciones" class="section">
+    <div class="lesson-box">
+      <h2>📐 ¿Qué es una Fracción?</h2>
+      <p>Una <strong>fracción</strong> representa una o más partes iguales de un todo. Imagina que tienes una pizza y la divides en partes iguales 🍕</p>
+      
+      <div class="info-box">
+        Una fracción tiene dos números: el <strong style="color:var(--pink)">NUMERADOR</strong> (arriba) y el <strong style="color:var(--blue)">DENOMINADOR</strong> (abajo).
+      </div>
+
+      <div style="text-align:center; margin: 20px 0;">
+        <div class="fraction-display" style="font-size: 2.5rem;">
+          <span class="num">3</span>
+          <span class="den">4</span>
+        </div>
+      </div>
+
+      <h3>🔢 Partes de una fracción</h3>
+      <p><strong style="color:var(--pink)">Numerador (3):</strong> Indica cuántas partes tomamos del total.</p>
+      <p><strong style="color:var(--blue)">Denominador (4):</strong> Indica en cuántas partes iguales dividimos el todo.</p>
+
+      <div class="example-box">
+        Si una pizza tiene 4 porciones y comemos 3, la fracción es <strong>3/4</strong> (tres cuartos). ¡Comimos tres de las cuatro partes!
+      </div>
+
+      <h3>🎨 Representación Gráfica</h3>
+      <p>Haz clic en las piezas para pintarlas y ver la fracción:</p>
+      
+      <div id="interactiveFraction" style="text-align:center; margin: 20px 0;">
+        <div class="visual-fraction" id="piecesContainer"></div>
+        <p style="font-size:1.5rem; margin-top:15px;">
+          Fracción: 
+          <span class="fraction-display">
+            <span class="num" id="numDisplay">0</span>
+            <span class="den">8</span>
+          </span>
+        </p>
+        <p id="fractionWords" style="color:var(--purple); font-weight:bold; font-size:1.2rem;"></p>
+      </div>
+
+      <h3>📖 ¿Cómo se leen las fracciones?</h3>
+      <div class="info-box">
+        El denominador se lee así: 2=medios, 3=tercios, 4=cuartos, 5=quintos, 6=sextos, 7=séptimos, 8=octavos, 9=novenos, 10=décimos, 100=centésimos.
+      </div>
+
+      <button class="btn green" onclick="playSound('success'); nextLesson()">Siguiente lección ➡️</button>
+    </div>
+
+    <div class="lesson-box" id="lesson2" style="display:none;">
+      <h2>📏 La Recta Numérica</h2>
+      <p>Las fracciones también se pueden ubicar en la <strong>recta numérica</strong>. ¡Mira cómo!</p>
+      
+      <div class="number-line" id="numberLine1">
+        <div class="number-line-bar"></div>
+        <div class="number-line-point" style="left: 20px;">0</div>
+        <div class="number-line-point" style="right: 20px;">1</div>
+      </div>
+
+      <div class="example-box">
+        Para ubicar <strong>3/4</strong>, dividimos el segmento entre 0 y 1 en 4 partes iguales, y contamos 3 partes desde el 0.
+      </div>
+
+      <h3>🎯 ¡Practica tú!</h3>
+      <p>¿Qué fracción está marcada en la recta?</p>
+      
+      <div class="number-line" id="practiceLine" style="position:relative;">
+        <div class="number-line-bar"></div>
+        <div class="number-line-point" style="left: 20px;">0</div>
+        <div class="number-line-point" style="right: 20px;">1</div>
+        <div id="practiceMarker"></div>
+      </div>
+
+      <div class="options-grid" id="rectaOptions"></div>
+      <div id="rectaFeedback"></div>
+      
+      <button class="btn blue" onclick="generateRectaQuestion()">🔄 Nueva pregunta</button>
+    </div>
+  </section>
+
+  <!-- NÚMEROS MIXTOS -->
+  <section id="mixtos" class="section">
+    <div class="lesson-box">
+      <h2>🍕 Números Mixtos</h2>
+      <p>Cuando tenemos <strong>más de un entero</strong> y además una parte fraccionaria, usamos un <strong>número mixto</strong>.</p>
+
+      <div style="text-align:center; margin: 30px 0;">
+        <div style="display:inline-block; margin: 20px;">
+          <div style="font-size:1.2rem; color:var(--purple); font-weight:bold;">Dos enteros y tres octavos</div>
+          <div class="mixed-number">
+            <span class="whole">2</span>
+            <span class="fraction-display">
+              <span class="num">3</span>
+              <span class="den">8</span>
+            </span>
           </div>
-        );
+        </div>
+      </div>
 
-        const Confetti = () => {
-          const [particles, setParticles] = useState([]);
+      <div class="info-box">
+        Un <strong>número mixto</strong> tiene una parte entera y una parte fraccionaria. Por ejemplo: 2 3/8 significa 2 enteros más 3 octavos.
+      </div>
 
-          useEffect(() => {
-            const colors = ['#f43f5e', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'];
-            const newParticles = Array.from({ length: 50 }).map((_, i) => ({
-              id: i,
-              x: Math.random() * 100,
-              y: -20 - Math.random() * 20,
-              color: colors[Math.floor(Math.random() * colors.length)],
-              size: Math.random() * 10 + 5,
-              delay: Math.random() * 0.5,
-              duration: Math.random() * 2 + 2,
-            }));
-            setParticles(newParticles);
-          }, []);
+      <h3>🔄 Fracciones Impropias</h3>
+      <p>Cuando el numerador es <strong>mayor</strong> que el denominador, se llama <strong>fracción impropia</strong> y se puede escribir como número mixto.</p>
 
-          return (
-            <div className="absolute inset-0 overflow-hidden pointer-events-none z-50 rounded-3xl">
-              {particles.map((p) => (
-                <div
-                  key={p.id}
-                  className="absolute rounded-full"
-                  style={{
-                    left: `${p.x}%`,
-                    top: `${p.y}%`,
-                    width: `${p.size}px`,
-                    height: `${p.size}px`,
-                    backgroundColor: p.color,
-                    animation: `fall ${p.duration}s ease-in ${p.delay}s forwards`,
-                  }}
-                />
-              ))}
-            </div>
-          );
-        };
+      <div class="example-box">
+        <strong>11/4</strong> es una fracción impropia (11 > 4).<br>
+        Como número mixto es: <strong>2 3/4</strong> (2 enteros y 3 cuartos)
+      </div>
 
-        const HomeSection = ({ setTab }) => (
-          <div className="text-center animate-fade-in space-y-8">
-            <div className="bg-gradient-to-br from-yellow-300 to-orange-400 p-8 rounded-3xl shadow-lg text-white">
-              <h1 className="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-md">
-                ¡Bienvenido a la Aventura! 🚀
-              </h1>
-              <p className="text-xl font-medium max-w-2xl mx-auto">
-                Hoy exploraremos el Tema 2: <strong className="bg-white text-orange-500 px-2 py-1 rounded-lg">Con esfuerzo y dedicación</strong>. 
-                Aprenderemos sobre personajes increíbles, la vida en el campo, cómo escribir artículos y usaremos conectores.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { icon: '📚', title: 'Cuentos', desc: 'Historias de esfuerzo y superación.', tab: 'cuentos', color: 'bg-blue-100 text-blue-700' },
-                { icon: '🚜', title: 'Textos Informativos', desc: 'La vida en el campo y grandes obras.', tab: 'textos', color: 'bg-green-100 text-green-700' },
-                { icon: '✍️', title: 'Gramática', desc: 'Conectores para unir nuestras ideas.', tab: 'gramatica', color: 'bg-purple-100 text-purple-700' },
-                { icon: '🎮', title: 'Juegos', desc: '¡Pon a prueba lo que aprendiste!', tab: 'juegos', color: 'bg-pink-100 text-pink-700' },
-              ].map((item, i) => (
-                <button 
-                  key={i}
-                  onClick={() => { playSound('pop'); setTab(item.tab); }}
-                  className={`${item.color} p-6 rounded-3xl shadow-sm hover:shadow-xl transition-all transform hover:-translate-y-2 flex flex-col items-center gap-3 text-center`}
-                >
-                  <span className="text-5xl">{item.icon}</span>
-                  <h3 className="font-bold text-xl">{item.title}</h3>
-                  <p className="text-sm opacity-80">{item.desc}</p>
-                </button>
-              ))}
-            </div>
+      <h3>🎨 Visualización Interactiva</h3>
+      <p>Observa cómo se representa un número mixto con piezas:</p>
+
+      <div id="mixedVisual" style="text-align:center; margin: 20px 0;">
+        <div id="mixedPieces" style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;"></div>
+        <div style="margin-top:20px; font-size:1.5rem;">
+          <span class="mixed-number">
+            <span class="whole" id="mixedWhole">2</span>
+            <span class="fraction-display">
+              <span class="num" id="mixedNum">3</span>
+              <span class="den" id="mixedDen">4</span>
+            </span>
+          </span>
+        </div>
+        <div style="margin-top:10px;">
+          <button class="btn" onclick="changeMixed(-1)">◀ Anterior</button>
+          <button class="btn green" onclick="changeMixed(1)">Siguiente ▶</button>
+        </div>
+      </div>
+
+      <h3>🧮 ¿Cómo convertir?</h3>
+      <div class="info-box">
+        <strong>De fracción impropia a mixto:</strong><br>
+        Divide el numerador por el denominador. El cociente es la parte entera, el resto es el nuevo numerador.<br><br>
+        Ejemplo: 11 ÷ 4 = 2 (resto 3) → <strong>2 3/4</strong>
+      </div>
+
+      <button class="btn" onclick="playSound('click'); showSection('comparar', document.querySelectorAll('.nav-btn')[3])">Siguiente tema ➡️</button>
+    </div>
+  </section>
+
+  <!-- COMPARAR -->
+  <section id="comparar" class="section">
+    <div class="lesson-box">
+      <h2>⚖️ Comparar Fracciones</h2>
+      <p>Para comparar fracciones, debemos ver cuál representa <strong>mayor parte</strong> del entero.</p>
+
+      <h3>📏 Reglas importantes</h3>
+      <div class="info-box">
+        <strong>• Mismo denominador:</strong> Es mayor la que tiene mayor numerador.<br>
+        Ejemplo: 5/8 > 3/8<br><br>
+        <strong>• Distinto denominador:</strong> Buscamos un denominador común o usamos la recta numérica.
+      </div>
+
+      <h3>🎮 ¡Juega a comparar!</h3>
+      <p>¿Cuál fracción es mayor? Elige el símbolo correcto:</p>
+
+      <div class="compare-container" id="compareGame">
+        <div class="fraction-card">
+          <div class="fraction-display" style="font-size:2.5rem;">
+            <span class="num" id="frac1Num">3</span>
+            <span class="den" id="frac1Den">4</span>
           </div>
-        );
-
-        const StoriesSection = () => {
-          const [activeStory, setActiveStory] = useState(0);
-          
-          const stories = [
-            {
-              title: "El viejo tonto que quería mover las montañas",
-              icon: "⛰️",
-              content: "En la antigua China, en una zona de montañas muy altas, vivía un viejecito de noventa años con su mujer y sus hijos. Por las ventanas de su casa veían los altísimos montes Taijang y Wang-wu que les impedían llegar directo al mar. Todos los días hacían un enorme rodeo. Cansado de esto, reunió a su familia y propuso: '¿Y si todos juntos corriésemos las montañas?'. Su nuera dudó preguntando dónde pondrían tanta tierra, a lo que él respondió que vaciarían los baldes en el mar. Toda la familia, e incluso niños vecinos, comenzaron a trabajar muy atareados. Zuang, un hombre con fama de sabio, se burló de él diciéndole que era una tontería y estaba demasiado viejo para lograrlo. El anciano le respondió sabiamente: 'Cuando yo muera, quedarán mis hijos, y los hijos de mis hijos. Como las montañas no crecen, algún día habrá un camino directo'. Ante esa gran verdad, Zuang no supo qué responder y se marchó.",
-              lesson: "Con perseverancia, trabajo en equipo y dedicación, hasta las metas más imposibles se pueden lograr a través de las generaciones."
-            },
-            {
-              title: "La flor del cobre",
-              icon: "🌽",
-              content: "En un campito del sur vivían doña María Soplillo y su marido, don Quejumbre-No-Hace-Nada. Él era tan flojo que el campito era una maraña de zarzas y todo el día se quejaba de sus achaques. Un día, fue al pueblo y una 'misiá' (meica) le regaló unas semillas de 'la flor del cobre', que curarían todos sus males. Le recomendó sembrarlas todas en tierra limpia y bien barbechada. Don Quejumbre empezó a limpiar, arar y rastrillar el terreno entusiasmado. Pero misteriosamente la bolsita de semillas nunca se vaciaba, obligándolo a preparar más y más tierra por diez días. Al estar tan ocupado vigilando caracoles, regando y levantándose al alba, olvidó por completo sus quejumbres. Cuando las plantas crecieron, no dieron ninguna flor de cobre, ¡sino unos choclos (maíz) lindísimos! Doña María preparó ricas humitas y pasteles. Cosecharon tantos que los llevaron al mercado, sacaron muy buen precio y pudieron comprar ropa, una vaca, un burro, gallinas y herramientas. ¡El trabajo lo había vuelto un hombre diligente y sano!",
-              lesson: "El trabajo nos mantiene activos, saludables y nos da frutos reales para mejorar nuestra calidad de vida. (Ambiente Narrativo: El campo del sur)."
-            },
-            {
-              title: "El zapatero que quiso ser rico",
-              icon: "👞",
-              content: "Había un zapatero muy feliz que arreglaba calzado en su taller a cambio de trueques: el granjero le daba cuero, el herrero le daba clavos y otros pagaban con huevos. Un día, embobado al ver una gran mansión, decidió ser rico y cobrar muy caro a clientes importantes. Abandonó su taller, rechazó cambiarle botas por un cordero a un pastor y fue a ver a una dama millonaria. Tras arreglarle los zapatos, ella se indignó diciendo que jamás pagaba, pues era 'un honor' trabajar para ella. Luego, hizo elegantes botas para un almirante que zarpó sin siquiera darle las gracias. Triste, más pobre que nunca y sin materiales, volvió a su taller lamentando su desdicha. Al oírlo, el pastor regresó y aceptó encantado el trueque del cordero. Pronto todo el pueblo volvió a pagarle con gallinas y huevos. El zapatero comprendió que era inmensamente rico por tener su despensa llena, herramientas y un montón de amigos.",
-              lesson: "La verdadera riqueza no es el dinero, sino los amigos y la comunidad que valora honestamente tu trabajo."
-            }
-          ];
-
-          return (
-            <div className="space-y-6 animate-fade-in">
-              <h2 className="text-3xl font-bold text-orange-600 flex items-center gap-3">
-                <span>📚</span> Cuentos de Esfuerzo
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {stories.map((story, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => { playSound('pop'); setActiveStory(idx); }}
-                    className={`px-4 py-2 rounded-full font-bold transition-all ${
-                      activeStory === idx ? 'bg-orange-500 text-white shadow-md' : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                    }`}
-                  >
-                    {story.icon} {story.title}
-                  </button>
-                ))}
-              </div>
-              
-              <Card className="bg-yellow-50 border-4 border-yellow-200">
-                <h3 className="text-2xl font-bold mb-4 text-gray-800">
-                  {stories[activeStory].icon} {stories[activeStory].title}
-                </h3>
-                <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                  {stories[activeStory].content}
-                </p>
-                <div className="bg-green-100 border-l-4 border-green-500 p-4 rounded-r-lg">
-                  <strong className="text-green-800">💡 Enseñanza: </strong>
-                  <span className="text-green-700">{stories[activeStory].lesson}</span>
-                </div>
-                
-                {activeStory === 1 && (
-                  <div className="mt-6 bg-blue-50 p-4 rounded-xl border border-blue-200">
-                    <h4 className="font-bold text-blue-800 mb-2">🔎 Estrategia de Lectura: El Ambiente Narrativo</h4>
-                    <p className="text-sm text-blue-700">
-                      Es el espacio en el que se desarrolla una historia. Corresponde al lugar donde actúan los personajes. Para reconocerlo, fíjate dónde ocurren los hechos, si es un espacio cerrado o en el exterior (como el campo), el clima y los objetos que hay en el lugar.
-                    </p>
-                  </div>
-                )}
-              </Card>
-            </div>
-          );
-        };
-
-        const TextsSection = () => (
-          <div className="space-y-8 animate-fade-in">
-            <h2 className="text-3xl font-bold text-green-600 flex items-center gap-3">
-              <span>🚜</span> Textos Informativos
-            </h2>
-            
-            <div className="grid lg:grid-cols-2 gap-6">
-              <Card className="bg-green-50 border-2 border-green-200">
-                <h3 className="text-xl font-bold text-green-800 mb-4">La vida en el campo 🌱</h3>
-                <p className="mb-3 text-gray-700">
-                  En los amplios terrenos verdes alejados de la ciudad, los <strong>agricultores</strong> dedican su día a trabajar y cultivar la tierra. 
-                  Ellos siembran, cultivan y cosechan frutas, hortalizas y cereales (como espárragos, papas, cebollas, lechugas y maíz) para que lleguen a nuestra mesa.
-                </p>
-                <p className="mb-4 text-gray-700">
-                  Para que los árboles y vegetales crezcan bien, es necesario preparar la tierra. La forma tradicional es removerla con un <strong>azadón</strong> o usando un <strong>arado</strong> (una especie de carretilla tirada por personas o bueyes) para abrir surcos. Hoy también existen maquinarias que facilitan esta tarea. El proceso tiene 3 pasos clave:
-                </p>
-                <ul className="space-y-3">
-                  <li className="flex items-center gap-3 bg-white p-3 rounded-xl shadow-sm">
-                    <span className="text-3xl">1️⃣</span>
-                    <div>
-                      <strong className="block text-green-700">Barbechar el terreno</strong>
-                      <span className="text-sm text-gray-600">Preparar, limpiar de maleza y arar la tierra para cultivar.</span>
-                    </div>
-                  </li>
-                  <li className="flex items-center gap-3 bg-white p-3 rounded-xl shadow-sm">
-                    <span className="text-3xl">2️⃣</span>
-                    <div>
-                      <strong className="block text-green-700">Sembrar el campo</strong>
-                      <span className="text-sm text-gray-600">Esparcir y plantar las semillas en los surcos de la tierra.</span>
-                    </div>
-                  </li>
-                  <li className="flex items-center gap-3 bg-white p-3 rounded-xl shadow-sm">
-                    <span className="text-3xl">3️⃣</span>
-                    <div>
-                      <strong className="block text-green-700">Cosechar la siembra</strong>
-                      <span className="text-sm text-gray-600">Recoger los frutos, verduras y cereales cuando ya crecieron.</span>
-                    </div>
-                  </li>
-                </ul>
-              </Card>
-
-              <div className="space-y-6">
-                <Card className="bg-yellow-50 border-2 border-yellow-200">
-                  <h3 className="text-xl font-bold text-yellow-800 mb-3">¿Cómo investigar un tema? 🔍</h3>
-                  <p className="mb-4 text-gray-700 text-sm">
-                    Para escribir un artículo informativo (por ejemplo, sobre grandes construcciones como la <strong>Muralla China</strong> o los <strong>Moáis</strong>), primero debes recolectar información en libros o internet respondiendo estas 4 preguntas clave:
-                  </p>
-                  <div className="grid grid-cols-2 gap-3">
-                    {[
-                      { q: "¿Qué es?", desc: "Define si se trata de un monumento, estatua o construcción." },
-                      { q: "¿Cómo es?", desc: "Describe sus características físicas distintivas." },
-                      { q: "¿Dónde se encuentra?", desc: "Describe su ubicación geográfica y cultura." },
-                      { q: "¿Cómo se elaboró?", desc: "Detalles del proceso, propósito, materiales y herramientas." }
-                    ].map((item, i) => (
-                      <div key={i} className="bg-white p-3 rounded-lg shadow-sm border border-yellow-100">
-                        <strong className="block text-yellow-700 text-sm">{item.q}</strong>
-                        <span className="text-xs text-gray-600 leading-tight block mt-1">{item.desc}</span>
-                      </div>
-                    ))}
-                  </div>
-                </Card>
-
-                <Card className="bg-blue-50 border-2 border-blue-200">
-                  <h3 className="text-xl font-bold text-blue-800 mb-4">Estructura del Artículo 📰</h3>
-                  <p className="mb-4 text-gray-700 text-sm">
-                    Una vez que investigas (¡anotando tus fuentes!), organizas tu artículo informativo en estas 4 partes para presentarlo a tu curso:
-                  </p>
-                  <div className="space-y-2 relative">
-                    <div className="absolute left-4 top-4 bottom-4 w-1 bg-blue-300 rounded-full z-0"></div>
-                    
-                    {[
-                      { name: "Título", desc: "Informa de qué se tratará el artículo.", icon: "📌" },
-                      { name: "Introducción", desc: "Un párrafo para presentar el tema y datos generales.", icon: "👋" },
-                      { name: "Desarrollo", desc: "Dos o tres párrafos sobre las características específicas.", icon: "📖" },
-                      { name: "Cierre o Conclusión", desc: "Un párrafo para destacar la idea principal o una valoración.", icon: "✅" }
-                    ].map((part, i) => (
-                      <div key={i} className="relative z-10 flex gap-4 bg-white p-3 rounded-xl shadow-sm ml-8 before:content-[''] before:absolute before:-left-6 before:top-1/2 before:-translate-y-1/2 before:w-4 before:h-4 before:bg-blue-500 before:rounded-full">
-                        <span className="text-2xl">{part.icon}</span>
-                        <div>
-                          <strong className="block text-blue-700">{part.name}</strong>
-                          <span className="text-sm text-gray-600">{part.desc}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </Card>
-              </div>
-            </div>
+          <div id="visual1" style="margin-top:10px;"></div>
+        </div>
+        <div class="compare-symbol" id="compareSymbol">?</div>
+        <div class="fraction-card">
+          <div class="fraction-display" style="font-size:2.5rem;">
+            <span class="num" id="frac2Num">2</span>
+            <span class="den" id="frac2Den">4</span>
           </div>
-        );
+          <div id="visual2" style="margin-top:10px;"></div>
+        </div>
+      </div>
 
-        const GrammarSection = () => {
-          const connectors = [
-            { type: "Causa - Efecto", desc: "Introducen causas o consecuencias.", words: ["Porque", "ya que", "debido a", "por eso"], color: "bg-red-100 border-red-300 text-red-800" },
-            { type: "Oposición", desc: "Oponen una idea a otra.", words: ["Pero", "no obstante", "en cambio", "sin embargo"], color: "bg-yellow-100 border-yellow-300 text-yellow-800" },
-            { type: "Tiempo", desc: "Indican orden o momento temporal.", words: ["Después", "más tarde", "antes", "luego", "mientras"], color: "bg-blue-100 border-blue-300 text-blue-800" },
-            { type: "Adición", desc: "Añaden información nueva a la dicha.", words: ["Y", "también", "además"], color: "bg-green-100 border-green-300 text-green-800" }
-          ];
+      <div class="compare-btns">
+        <button onclick="checkCompare('<')">&lt;</button>
+        <button onclick="checkCompare('=')">=</button>
+        <button onclick="checkCompare('>')">&gt;</button>
+      </div>
 
-          return (
-            <div className="space-y-6 animate-fade-in">
-              <h2 className="text-3xl font-bold text-purple-600 flex items-center gap-3">
-                <span>✍️</span> Los Conectores
-              </h2>
-              <Card>
-                <p className="text-lg text-gray-700 mb-6">
-                  Los conectores son como puentes 🌉. Permiten relacionar o unir palabras, oraciones o párrafos para organizar la información y hacerla comprensible en tus artículos.
-                </p>
-                
-                <div className="grid md:grid-cols-2 gap-4">
-                  {connectors.map((c, i) => (
-                    <div key={i} className={`p-5 rounded-2xl border-2 shadow-sm ${c.color} transform transition hover:scale-105`}>
-                      <h3 className="font-bold text-xl mb-2">{c.type}</h3>
-                      <p className="text-sm mb-3 opacity-80">{c.desc}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {c.words.map((w, idx) => (
-                          <span key={idx} className="bg-white/60 px-3 py-1 rounded-lg text-sm font-semibold shadow-sm">
-                            {w}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+      <div id="compareFeedback"></div>
+      <button class="btn blue" onclick="newCompare()">🔄 Nueva comparación</button>
+    </div>
+  </section>
 
-                <div className="mt-8 p-6 bg-purple-50 rounded-2xl border-2 border-purple-200">
-                  <h4 className="font-bold text-purple-800 mb-3">Ejemplo en un texto:</h4>
-                  <p className="text-gray-700 text-lg leading-relaxed">
-                    El zapatero quería ser rico, <strong className="text-yellow-600 bg-yellow-100 px-1 rounded">pero</strong> (Oposición) los nobles no le pagaron. 
-                    <strong className="text-red-600 bg-red-100 px-1 rounded ml-1">Por eso</strong> (Causa-Efecto), volvió a su taller 
-                    <strong className="text-green-600 bg-green-100 px-1 rounded ml-1">y</strong> (Adición) se sintió feliz, 
-                    <strong className="text-blue-600 bg-blue-100 px-1 rounded ml-1">ya que</strong> (Causa-Efecto) sus verdaderos amigos lo esperaban.
-                  </p>
-                </div>
-              </Card>
-            </div>
-          );
-        };
+  <!-- JUEGOS -->
+  <section id="juegos" class="section">
+    <div class="hero">
+      <h1>🎮 ¡A Jugar!</h1>
+      <p>Elige un juego y gana estrellas ⭐</p>
+    </div>
 
-        const GameQuiz = ({ onComplete }) => {
-          const [qIndex, setQIndex] = useState(0);
-          const [score, setScore] = useState(0);
-          const [showResult, setShowResult] = useState(false);
-          const [selectedAnswer, setSelectedAnswer] = useState(null);
-          const [isCorrect, setIsCorrect] = useState(null);
-          const [userAnswers, setUserAnswers] = useState([]);
-          const [isReviewing, setIsReviewing] = useState(false);
-          
-          const questions = [
-            { q: "¿Qué proponía el viejo tonto para llegar al mar?", options: ["Volar en avión", "Mover las montañas", "Construir un barco"], a: 1 },
-            { q: "¿Qué era en realidad 'La flor del cobre'?", options: ["Una flor de metal", "Semillas de rosas", "Choclos (Maíz)"], a: 2 },
-            { q: "¿Con qué le pagaban sus vecinos al zapatero?", options: ["Billetes y oro", "Comida y materiales", "No le pagaban"], a: 1 },
-            { q: "¿Qué espacio físico corresponde al 'ambiente narrativo' de La flor del cobre?", options: ["Una ciudad espacial", "El puerto", "Un campito en el sur"], a: 2 }
-          ];
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showGame('game1', this)">🧩 Construir Fracción</button>
+      <button class="tab-btn" onclick="showGame('game2', this)">🎯 Adivina la Fracción</button>
+      <button class="tab-btn" onclick="showGame('game3', this)">🏃 Carrera de Fracciones</button>
+    </div>
 
-          const handleAnswer = (idx) => {
-            if (selectedAnswer !== null) return;
+    <!-- Juego 1: Construir fracción -->
+    <div id="game1" class="tab-content active">
+      <div class="game-area">
+        <h2 style="color:var(--purple);">🧩 Construye la fracción</h2>
+        <p>Forma la fracción que se pide usando las piezas</p>
+        
+        <div class="game-header">
+          <div class="game-stat">⭐ Estrellas: <span id="g1Stars">0</span></div>
+          <div class="game-stat">🎯 Ronda: <span id="g1Round">1</span>/5</div>
+        </div>
 
-            setSelectedAnswer(idx);
-            const correct = idx === questions[qIndex].a;
-            setIsCorrect(correct);
-            setUserAnswers(prev => [...prev, { selected: idx, isCorrect: correct }]);
+        <div class="target-fraction">
+          Forma: 
+          <span class="fraction-display" style="font-size:3rem;">
+            <span class="num" id="targetNum">2</span>
+            <span class="den" id="targetDen">5</span>
+          </span>
+        </div>
 
-            if (correct) {
-              playSound('success');
-              setScore(s => s + 1);
-            } else {
-              playSound('error');
-            }
-            
-            setTimeout(() => {
-              setSelectedAnswer(null);
-              setIsCorrect(null);
-              if (qIndex < questions.length - 1) {
-                setQIndex(qIndex + 1);
-              } else {
-                playSound('tada');
-                setShowResult(true);
-              }
-            }, 1200);
-          };
+        <p>Piezas disponibles (denominador = <span id="gameDen">5</span>):</p>
+        <div class="drag-pieces" id="gamePieces"></div>
+        
+        <p>Tu fracción:</p>
+        <div class="drop-zone" id="dropZone"></div>
+        
+        <div style="margin-top:15px;">
+          <button class="btn green" onclick="checkGame1()">✅ Verificar</button>
+          <button class="btn orange" onclick="resetGame1()">🔄 Reiniciar</button>
+        </div>
+        
+        <div id="game1Feedback"></div>
+      </div>
+    </div>
 
-          const resetGame = () => {
-            setQIndex(0);
-            setScore(0);
-            setShowResult(false);
-            setSelectedAnswer(null);
-            setIsCorrect(null);
-            setUserAnswers([]);
-            setIsReviewing(false);
-          };
+    <!-- Juego 2: Adivina -->
+    <div id="game2" class="tab-content">
+      <div class="game-area">
+        <h2 style="color:var(--purple);">🎯 Adivina la fracción</h2>
+        <p>Observa las piezas pintadas y elige la fracción correcta</p>
+        
+        <div class="game-header">
+          <div class="game-stat">⭐ Estrellas: <span id="g2Stars">0</span></div>
+          <div class="game-stat">🎯 Ronda: <span id="g2Round">1</span>/5</div>
+        </div>
 
-          if (isReviewing) {
-            return (
-              <div className="bg-white p-8 rounded-3xl shadow-xl animate-fade-in max-h-[80vh] overflow-y-auto">
-                <h3 className="text-3xl font-bold mb-6 text-pink-600 text-center">👀 Revisión del Quiz</h3>
-                <div className="space-y-6 mb-8">
-                  {questions.map((q, i) => (
-                    <div key={i} className={`p-4 rounded-xl border-2 ${userAnswers[i]?.isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'}`}>
-                      <p className="font-bold text-lg mb-2">{q.q}</p>
-                      <p className="text-gray-700">Tu respuesta: <span className="font-semibold">{q.options[userAnswers[i]?.selected]}</span> {userAnswers[i]?.isCorrect ? '✔️' : '❌'}</p>
-                      {!userAnswers[i]?.isCorrect && <p className="text-green-600 mt-1">Respuesta correcta: <span className="font-semibold">{q.options[q.a]}</span></p>}
-                    </div>
-                  ))}
-                </div>
-                <div className="flex justify-center">
-                  <button onClick={() => { playSound('pop'); setIsReviewing(false); }} className="bg-gray-500 text-white px-6 py-3 rounded-full font-bold hover:bg-gray-600 transition shadow-md">
-                    ⬅️ Volver a Resultados
-                  </button>
-                </div>
-              </div>
-            );
-          }
+        <div id="game2Visual" class="visual-fraction"></div>
+        <div class="options-grid" id="game2Options"></div>
+        <div id="game2Feedback"></div>
+      </div>
+    </div>
 
-          if (showResult) {
-            return (
-              <div className="text-center p-8 bg-white rounded-3xl shadow-xl relative overflow-hidden">
-                <Confetti />
-                <h3 className="text-3xl font-bold mb-4 text-pink-600">¡Quiz Terminado! 🎉</h3>
-                <div className="text-6xl mb-4">{score === questions.length ? '🏆' : '👍'}</div>
-                <p className="text-2xl mb-8 font-bold text-gray-700">Puntaje: {score} de {questions.length}</p>
-                <div className="flex justify-center gap-4 flex-wrap">
-                  <button onClick={() => { playSound('pop'); setIsReviewing(true); }} className="bg-blue-500 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-600 transition transform hover:scale-105 shadow-md">
-                    👀 Revisar
-                  </button>
-                  <button onClick={() => { playSound('pop'); resetGame(); }} className="bg-orange-500 text-white px-6 py-3 rounded-full font-bold hover:bg-orange-600 transition transform hover:scale-105 shadow-md">
-                    🔄 Volver a Jugar
-                  </button>
-                  <button onClick={() => { playSound('pop'); onComplete(); }} className="bg-pink-500 text-white px-6 py-3 rounded-full font-bold hover:bg-pink-600 transition transform hover:scale-105 shadow-md">
-                    ⬅️ Otros Juegos
-                  </button>
-                </div>
-              </div>
-            );
-          }
+    <!-- Juego 3: Carrera -->
+    <div id="game3" class="tab-content">
+      <div class="game-area">
+        <h2 style="color:var(--purple);">🏃 Ordena las fracciones</h2>
+        <p>Ordena las fracciones de MENOR a MAYOR haciendo clic en el orden correcto</p>
+        
+        <div class="game-header">
+          <div class="game-stat">⭐ Estrellas: <span id="g3Stars">0</span></div>
+          <div class="game-stat">🎯 Ronda: <span id="g3Round">1</span>/5</div>
+        </div>
 
-          return (
-            <div className="bg-white p-8 rounded-3xl shadow-xl">
-              <div className="flex justify-between text-gray-500 font-bold mb-6">
-                <span>Pregunta {qIndex + 1} de {questions.length}</span>
-                <span className="text-orange-500">⭐ {score} Puntos</span>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">{questions[qIndex].q}</h3>
-              <div className="space-y-3">
-                {questions[qIndex].options.map((opt, i) => {
-                  let btnClass = "w-full text-left p-4 rounded-xl border-2 font-medium text-lg transition-all duration-300 ";
-                  
-                  if (selectedAnswer === i) {
-                    btnClass += isCorrect ? "bg-green-100 border-green-500 text-green-800 scale-[1.02]" : "bg-red-100 border-red-500 text-red-800 scale-[0.98]";
-                  } else if (selectedAnswer !== null && i === questions[qIndex].a) {
-                    btnClass += "bg-green-50 border-green-400 text-green-700";
-                  } else {
-                    btnClass += "border-gray-200 hover:border-pink-500 hover:bg-pink-50 text-gray-700";
-                  }
+        <div id="game3Fracs" style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center; margin:20px 0;"></div>
+        
+        <p>Tu orden (de menor a mayor):</p>
+        <div class="drop-zone" id="game3Order" style="min-height:80px;"></div>
+        
+        <div>
+          <button class="btn green" onclick="checkGame3()">✅ Verificar</button>
+          <button class="btn orange" onclick="resetGame3()">🔄 Reiniciar</button>
+        </div>
+        
+        <div id="game3Feedback"></div>
+      </div>
+    </div>
+  </section>
 
-                  return (
-                    <button 
-                      key={i} 
-                      onClick={() => handleAnswer(i)}
-                      disabled={selectedAnswer !== null}
-                      className={btnClass}
-                    >
-                      {opt}
-                      {selectedAnswer === i && isCorrect && <span className="float-right">✔️</span>}
-                      {selectedAnswer === i && !isCorrect && <span className="float-right">❌</span>}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        };
+  <!-- QUIZ -->
+  <section id="quiz" class="section">
+    <div class="lesson-box">
+      <h2>📝 Evaluación Final</h2>
+      <p>¡Demuestra lo que aprendiste! Responde las preguntas y gana tu trofeo 🏆</p>
+      
+      <div class="progress-container">
+        <div class="progress-bar" id="quizProgress" style="width:0%">0/10</div>
+      </div>
 
-        const GameFarming = ({ onComplete }) => {
-          const [order, setOrder] = useState([]);
-          const [showResult, setShowResult] = useState(false);
-          const [isReviewing, setIsReviewing] = useState(false);
-          const steps = [
-            { id: 1, name: "Barbechar", emoji: "⛏️" },
-            { id: 2, name: "Sembrar", emoji: "🌱" },
-            { id: 3, name: "Cosechar", emoji: "🧺" }
-          ];
-          const [options, setOptions] = useState([...steps].sort(() => Math.random() - 0.5));
+      <div class="quiz-container" id="quizContainer">
+        <div class="quiz-question" id="quizQuestion"></div>
+        <div class="options-grid" id="quizOptions"></div>
+        <div id="quizFeedback"></div>
+      </div>
 
-          const handleClick = (item) => {
-            playSound('pop');
-            setOrder([...order, item]);
-            setOptions(options.filter(o => o.id !== item.id));
-          };
+      <div id="quizResult" style="display:none; text-align:center;">
+        <div class="trophy">🏆</div>
+        <h2 style="color:var(--purple); margin:20px 0;">¡Felicidades!</h2>
+        <p style="font-size:1.5rem;">Aciertos: <strong id="quizScore">0</strong>/10</p>
+        <p id="quizMessage" style="font-size:1.2rem; margin:20px 0;"></p>
+        <button class="btn" onclick="startQuiz()">🔄 Intentar de nuevo</button>
+      </div>
+    </div>
+  </section>
+</main>
 
-          const resetGame = () => {
-            setOrder([]);
-            setOptions([...steps].sort(() => Math.random() - 0.5));
-            setShowResult(false);
-            setIsReviewing(false);
-          };
+<!-- Modal de celebración -->
+<div class="modal" id="celebrationModal">
+  <div class="modal-content">
+    <div class="trophy">🎉</div>
+    <h2 id="modalTitle">¡Excelente!</h2>
+    <p id="modalText" style="font-size:1.2rem; margin:20px 0;"></p>
+    <button class="btn" onclick="closeModal()">Continuar ▶️</button>
+  </div>
+</div>
 
-          useEffect(() => {
-            if (order.length === 3) {
-              if (order[0].id === 1 && order[1].id === 2 && order[2].id === 3) {
-                playSound('tada');
-                setShowResult(true);
-              } else {
-                playSound('error');
-                setTimeout(() => {
-                  setOrder([]);
-                  setOptions([...steps].sort(() => Math.random() - 0.5));
-                }, 1000);
-              }
-            }
-          }, [order]);
+<script>
+// ============ ESTADO GLOBAL ============
+let state = {
+  stars: 0,
+  points: 0,
+  currentRecta: null,
+  compareAnswer: null,
+  mixedIndex: 0,
+  mixedExamples: [
+    {whole:1, num:1, den:2},
+    {whole:2, num:3, den:4},
+    {whole:1, num:2, den:3},
+    {whole:3, num:1, den:5},
+    {whole:2, num:5, den:6}
+  ],
+  game1: { target:{n:2,d:5}, selected:[], round:1, stars:0 },
+  game2: { correct:null, round:1, stars:0 },
+  game3: { fracs:[], order:[], sorted:[], round:1, stars:0 },
+  quiz: { questions:[], current:0, score:0 }
+};
 
-          if (isReviewing) {
-            return (
-              <div className="bg-white p-8 rounded-3xl shadow-xl text-center animate-fade-in">
-                <h3 className="text-3xl font-bold text-green-700 mb-6">👀 Orden Correcto</h3>
-                <div className="flex flex-col gap-4 mb-8 max-w-xs mx-auto">
-                  {steps.map((s, i) => (
-                    <div key={s.id} className="flex items-center gap-4 bg-green-50 p-4 rounded-xl border-2 border-green-200">
-                      <span className="text-3xl bg-white w-12 h-12 flex items-center justify-center rounded-full font-bold text-green-600 shadow-sm">{i + 1}</span>
-                      <span className="text-4xl">{s.emoji}</span>
-                      <span className="font-bold text-green-800 text-xl">{s.name}</span>
-                    </div>
-                  ))}
-                </div>
-                <button onClick={() => { playSound('pop'); setIsReviewing(false); }} className="bg-gray-500 text-white px-6 py-3 rounded-full font-bold hover:bg-gray-600 transition shadow-md">
-                  ⬅️ Volver a Resultados
-                </button>
-              </div>
-            );
-          }
+// ============ SONIDOS ============
+let audioCtx;
+function initAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+}
 
-          if (showResult) {
-            return (
-              <div className="bg-white p-8 rounded-3xl shadow-xl text-center relative overflow-hidden">
-                <Confetti />
-                <h3 className="text-3xl font-bold text-green-700 mb-4">¡Excelente! 🌱✨</h3>
-                <p className="text-xl text-gray-600 mb-8">Eres un gran agricultor, ordenaste todo perfectamente.</p>
-                <div className="flex justify-center gap-4 flex-wrap">
-                  <button onClick={() => { playSound('pop'); setIsReviewing(true); }} className="bg-blue-500 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-600 transition transform hover:scale-105 shadow-md">
-                    👀 Revisar
-                  </button>
-                  <button onClick={() => { playSound('pop'); resetGame(); }} className="bg-orange-500 text-white px-6 py-3 rounded-full font-bold hover:bg-orange-600 transition transform hover:scale-105 shadow-md">
-                    🔄 Volver a Jugar
-                  </button>
-                  <button onClick={() => { playSound('pop'); onComplete(); }} className="bg-green-600 text-white px-6 py-3 rounded-full font-bold hover:bg-green-700 transition transform hover:scale-105 shadow-md">
-                    ⬅️ Otros Juegos
-                  </button>
-                </div>
-              </div>
-            );
-          }
+function playSound(type) {
+  try {
+    initAudio();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    
+    const now = audioCtx.currentTime;
+    
+    if (type === 'click') {
+      osc.frequency.setValueAtTime(600, now);
+      osc.frequency.exponentialRampToValueAtTime(800, now + 0.1);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+      osc.start(now); osc.stop(now + 0.1);
+    } else if (type === 'success') {
+      osc.frequency.setValueAtTime(523, now);
+      osc.frequency.setValueAtTime(659, now + 0.1);
+      osc.frequency.setValueAtTime(784, now + 0.2);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+      osc.start(now); osc.stop(now + 0.4);
+    } else if (type === 'error') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(200, now);
+      osc.frequency.exponentialRampToValueAtTime(100, now + 0.3);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+      osc.start(now); osc.stop(now + 0.3);
+    } else if (type === 'win') {
+      [523, 659, 784, 1047].forEach((f, i) => {
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.connect(g); g.connect(audioCtx.destination);
+        o.frequency.setValueAtTime(f, now + i*0.1);
+        g.gain.setValueAtTime(0.2, now + i*0.1);
+        g.gain.exponentialRampToValueAtTime(0.01, now + i*0.1 + 0.2);
+        o.start(now + i*0.1); o.stop(now + i*0.1 + 0.2);
+      });
+    }
+  } catch(e) {}
+}
 
-          return (
-            <div className="bg-white p-8 rounded-3xl shadow-xl text-center">
-              <h3 className="text-2xl font-bold text-green-700 mb-2">Ordena el Cultivo 🚜</h3>
-              <p className="text-gray-600 mb-8">Haz clic en los pasos en el orden correcto para cultivar la tierra.</p>
-              
-              <div className="flex justify-center gap-4 mb-8 min-h-[100px]">
-                {[0,1,2].map((i) => (
-                  <div key={i} className={`w-28 h-28 border-4 ${order[i] ? 'border-green-400 bg-green-50 text-green-800 scale-105' : 'border-dashed border-gray-300 bg-gray-50 text-gray-400'} rounded-2xl flex flex-col items-center justify-center text-3xl transition-all duration-300`}>
-                    {order[i] ? (
-                      <>
-                        <span>{order[i].emoji}</span>
-                        <span className="text-sm mt-1 font-bold">{order[i].name}</span>
-                      </>
-                    ) : '?'}
-                  </div>
-                ))}
-              </div>
+// ============ NAVEGACIÓN ============
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  playSound('click');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  
+  if (id === 'lecciones') initLecciones();
+  if (id === 'mixtos') renderMixed();
+  if (id === 'comparar') newCompare();
+  if (id === 'juegos') { initGame1(); initGame2(); initGame3(); }
+  if (id === 'quiz') startQuiz();
+}
 
-              <div className="flex justify-center gap-4">
-                {options.map((opt) => (
-                  <button 
-                    key={opt.id}
-                    onClick={() => handleClick(opt)}
-                    className="px-6 py-3 bg-green-100 hover:bg-green-500 hover:text-white text-green-800 font-bold rounded-full transition transform hover:scale-110 shadow-sm flex flex-col items-center"
-                  >
-                    <span className="text-2xl">{opt.emoji}</span>
-                    <span>{opt.name}</span>
-                  </button>
-                ))}
-              </div>
-              
-              {order.length > 0 && order.length < 3 && (
-                <div className="mt-6 text-gray-500 font-medium animate-pulse">Sigue así...</div>
-              )}
-            </div>
-          );
-        };
+// ============ LECCIONES ============
+let piecesFilled = 0;
+function initLecciones() {
+  const container = document.getElementById('piecesContainer');
+  container.innerHTML = '';
+  piecesFilled = 0;
+  for (let i = 0; i < 8; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'piece empty';
+    piece.onclick = () => togglePiece(i, piece);
+    container.appendChild(piece);
+  }
+  updateFractionDisplay();
+  generateRectaQuestion();
+}
 
-        const GameConnectors = ({ onComplete }) => {
-          const words = [
-            { word: "Porque", type: "Causa", color: "red" },
-            { word: "Pero", type: "Oposición", color: "yellow" },
-            { word: "Después", type: "Tiempo", color: "blue" },
-            { word: "Además", type: "Adición", color: "green" },
-            { word: "Sin embargo", type: "Oposición", color: "yellow" },
-          ];
-          
-          const [currentIndex, setCurrentIndex] = useState(0);
-          const [score, setScore] = useState(0);
-          const [feedback, setFeedback] = useState(null);
-          const [showResult, setShowResult] = useState(false);
-          const [history, setHistory] = useState([]);
-          const [isReviewing, setIsReviewing] = useState(false);
+function togglePiece(idx, el) {
+  if (el.classList.contains('filled')) {
+    el.classList.remove('filled');
+    el.classList.add('empty');
+    piecesFilled--;
+  } else {
+    el.classList.remove('empty');
+    el.classList.add('filled');
+    piecesFilled++;
+    playSound('click');
+    createSparkle(el);
+  }
+  updateFractionDisplay();
+}
 
-          const handleGuess = (type) => {
-            if (feedback !== null) return;
+function updateFractionDisplay() {
+  document.getElementById('numDisplay').textContent = piecesFilled;
+  const words = {
+    0: 'Cero octavos',
+    1: 'Un octavo',
+    2: 'Dos octavos',
+    3: 'Tres octavos',
+    4: 'Cuatro octavos',
+    5: 'Cinco octavos',
+    6: 'Seis octavos',
+    7: 'Siete octavos',
+    8: 'Ocho octavos (¡un entero!)'
+  };
+  document.getElementById('fractionWords').textContent = words[piecesFilled] || '';
+}
 
-            const isCorrect = words[currentIndex].type === type;
-            setHistory(prev => [...prev, { word: words[currentIndex].word, guess: type, correct: words[currentIndex].type, isCorrect }]);
-            
-            if (isCorrect) {
-              playSound('success');
-              setScore(s => s + 1);
-              setFeedback('correct');
-            } else {
-              playSound('error');
-              setFeedback('wrong');
-            }
-            
-            setTimeout(() => {
-              setFeedback(null);
-              if (currentIndex < words.length - 1) {
-                setCurrentIndex(c => c + 1);
-              } else {
-                playSound('tada');
-                setShowResult(true);
-              }
-            }, 1000);
-          };
+function nextLesson() {
+  document.getElementById('lesson2').style.display = 'block';
+  document.getElementById('lesson2').scrollIntoView({behavior:'smooth'});
+}
 
-          const resetGame = () => {
-            setCurrentIndex(0);
-            setScore(0);
-            setFeedback(null);
-            setShowResult(false);
-            setHistory([]);
-            setIsReviewing(false);
-          };
+function generateRectaQuestion() {
+  const den = [2,3,4,5,6,8,10][Math.floor(Math.random()*7)];
+  const num = Math.floor(Math.random()*(den-1))+1;
+  state.currentRecta = {num, den};
+  
+  const marker = document.getElementById('practiceMarker');
+  const pos = 20 + (num/den) * (100 - 40*2/10); // ajustar
+  const lineEl = document.getElementById('practiceLine');
+  const width = lineEl.offsetWidth - 40;
+  const leftPx = 20 + (num/den) * width;
+  
+  marker.innerHTML = `<div class="fraction-marker" style="left:${leftPx}px;">?</div>`;
+  
+  // Generar opciones
+  const options = [];
+  options.push({n:num, d:den});
+  while (options.length < 4) {
+    const rn = Math.floor(Math.random()*(den-1))+1;
+    const rd = [2,3,4,5,6,8,10][Math.floor(Math.random()*7)];
+    if (!options.find(o => o.n===rn && o.d===rd) && rn/rd !== num/den) {
+      options.push({n:rn, d:rd});
+    }
+  }
+  options.sort(() => Math.random()-0.5);
+  
+  const optContainer = document.getElementById('rectaOptions');
+  optContainer.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="fraction-display"><span class="num">${opt.n}</span><span class="den">${opt.d}</span></span>`;
+    btn.onclick = () => checkRecta(opt, btn);
+    optContainer.appendChild(btn);
+  });
+  document.getElementById('rectaFeedback').innerHTML = '';
+}
 
-          if (isReviewing) {
-            return (
-              <div className="bg-white p-8 rounded-3xl shadow-xl animate-fade-in max-h-[80vh] overflow-y-auto">
-                <h3 className="text-3xl font-bold text-purple-700 mb-6 text-center">👀 Revisión de Conectores</h3>
-                <div className="space-y-4 mb-8">
-                  {history.map((h, i) => (
-                    <div key={i} className={`p-4 rounded-xl border-2 flex flex-col md:flex-row md:items-center justify-between gap-2 ${h.isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'}`}>
-                      <div className="text-xl font-bold text-gray-800">"{h.word}"</div>
-                      <div className="text-gray-700">
-                        Tu respuesta: <span className={`font-semibold px-2 py-1 rounded shadow-sm ${h.isCorrect ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}`}>{h.guess}</span>
-                        {!h.isCorrect && <span className="ml-2 text-green-700 block md:inline mt-2 md:mt-0">Correcto: <strong className="bg-green-200 px-2 py-1 rounded shadow-sm">{h.correct}</strong></span>}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex justify-center">
-                  <button onClick={() => { playSound('pop'); setIsReviewing(false); }} className="bg-gray-500 text-white px-6 py-3 rounded-full font-bold hover:bg-gray-600 transition shadow-md">
-                    ⬅️ Volver a Resultados
-                  </button>
-                </div>
-              </div>
-            );
-          }
+function checkRecta(opt, btn) {
+  const correct = opt.n === state.currentRecta.num && opt.d === state.currentRecta.den;
+  document.querySelectorAll('#rectaOptions .option-btn').forEach(b => b.disabled = true);
+  
+  if (correct) {
+    btn.classList.add('correct');
+    document.getElementById('rectaFeedback').innerHTML = '<div class="feedback success">✅ ¡Correcto! ¡Muy bien!</div>';
+    playSound('success');
+    addPoints(10);
+    createConfetti();
+  } else {
+    btn.classList.add('wrong');
+    document.getElementById('rectaFeedback').innerHTML = `<div class="feedback error">❌ La respuesta correcta era ${state.currentRecta.num}/${state.currentRecta.den}</div>`;
+    playSound('error');
+  }
+  setTimeout(() => {
+    document.querySelectorAll('#rectaOptions .option-btn').forEach(b => b.disabled = false);
+  }, 2000);
+}
 
-          if (showResult) {
-            return (
-              <div className="text-center p-8 bg-white rounded-3xl shadow-xl relative overflow-hidden">
-                <Confetti />
-                <h3 className="text-3xl font-bold mb-4 text-purple-700">¡Puentes Construidos! 🌉</h3>
-                <p className="text-2xl mb-8 font-bold text-gray-700">Clasificaste {score} de {words.length} conectores.</p>
-                <div className="flex justify-center gap-4 flex-wrap">
-                  <button onClick={() => { playSound('pop'); setIsReviewing(true); }} className="bg-blue-500 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-600 transition transform hover:scale-105 shadow-md">
-                    👀 Revisar
-                  </button>
-                  <button onClick={() => { playSound('pop'); resetGame(); }} className="bg-orange-500 text-white px-6 py-3 rounded-full font-bold hover:bg-orange-600 transition transform hover:scale-105 shadow-md">
-                    🔄 Volver a Jugar
-                  </button>
-                  <button onClick={() => { playSound('pop'); onComplete(); }} className="bg-purple-600 text-white px-6 py-3 rounded-full font-bold hover:bg-purple-700 transition transform hover:scale-105 shadow-md">
-                    ⬅️ Otros Juegos
-                  </button>
-                </div>
-              </div>
-            );
-          }
+// ============ NÚMEROS MIXTOS ============
+function renderMixed() {
+  const ex = state.mixedExamples[state.mixedIndex];
+  document.getElementById('mixedWhole').textContent = ex.whole;
+  document.getElementById('mixedNum').textContent = ex.num;
+  document.getElementById('mixedDen').textContent = ex.den;
+  
+  const container = document.getElementById('mixedPieces');
+  container.innerHTML = '';
+  
+  // Enteros completos
+  for (let i = 0; i < ex.whole; i++) {
+    const group = document.createElement('div');
+    group.style.display = 'flex';
+    group.style.gap = '3px';
+    group.style.background = 'rgba(160,108,213,0.1)';
+    group.style.padding = '8px';
+    group.style.borderRadius = '10px';
+    for (let j = 0; j < ex.den; j++) {
+      const p = document.createElement('div');
+      p.className = 'piece filled';
+      p.style.width = '30px';
+      p.style.height = '30px';
+      group.appendChild(p);
+    }
+    container.appendChild(group);
+  }
+  
+  // Parte fraccionaria
+  const fracGroup = document.createElement('div');
+  fracGroup.style.display = 'flex';
+  fracGroup.style.gap = '3px';
+  fracGroup.style.background = 'rgba(255,107,157,0.1)';
+  fracGroup.style.padding = '8px';
+  fracGroup.style.borderRadius = '10px';
+  for (let j = 0; j < ex.den; j++) {
+    const p = document.createElement('div');
+    p.className = j < ex.num ? 'piece filled' : 'piece empty';
+    p.style.width = '30px';
+    p.style.height = '30px';
+    fracGroup.appendChild(p);
+  }
+  container.appendChild(fracGroup);
+}
 
-          return (
-            <div className="bg-white p-8 rounded-3xl shadow-xl text-center">
-              <div className="flex justify-between text-gray-500 font-bold mb-4">
-                <span>Palabra {currentIndex + 1} de {words.length}</span>
-                <span className="text-purple-500">⭐ {score}</span>
-              </div>
-              <h3 className="text-2xl font-bold text-purple-700 mb-2">Clasifica el Conector 🌉</h3>
-              <p className="text-gray-600 mb-6">¿A qué tipo pertenece la siguiente palabra?</p>
-              
-              <div className={`text-4xl md:text-5xl font-extrabold text-gray-800 p-8 rounded-3xl mb-8 inline-block shadow-inner transition-colors duration-300 ${feedback === 'correct' ? 'bg-green-200' : feedback === 'wrong' ? 'bg-red-200' : 'bg-gray-100'}`}>
-                "{words[currentIndex].word}"
-                {feedback === 'correct' && <span className="absolute ml-4 text-green-600">✔️</span>}
-                {feedback === 'wrong' && <span className="absolute ml-4 text-red-600">❌</span>}
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                {["Causa", "Oposición", "Tiempo", "Adición"].map(type => (
-                  <button 
-                    key={type}
-                    onClick={() => handleGuess(type)}
-                    disabled={feedback !== null}
-                    className="p-4 rounded-xl font-bold text-white shadow-md transform transition hover:scale-105 active:scale-95 disabled:opacity-80 disabled:hover:scale-100"
-                    style={{ backgroundColor: type === "Causa" ? '#ef4444' : type === "Oposición" ? '#eab308' : type === "Tiempo" ? '#3b82f6' : '#22c55e' }}
-                  >
-                    {type}
-                  </button>
-                ))}
-              </div>
-            </div>
-          );
-        };
+function changeMixed(dir) {
+  playSound('click');
+  state.mixedIndex = (state.mixedIndex + dir + state.mixedExamples.length) % state.mixedExamples.length;
+  renderMixed();
+}
 
-        const GameTrueFalse = ({ onComplete }) => {
-          const questions = [
-            { q: "El zapatero cobraba carísimo a sus vecinos desde el principio.", a: false },
-            { q: "La dama millonaria le pagó al zapatero con mucho oro.", a: false },
-            { q: "Al final, el zapatero valoró más la amistad y el trueque que el dinero.", a: true },
-            { q: "El almirante le dio las gracias al zapatero por sus botas.", a: false }
-          ];
-          const [qIndex, setQIndex] = useState(0);
-          const [score, setScore] = useState(0);
-          const [showResult, setShowResult] = useState(false);
-          const [feedback, setFeedback] = useState(null);
-          const [history, setHistory] = useState([]);
-          const [isReviewing, setIsReviewing] = useState(false);
+// ============ COMPARAR ============
+function newCompare() {
+  const den = [4,5,6,8,10][Math.floor(Math.random()*5)];
+  const n1 = Math.floor(Math.random()*(den-1))+1;
+  let n2 = Math.floor(Math.random()*(den-1))+1;
+  
+  document.getElementById('frac1Num').textContent = n1;
+  document.getElementById('frac1Den').textContent = den;
+  document.getElementById('frac2Num').textContent = n2;
+  document.getElementById('frac2Den').textContent = den;
+  
+  // Visualizaciones
+  renderCompareVisual('visual1', n1, den);
+  renderCompareVisual('visual2', n2, den);
+  
+  if (n1 < n2) state.compareAnswer = '<';
+  else if (n1 > n2) state.compareAnswer = '>';
+  else state.compareAnswer = '=';
+  
+  document.getElementById('compareSymbol').textContent = '?';
+  document.getElementById('compareFeedback').innerHTML = '';
+}
 
-          const handleAnswer = (answer) => {
-            if (feedback !== null) return;
+function renderCompareVisual(containerId, num, den) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  container.style.display = 'flex';
+  container.style.gap = '3px';
+  container.style.justifyContent = 'center';
+  for (let i = 0; i < den; i++) {
+    const p = document.createElement('div');
+    p.className = i < num ? 'piece filled' : 'piece empty';
+    p.style.width = '25px';
+    p.style.height = '25px';
+    container.appendChild(p);
+  }
+}
 
-            const isCorrect = answer === questions[qIndex].a;
-            setHistory(prev => [...prev, { q: questions[qIndex].q, guess: answer, correct: questions[qIndex].a, isCorrect }]);
-            
-            if (isCorrect) {
-              playSound('success');
-              setScore(s => s + 1);
-              setFeedback('correct');
-            } else {
-              playSound('error');
-              setFeedback('wrong');
-            }
-            
-            setTimeout(() => {
-              setFeedback(null);
-              if (qIndex < questions.length - 1) {
-                setQIndex(qIndex + 1);
-              } else {
-                playSound('tada');
-                setShowResult(true);
-              }
-            }, 1200);
-          };
+function checkCompare(symbol) {
+  playSound('click');
+  const correct = symbol === state.compareAnswer;
+  document.getElementById('compareSymbol').textContent = symbol;
+  
+  if (correct) {
+    document.getElementById('compareFeedback').innerHTML = '<div class="feedback success">✅ ¡Correcto!</div>';
+    playSound('success');
+    addPoints(15);
+    createConfetti();
+  } else {
+    document.getElementById('compareFeedback').innerHTML = `<div class="feedback error">❌ La respuesta correcta era ${state.compareAnswer}</div>`;
+    playSound('error');
+  }
+}
 
-          const resetGame = () => {
-            setQIndex(0);
-            setScore(0);
-            setShowResult(false);
-            setFeedback(null);
-            setHistory([]);
-            setIsReviewing(false);
-          };
+// ============ JUEGOS ============
+function showGame(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  playSound('click');
+}
 
-          if (isReviewing) {
-            return (
-              <div className="bg-white p-8 rounded-3xl shadow-xl animate-fade-in max-h-[80vh] overflow-y-auto">
-                <h3 className="text-3xl font-bold text-blue-700 mb-6 text-center">👀 Revisión</h3>
-                <div className="space-y-4 mb-8">
-                  {history.map((h, i) => (
-                    <div key={i} className={`p-4 rounded-xl border-2 ${h.isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'}`}>
-                      <p className="font-bold text-lg mb-2 text-gray-800">{h.q}</p>
-                      <p className="text-gray-700">
-                        Tu respuesta: <span className="font-semibold">{h.guess ? 'Verdadero' : 'Falso'}</span> {h.isCorrect ? '✔️' : '❌'}
-                      </p>
-                      {!h.isCorrect && <p className="text-green-600 mt-1">Respuesta correcta: <span className="font-semibold">{h.correct ? 'Verdadero' : 'Falso'}</span></p>}
-                    </div>
-                  ))}
-                </div>
-                <div className="flex justify-center">
-                  <button onClick={() => { playSound('pop'); setIsReviewing(false); }} className="bg-gray-500 text-white px-6 py-3 rounded-full font-bold hover:bg-gray-600 transition shadow-md">
-                    ⬅️ Volver a Resultados
-                  </button>
-                </div>
-              </div>
-            );
-          }
+// Juego 1: Construir fracción
+function initGame1() {
+  const dens = [3,4,5,6,8];
+  const d = dens[Math.floor(Math.random()*dens.length)];
+  const n = Math.floor(Math.random()*(d-1))+1;
+  state.game1.target = {n, d};
+  state.game1.selected = [];
+  document.getElementById('targetNum').textContent = n;
+  document.getElementById('targetDen').textContent = d;
+  document.getElementById('gameDen').textContent = d;
+  document.getElementById('g1Round').textContent = state.game1.round;
+  document.getElementById('g1Stars').textContent = state.game1.stars;
+  
+  const pieces = document.getElementById('gamePieces');
+  pieces.innerHTML = '';
+  for (let i = 0; i < d; i++) {
+    const p = document.createElement('div');
+    p.className = 'drag-piece';
+    p.textContent = '🟪';
+    p.onclick = () => selectPiece(p, i);
+    pieces.appendChild(p);
+  }
+  document.getElementById('dropZone').innerHTML = '';
+  document.getElementById('game1Feedback').innerHTML = '';
+}
 
-          if (showResult) {
-            return (
-              <div className="bg-white p-8 rounded-3xl shadow-xl text-center relative overflow-hidden">
-                <Confetti />
-                <h3 className="text-3xl font-bold text-blue-700 mb-4">¡Fin del Juego! 👞</h3>
-                <p className="text-2xl font-bold text-gray-700 mb-8">Acertaste {score} de {questions.length}</p>
-                <div className="flex justify-center gap-4 flex-wrap">
-                  <button onClick={() => { playSound('pop'); setIsReviewing(true); }} className="bg-blue-500 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-600 transition transform hover:scale-105 shadow-md">
-                    👀 Revisar
-                  </button>
-                  <button onClick={() => { playSound('pop'); resetGame(); }} className="bg-orange-500 text-white px-6 py-3 rounded-full font-bold hover:bg-orange-600 transition transform hover:scale-105 shadow-md">
-                    🔄 Volver a Jugar
-                  </button>
-                  <button onClick={() => { playSound('pop'); onComplete(); }} className="bg-blue-600 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-700 transition transform hover:scale-105 shadow-md">
-                    ⬅️ Otros Juegos
-                  </button>
-                </div>
-              </div>
-            );
-          }
+function selectPiece(pieceEl, idx) {
+  if (pieceEl.classList.contains('used')) return;
+  if (state.game1.selected.length >= state.game1.target.d) return;
+  
+  pieceEl.classList.add('used');
+  state.game1.selected.push(idx);
+  
+  const drop = document.getElementById('dropZone');
+  const p = document.createElement('div');
+  p.className = 'drop-piece';
+  p.textContent = '🟪';
+  p.onclick = () => {
+    p.remove();
+    pieceEl.classList.remove('used');
+    state.game1.selected = state.game1.selected.filter(i => i !== idx);
+  };
+  drop.appendChild(p);
+  playSound('click');
+}
 
-          return (
-            <div className="bg-white p-8 rounded-3xl shadow-xl text-center">
-              <div className="flex justify-between text-gray-500 font-bold mb-4">
-                <span>Enunciado {qIndex + 1} de {questions.length}</span>
-                <span className="text-blue-500">⭐ {score}</span>
-              </div>
-              <h3 className="text-2xl font-bold text-blue-700 mb-6">Verdadero o Falso 👞</h3>
-              
-              <div className={`p-6 rounded-2xl mb-8 transition-colors duration-300 min-h-[120px] flex items-center justify-center ${feedback === 'correct' ? 'bg-green-100 border-2 border-green-400' : feedback === 'wrong' ? 'bg-red-100 border-2 border-red-400' : 'bg-gray-50 border-2 border-gray-200'}`}>
-                <p className="text-xl md:text-2xl font-medium text-gray-800">
-                  {questions[qIndex].q}
-                </p>
-                {feedback === 'correct' && <div className="absolute text-5xl opacity-50">✔️</div>}
-                {feedback === 'wrong' && <div className="absolute text-5xl opacity-50">❌</div>}
-              </div>
+function checkGame1() {
+  if (state.game1.selected.length !== state.game1.target.n) {
+    document.getElementById('game1Feedback').innerHTML = `<div class="feedback error">❌ Necesitas ${state.game1.target.n} piezas, tienes ${state.game1.selected.length}</div>`;
+    playSound('error');
+    return;
+  }
+  
+  document.getElementById('game1Feedback').innerHTML = '<div class="feedback success">✅ ¡Perfecto! ¡Ganaste una estrella!</div>';
+  playSound('win');
+  state.game1.stars++;
+  document.getElementById('g1Stars').textContent = state.game1.stars;
+  addPoints(20);
+  createConfetti();
+  
+  setTimeout(() => {
+    state.game1.round++;
+    if (state.game1.round > 5) {
+      showModal('¡Juego completado!', `Conseguiste ${state.game1.stars} estrellas 🌟`);
+      state.game1.round = 1;
+      state.game1.stars = 0;
+    }
+    initGame1();
+  }, 2000);
+}
 
-              <div className="flex justify-center gap-4 md:gap-8">
-                <button 
-                  onClick={() => handleAnswer(true)} 
-                  disabled={feedback !== null}
-                  className="w-full md:w-auto px-8 py-4 bg-green-500 text-white rounded-2xl font-bold text-xl hover:bg-green-600 transition shadow-lg transform hover:scale-105 active:scale-95 disabled:opacity-70 disabled:hover:scale-100"
-                >
-                  ✔️ Verdadero
-                </button>
-                <button 
-                  onClick={() => handleAnswer(false)} 
-                  disabled={feedback !== null}
-                  className="w-full md:w-auto px-8 py-4 bg-red-500 text-white rounded-2xl font-bold text-xl hover:bg-red-600 transition shadow-lg transform hover:scale-105 active:scale-95 disabled:opacity-70 disabled:hover:scale-100"
-                >
-                  ❌ Falso
-                </button>
-              </div>
-            </div>
-          );
-        };
+function resetGame1() {
+  state.game1.selected = [];
+  initGame1();
+}
 
-        const GameArticle = ({ onComplete }) => {
-          const parts = ["Título", "Introducción", "Desarrollo", "Conclusión"];
-          const definitions = [
-            { def: "Resume o valora la información.", match: "Conclusión" },
-            { def: "Informa de qué trata el texto brevemente.", match: "Título" },
-            { def: "Presenta el tema general.", match: "Introducción" },
-            { def: "Párrafos con características y detalles.", match: "Desarrollo" }
-          ];
-          
-          const [currentDef, setCurrentDef] = useState(0);
-          const [showResult, setShowResult] = useState(false);
-          const [feedback, setFeedback] = useState(null);
-          const [matched, setMatched] = useState([]);
-          const [isReviewing, setIsReviewing] = useState(false);
+// Juego 2: Adivina fracción
+function initGame2() {
+  const den = [4,5,6,8][Math.floor(Math.random()*4)];
+  const num = Math.floor(Math.random()*(den-1))+1;
+  state.game2.correct = {n:num, d:den};
+  document.getElementById('g2Round').textContent = state.game2.round;
+  document.getElementById('g2Stars').textContent = state.game2.stars;
+  
+  const visual = document.getElementById('game2Visual');
+  visual.innerHTML = '';
+  for (let i = 0; i < den; i++) {
+    const p = document.createElement('div');
+    p.className = i < num ? 'piece filled' : 'piece empty';
+    visual.appendChild(p);
+  }
+  
+  const options = [{n:num, d:den}];
+  while (options.length < 4) {
+    const rn = Math.floor(Math.random()*(den-1))+1;
+    if (!options.find(o => o.n===rn && o.d===den)) {
+      options.push({n:rn, d:den});
+    }
+  }
+  options.sort(() => Math.random()-0.5);
+  
+  const optContainer = document.getElementById('game2Options');
+  optContainer.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="fraction-display"><span class="num">${opt.n}</span><span class="den">${opt.d}</span></span>`;
+    btn.onclick = () => checkGame2(opt, btn);
+    optContainer.appendChild(btn);
+  });
+  document.getElementById('game2Feedback').innerHTML = '';
+}
 
-          const handleMatch = (part) => {
-            if (feedback !== null || matched.includes(part)) return;
+function checkGame2(opt, btn) {
+  const correct = opt.n === state.game2.correct.n && opt.d === state.game2.correct.d;
+  document.querySelectorAll('#game2Options .option-btn').forEach(b => b.disabled = true);
+  
+  if (correct) {
+    btn.classList.add('correct');
+    document.getElementById('game2Feedback').innerHTML = '<div class="feedback success">✅ ¡Correcto!</div>';
+    playSound('success');
+    state.game2.stars++;
+    document.getElementById('g2Stars').textContent = state.game2.stars;
+    addPoints(15);
+    createConfetti();
+  } else {
+    btn.classList.add('wrong');
+    document.getElementById('game2Feedback').innerHTML = `<div class="feedback error">❌ Era ${state.game2.correct.n}/${state.game2.correct.d}</div>`;
+    playSound('error');
+  }
+  
+  setTimeout(() => {
+    state.game2.round++;
+    if (state.game2.round > 5) {
+      showModal('¡Juego completado!', `Conseguiste ${state.game2.stars} estrellas 🌟`);
+      state.game2.round = 1;
+      state.game2.stars = 0;
+    }
+    initGame2();
+  }, 2000);
+}
 
-            if (part === definitions[currentDef].match) {
-              playSound('success');
-              setFeedback({ part, status: 'correct' });
-              setMatched([...matched, part]);
-              
-              setTimeout(() => {
-                setFeedback(null);
-                if (currentDef < definitions.length - 1) {
-                  setCurrentDef(c => c + 1);
-                } else {
-                  playSound('tada');
-                  setShowResult(true);
-                }
-              }, 1000);
-            } else {
-              playSound('error');
-              setFeedback({ part, status: 'wrong' });
-              setTimeout(() => setFeedback(null), 800);
-            }
-          };
+// Juego 3: Ordenar fracciones
+function initGame3() {
+  const den = [4,5,6,8][Math.floor(Math.random()*4)];
+  const nums = new Set();
+  while (nums.size < 4) {
+    nums.add(Math.floor(Math.random()*(den-1))+1);
+  }
+  const fracs = Array.from(nums).map(n => ({n, d:den}));
+  state.game3.sorted = [...fracs].sort((a,b) => a.n - b.n);
+  state.game3.order = [];
+  state.game3.fracs = fracs.sort(() => Math.random()-0.5);
+  document.getElementById('g3Round').textContent = state.game3.round;
+  document.getElementById('g3Stars').textContent = state.game3.stars;
+  
+  const container = document.getElementById('game3Fracs');
+  container.innerHTML = '';
+  state.game3.fracs.forEach((f, idx) => {
+    const card = document.createElement('div');
+    card.className = 'fraction-card';
+    card.style.cursor = 'pointer';
+    card.innerHTML = `<span class="fraction-display" style="font-size:2rem;"><span class="num">${f.n}</span><span class="den">${f.d}</span></span>`;
+    card.onclick = () => selectGame3Frac(f, card);
+    container.appendChild(card);
+  });
+  document.getElementById('game3Order').innerHTML = '';
+  document.getElementById('game3Feedback').innerHTML = '';
+}
 
-          const resetGame = () => {
-            setCurrentDef(0);
-            setShowResult(false);
-            setFeedback(null);
-            setMatched([]);
-            setIsReviewing(false);
-          };
+function selectGame3Frac(f, card) {
+  if (card.style.opacity === '0.3') return;
+  playSound('click');
+  state.game3.order.push(f);
+  card.style.opacity = '0.3';
+  
+  const order = document.getElementById('game3Order');
+  const item = document.createElement('div');
+  item.className = 'drop-piece';
+  item.innerHTML = `<span class="fraction-display" style="font-size:1rem;"><span class="num">${f.n}</span><span class="den">${f.d}</span></span>`;
+  order.appendChild(item);
+}
 
-          if (isReviewing) {
-            return (
-              <div className="bg-white p-8 rounded-3xl shadow-xl animate-fade-in">
-                <h3 className="text-3xl font-bold text-teal-700 mb-6 text-center">👀 Estructura Correcta</h3>
-                <div className="space-y-4 mb-8">
-                  {definitions.map((d, i) => (
-                    <div key={i} className="flex flex-col md:flex-row md:items-center bg-teal-50 border-2 border-teal-200 p-4 rounded-xl gap-4">
-                      <div className="bg-teal-500 text-white px-4 py-2 rounded-lg font-bold min-w-[140px] text-center shadow-sm">
-                        {d.match}
-                      </div>
-                      <div className="text-gray-700 font-medium">
-                        {d.def}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex justify-center">
-                  <button onClick={() => { playSound('pop'); setIsReviewing(false); }} className="bg-gray-500 text-white px-6 py-3 rounded-full font-bold hover:bg-gray-600 transition shadow-md">
-                    ⬅️ Volver a Resultados
-                  </button>
-                </div>
-              </div>
-            );
-          }
+function checkGame3() {
+  if (state.game3.order.length !== 4) {
+    document.getElementById('game3Feedback').innerHTML = '<div class="feedback error">❌ Selecciona las 4 fracciones</div>';
+    playSound('error');
+    return;
+  }
+  
+  const correct = state.game3.order.every((f, i) => f.n === state.game3.sorted[i].n);
+  if (correct) {
+    document.getElementById('game3Feedback').innerHTML = '<div class="feedback success">✅ ¡Orden perfecto!</div>';
+    playSound('win');
+    state.game3.stars++;
+    document.getElementById('g3Stars').textContent = state.game3.stars;
+    addPoints(25);
+    createConfetti();
+  } else {
+    const correctStr = state.game3.sorted.map(f => `${f.n}/${f.d}`).join(' < ');
+    document.getElementById('game3Feedback').innerHTML = `<div class="feedback error">❌ Orden correcto: ${correctStr}</div>`;
+    playSound('error');
+  }
+  
+  setTimeout(() => {
+    state.game3.round++;
+    if (state.game3.round > 5) {
+      showModal('¡Juego completado!', `Conseguiste ${state.game3.stars} estrellas 🌟`);
+      state.game3.round = 1;
+      state.game3.stars = 0;
+    }
+    initGame3();
+  }, 2500);
+}
 
-          if (showResult) {
-            return (
-              <div className="bg-white p-8 rounded-3xl shadow-xl text-center relative overflow-hidden">
-                 <Confetti />
-                 <h3 className="text-3xl font-bold text-teal-700 mb-4">¡Artículo Armado! 📝</h3>
-                 <p className="text-xl text-gray-600 mb-8">Conoces perfectamente la estructura de un artículo informativo.</p>
-                 <div className="flex justify-center gap-4 flex-wrap">
-                  <button onClick={() => { playSound('pop'); setIsReviewing(true); }} className="bg-blue-500 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-600 transition transform hover:scale-105 shadow-md">
-                    👀 Revisar
-                  </button>
-                  <button onClick={() => { playSound('pop'); resetGame(); }} className="bg-orange-500 text-white px-6 py-3 rounded-full font-bold hover:bg-orange-600 transition transform hover:scale-105 shadow-md">
-                    🔄 Volver a Jugar
-                  </button>
-                  <button onClick={() => { playSound('pop'); onComplete(); }} className="bg-teal-600 text-white px-6 py-3 rounded-full font-bold hover:bg-teal-700 transition transform hover:scale-105 shadow-md">
-                    ⬅️ Otros Juegos
-                  </button>
-                </div>
-              </div>
-            );
-          }
+function resetGame3() {
+  initGame3();
+}
 
-          return (
-            <div className="bg-white p-8 rounded-3xl shadow-xl text-center">
-              <div className="flex justify-between text-gray-500 font-bold mb-4">
-                <span>Definición {currentDef + 1} de {definitions.length}</span>
-              </div>
-              <h3 className="text-2xl font-bold text-teal-700 mb-2">Estructura del Artículo 📰</h3>
-              <p className="text-gray-600 mb-8">¿A qué parte del artículo corresponde esta definición?</p>
-              
-              <div className="text-xl md:text-2xl font-bold text-gray-800 bg-teal-50 border-2 border-teal-200 p-6 rounded-2xl mb-8 min-h-[100px] flex items-center justify-center shadow-inner">
-                "{definitions[currentDef].def}"
-              </div>
-              
-              <div className="flex flex-wrap justify-center gap-4">
-                {parts.map(p => {
-                  const isMatched = matched.includes(p);
-                  let btnClass = "px-6 py-3 border-2 rounded-xl font-bold transition-all duration-300 ";
-                  
-                  if (isMatched) {
-                     btnClass += "bg-green-100 border-green-500 text-green-700 opacity-50 cursor-not-allowed";
-                  } else if (feedback?.part === p && feedback.status === 'correct') {
-                     btnClass += "bg-green-500 border-green-600 text-white transform scale-110 shadow-lg";
-                  } else if (feedback?.part === p && feedback.status === 'wrong') {
-                     btnClass += "bg-red-500 border-red-600 text-white animate-shake";
-                  } else {
-                     btnClass += "bg-white border-gray-300 text-gray-700 hover:border-teal-500 hover:bg-teal-50 hover:text-teal-700 hover:-translate-y-1";
-                  }
+// ============ QUIZ ============
+function generateQuizQuestions() {
+  const questions = [];
+  
+  // Pregunta 1: Lectura
+  questions.push({
+    q: '¿Cómo se lee la fracción 3/5?',
+    options: ['Tres quintos', 'Cinco tercios', 'Tres cuartos', 'Tres medios'],
+    correct: 0
+  });
+  
+  // Pregunta 2: Numerador/denominador
+  questions.push({
+    q: 'En la fracción 4/7, ¿cuál es el denominador?',
+    options: ['4', '7', '11', '3'],
+    correct: 1
+  });
+  
+  // Pregunta 3: Representación
+  questions.push({
+    q: 'Si una pizza tiene 8 porciones y comemos 3, ¿qué fracción comimos?',
+    options: ['5/8', '3/8', '8/3', '3/5'],
+    correct: 1
+  });
+  
+  // Pregunta 4: Comparación
+  questions.push({
+    q: '¿Cuál fracción es mayor?',
+    options: ['2/6', '4/6', '1/6', '3/6'],
+    correct: 1
+  });
+  
+  // Pregunta 5: Número mixto
+  questions.push({
+    q: 'El número mixto 2 1/3 significa:',
+    options: ['2 enteros y 1 tercio', '2 tercios', '1 entero y 2 tercios', '3 enteros'],
+    correct: 0
+  });
+  
+  // Pregunta 6: Fracción impropia
+  questions.push({
+    q: '¿Cuál es una fracción impropia?',
+    options: ['2/5', '3/4', '7/3', '1/2'],
+    correct: 2
+  });
+  
+  // Pregunta 7: Conversión
+  questions.push({
+    q: 'La fracción 7/4 como número mixto es:',
+    options: ['1 1/4', '1 3/4', '2 1/4', '2 3/4'],
+    correct: 1
+  });
+  
+  // Pregunta 8: Recta numérica
+  questions.push({
+    q: '¿Dónde se ubica 1/2 en la recta numérica?',
+    options: ['Al inicio (0)', 'Justo en el medio entre 0 y 1', 'En el 1', 'Después del 1'],
+    correct: 1
+  });
+  
+  // Pregunta 9: Orden
+  questions.push({
+    q: 'Ordena de menor a mayor: 3/4, 1/4, 2/4',
+    options: ['3/4, 2/4, 1/4', '1/4, 2/4, 3/4', '2/4, 1/4, 3/4', '1/4, 3/4, 2/4'],
+    correct: 1
+  });
+  
+  // Pregunta 10: Problema
+  questions.push({
+    q: 'María pintó 5/8 de una pared y Pedro pintó 3/8. ¿Quién pintó más?',
+    options: ['Pedro', 'María', 'Pintaron igual', 'No se puede saber'],
+    correct: 1
+  });
+  
+  return questions.sort(() => Math.random()-0.5);
+}
 
-                  return (
-                    <button 
-                      key={p} 
-                      onClick={() => handleMatch(p)}
-                      disabled={isMatched || feedback !== null}
-                      className={btnClass}
-                    >
-                      {p}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        };
+function startQuiz() {
+  state.quiz.questions = generateQuizQuestions();
+  state.quiz.current = 0;
+  state.quiz.score = 0;
+  document.getElementById('quizResult').style.display = 'none';
+  document.getElementById('quizContainer').style.display = 'block';
+  showQuizQuestion();
+}
 
-        const GamesHub = () => {
-          const [activeGame, setActiveGame] = useState(null);
+function showQuizQuestion() {
+  const q = state.quiz.questions[state.quiz.current];
+  document.getElementById('quizQuestion').textContent = `${state.quiz.current+1}. ${q.q}`;
+  document.getElementById('quizFeedback').innerHTML = '';
+  
+  const progress = (state.quiz.current / 10) * 100;
+  const bar = document.getElementById('quizProgress');
+  bar.style.width = progress + '%';
+  bar.textContent = `${state.quiz.current}/10`;
+  
+  const optContainer = document.getElementById('quizOptions');
+  optContainer.innerHTML = '';
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = opt;
+    btn.onclick = () => checkQuizAnswer(idx, btn);
+    optContainer.appendChild(btn);
+  });
+}
 
-          const gamesList = [
-            { id: 1, name: "Quiz de Cuentos", icon: "❓", color: "bg-pink-100 text-pink-700" },
-            { id: 2, name: "Ordena el Cultivo", icon: "🚜", color: "bg-green-100 text-green-700" },
-            { id: 3, name: "Clasifica el Conector", icon: "🌉", color: "bg-purple-100 text-purple-700" },
-            { id: 4, name: "Verdadero o Falso", icon: "✔️", color: "bg-blue-100 text-blue-700" },
-            { id: 5, name: "Arma el Artículo", icon: "📰", color: "bg-teal-100 text-teal-700" }
-          ];
+function checkQuizAnswer(idx, btn) {
+  const q = state.quiz.questions[state.quiz.current];
+  document.querySelectorAll('#quizOptions .option-btn').forEach(b => b.disabled = true);
+  
+  if (idx === q.correct) {
+    btn.classList.add('correct');
+    document.getElementById('quizFeedback').innerHTML = '<div class="feedback success">✅ ¡Correcto!</div>';
+    playSound('success');
+    state.quiz.score++;
+    addPoints(10);
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('#quizOptions .option-btn')[q.correct].classList.add('correct');
+    document.getElementById('quizFeedback').innerHTML = `<div class="feedback error">❌ La respuesta era: ${q.options[q.correct]}</div>`;
+    playSound('error');
+  }
+  
+  setTimeout(() => {
+    state.quiz.current++;
+    if (state.quiz.current >= 10) {
+      finishQuiz();
+    } else {
+      showQuizQuestion();
+    }
+  }, 2000);
+}
 
-          if (activeGame) {
-            return (
-              <div className="animate-fade-in relative max-w-3xl mx-auto">
-                <button 
-                  onClick={() => { playSound('pop'); setActiveGame(null); }}
-                  className="absolute -top-12 left-0 font-bold text-gray-500 hover:text-pink-600 flex items-center gap-2"
-                >
-                  ⬅️ Volver a los juegos
-                </button>
-                {activeGame === 1 && <GameQuiz onComplete={() => setActiveGame(null)} />}
-                {activeGame === 2 && <GameFarming onComplete={() => setActiveGame(null)} />}
-                {activeGame === 3 && <GameConnectors onComplete={() => setActiveGame(null)} />}
-                {activeGame === 4 && <GameTrueFalse onComplete={() => setActiveGame(null)} />}
-                {activeGame === 5 && <GameArticle onComplete={() => setActiveGame(null)} />}
-              </div>
-            );
-          }
+function finishQuiz() {
+  document.getElementById('quizContainer').style.display = 'none';
+  document.getElementById('quizResult').style.display = 'block';
+  document.getElementById('quizScore').textContent = state.quiz.score;
+  
+  const bar = document.getElementById('quizProgress');
+  bar.style.width = '100%';
+  bar.textContent = '10/10';
+  
+  let msg = '';
+  if (state.quiz.score === 10) {
+    msg = '🌟 ¡PERFECTO! ¡Eres un experto en fracciones!';
+    addPoints(100);
+    playSound('win');
+    createConfetti();
+    createConfetti();
+  } else if (state.quiz.score >= 8) {
+    msg = '🎉 ¡Excelente trabajo! ¡Casi perfecto!';
+    addPoints(50);
+    playSound('win');
+    createConfetti();
+  } else if (state.quiz.score >= 6) {
+    msg = '😊 ¡Muy bien! Sigue practicando.';
+    addPoints(30);
+    playSound('success');
+  } else if (state.quiz.score >= 4) {
+    msg = '💪 ¡Buen intento! Repasa las lecciones.';
+    playSound('click');
+  } else {
+    msg = '📚 ¡No te rindas! Vuelve a revisar las lecciones.';
+    playSound('click');
+  }
+  document.getElementById('quizMessage').textContent = msg;
+}
 
-          return (
-            <div className="space-y-6 animate-fade-in">
-              <h2 className="text-3xl font-bold text-pink-600 flex items-center gap-3">
-                <span>🎮</span> Zona de Juegos
-              </h2>
-              <p className="text-lg text-gray-700 mb-4">
-                ¡Demuestra lo que aprendiste! Elige un juego para empezar. Cada acierto suena bien. 🎵
-              </p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {gamesList.map((g) => (
-                  <button
-                    key={g.id}
-                    onClick={() => { playSound('pop'); setActiveGame(g.id); }}
-                    className={`${g.color} p-6 rounded-3xl border-2 border-transparent hover:border-current transition-all transform hover:-translate-y-2 hover:shadow-xl flex flex-col items-center justify-center min-h-[160px]`}
-                  >
-                    <span className="text-5xl mb-3">{g.icon}</span>
-                    <span className="font-bold text-xl">{g.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          );
-        };
+// ============ UTILIDADES ============
+function addPoints(p) {
+  state.points += p;
+  state.stars++;
+  document.getElementById('totalPoints').textContent = state.points;
+  document.getElementById('totalStars').textContent = state.stars;
+}
 
-        const App = () => {
-          const [tab, setTab] = useState('inicio');
+function createConfetti() {
+  const colors = ['#ff6b9d', '#a06cd5', '#4d96ff', '#6bcf7f', '#ffd93d', '#ff8c42'];
+  for (let i = 0; i < 30; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.top = '-20px';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDelay = Math.random()*0.5 + 's';
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3500);
+  }
+}
 
-          return (
-            <div className="min-h-screen font-sans text-gray-800 pb-20">
-              {/* Header */}
-              <header className="bg-white shadow-sm sticky top-0 z-50">
-                <div className="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-orange-500 text-white w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-lg">
-                      🦉
-                    </div>
-                    <h1 className="text-2xl font-extrabold text-gray-800 tracking-tight">
-                      Edu<span className="text-orange-500">Cuentos</span>
-                    </h1>
-                  </div>
-                  
-                  <nav className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
-                    <NavButton active={tab === 'inicio'} onClick={() => setTab('inicio')} icon="🏠" text="Inicio" />
-                    <NavButton active={tab === 'cuentos'} onClick={() => setTab('cuentos')} icon="📚" text="Cuentos" />
-                    <NavButton active={tab === 'textos'} onClick={() => setTab('textos')} icon="🚜" text="Textos" />
-                    <NavButton active={tab === 'gramatica'} onClick={() => setTab('gramatica')} icon="✍️" text="Gramática" />
-                    <NavButton active={tab === 'juegos'} onClick={() => setTab('juegos')} icon="🎮" text="Juegos" />
-                  </nav>
-                </div>
-              </header>
+function createSparkle(el) {
+  const rect = el.getBoundingClientRect();
+  const s = document.createElement('div');
+  s.className = 'sparkle';
+  s.textContent = '✨';
+  s.style.left = rect.left + rect.width/2 + 'px';
+  s.style.top = rect.top + 'px';
+  s.style.position = 'fixed';
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 1000);
+}
 
-              {/* Main Content Area */}
-              <main className="max-w-6xl mx-auto px-4 py-8">
-                {tab === 'inicio' && <HomeSection setTab={setTab} />}
-                {tab === 'cuentos' && <StoriesSection />}
-                {tab === 'textos' && <TextsSection />}
-                {tab === 'gramatica' && <GrammarSection />}
-                {tab === 'juegos' && <GamesHub />}
-              </main>
-              
-              {/* Footer */}
-              <footer className="text-center text-gray-400 text-sm py-8">
-                Materia basada en: "Unidad 3 tema 2: Con esfuerzo y dedicación".
-              </footer>
-            </div>
-          );
-        }
+function showModal(title, text) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalText').textContent = text;
+  document.getElementById('celebrationModal').classList.add('show');
+  playSound('win');
+  createConfetti();
+}
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
+function closeModal() {
+  document.getElementById('celebrationModal').classList.remove('show');
+  playSound('click');
+}
+
+// Inicialización
+window.addEventListener('load', () => {
+  initLecciones();
+  setTimeout(() => {
+    playSound('success');
+  }, 500);
+});
+
+// Click inicial para activar audio
+document.addEventListener('click', () => initAudio(), {once: true});
+</script>
+
 </body>
 </html>
+```
