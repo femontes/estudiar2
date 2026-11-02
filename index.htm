@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MateArte · Unidad 3: El arte — Matemática 4° Básico</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/fredoka@5.1.0/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/fredoka@5.1.0/600.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/fredoka@5.1.0/700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/nunito@5.1.0/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/nunito@5.1.0/700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/nunito@5.1.0/800.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/nunito@5.1.0/900.css">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        display: ['Fredoka','Nunito','system-ui','sans-serif'],
+        body: ['Nunito','system-ui','sans-serif']
+      }
+    }
+  }
+}
+</script>
+
+<style>
+:root{
+  --violet:#7c3aed; --violet2:#a855f7; --pink:#ec4899; --amber:#f59e0b;
+  --emerald:#10b981; --sky:#0ea5e9; --ink:#1e293b;
+}
+*{-webkit-tap-highlight-color:transparent}
+html,body{overflow-x:hidden}
+body{
+  font-family:'Nunito',system-ui,sans-serif;
+  background:
+    radial-gradient(1100px 600px at 12% -8%, #ede9fe 0%, transparent 60%),
+    radial-gradient(900px 520px at 100% 0%, #fce7f3 0%, transparent 55%),
+    radial-gradient(900px 600px at 50% 110%, #e0f2fe 0%, transparent 55%),
+    #fbfaff;
+  color:var(--ink);
+  min-height:100vh;
+}
+h1,h2,h3,.font-display{font-family:'Fredoka','Nunito',system-ui,sans-serif}
+
+/* ---------- decor ---------- */
+.blob{position:fixed;border-radius:50%;filter:blur(2px);opacity:.5;pointer-events:none;z-index:0;animation:floaty 9s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-22px) rotate(12deg)}}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:40;backdrop-filter:blur(10px);background:rgba(255,255,255,.86);border-bottom:3px solid #ede9fe}
+.stat{display:flex;align-items:center;gap:.35rem;font-weight:900;padding:.3rem .6rem;border-radius:999px;background:#fff;border:2px solid #e9e5ff;box-shadow:0 2px 0 #ece9ff;font-size:.9rem}
+.stat.lives{border-color:#fecdd3}
+.stat.exp{border-color:#ddd6fe}
+.stat.coins{border-color:#fde68a}
+.stat.streak{border-color:#fed7aa}
+.navbtn{font-weight:800;padding:.5rem .9rem;border-radius:999px;transition:.2s;border:2px solid transparent}
+.navbtn:hover{background:#f5f3ff}
+.navbtn.active{background:linear-gradient(135deg,var(--violet),var(--pink));color:#fff;box-shadow:0 6px 0 #c4b5fd}
+
+/* ---------- cards ---------- */
+.card{background:#fff;border-radius:26px;border:3px solid #ece9ff;box-shadow:0 10px 0 #efecff, 0 18px 34px -18px rgba(76,29,149,.35)}
+.tile{transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s}
+.tile:hover{transform:translateY(-6px) rotate(-.6deg);box-shadow:0 16px 0 #e6e1ff,0 26px 40px -20px rgba(76,29,149,.45)}
+.btn{font-family:'Fredoka',sans-serif;font-weight:700;border-radius:999px;padding:.75rem 1.4rem;border:none;cursor:pointer;transition:transform .12s, filter .2s;box-shadow:0 5px 0 rgba(0,0,0,.16)}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.16)}
+.btn-primary{background:linear-gradient(135deg,#8b5cf6,#ec4899);color:#fff}
+.btn-sky{background:linear-gradient(135deg,#38bdf8,#6366f1);color:#fff}
+.btn-amber{background:linear-gradient(135deg,#fbbf24,#f97316);color:#fff}
+.btn-mint{background:linear-gradient(135deg,#34d399,#0ea5e9);color:#fff}
+.btn-ghost{background:#fff;color:#6d28d9;border:3px solid #ddd6fe;box-shadow:0 5px 0 #ede9fe}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+
+/* ---------- fractions ---------- */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;font-weight:900;margin:0 .18em}
+.frac .fn{padding:0 .3em;border-bottom:3px solid currentColor}
+.frac .fd{padding:0 .3em}
+.mixed{display:inline-flex;align-items:center;gap:.12em;vertical-align:middle}
+.mixed .fw{font-weight:900}
+
+/* ---------- options ---------- */
+.opt{display:flex;align-items:center;gap:.75rem;text-align:left;background:#fff;border:3px solid #e6e1ff;border-radius:20px;padding:.85rem 1rem;font-weight:800;font-size:1.05rem;cursor:pointer;transition:.15s;box-shadow:0 4px 0 #eeeaff;width:100%}
+.opt:hover:not(:disabled){border-color:#c4b5fd;transform:translateY(-2px);background:#faf8ff}
+.opt-k{flex:0 0 auto;width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,#a78bfa,#f472b6);color:#fff;display:grid;place-items:center;font-family:'Fredoka';font-weight:700}
+.opt.good{border-color:#10b981;background:#ecfdf5;box-shadow:0 4px 0 #a7f3d0}
+.opt.good .opt-k{background:linear-gradient(135deg,#34d399,#10b981)}
+.opt.bad{border-color:#f87171;background:#fef2f2;box-shadow:0 4px 0 #fecaca;animation:shake .4s}
+.opt.bad .opt-k{background:linear-gradient(135deg,#fb7185,#ef4444)}
+.opt.sel{border-color:#f59e0b;background:#fffbeb;box-shadow:0 4px 0 #fde68a}
+
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.shake{animation:shake .45s}
+.pop{animation:pop .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
+
+/* ---------- cells / grids ---------- */
+.cells{display:grid;gap:5px;justify-content:center;touch-action:manipulation}
+.cell{aspect-ratio:1/1;border-radius:10px;background:#fff;border:3px solid #cbd5e1;cursor:pointer;transition:.14s;min-width:22px}
+.cell:hover{border-color:#a78bfa;transform:scale(1.05)}
+.cell.on{background:linear-gradient(135deg,#a78bfa,#ec4899);border-color:#7c3aed;box-shadow:inset 0 -4px 0 rgba(0,0,0,.15)}
+.cell.locked{background:linear-gradient(135deg,#38bdf8,#6366f1);border-color:#3730a3;cursor:default;box-shadow:inset 0 -4px 0 rgba(0,0,0,.18)}
+.cell.locked:hover{transform:none}
+.gridbox{position:relative;padding:10px;background:#fff;border:3px dashed #ddd6fe;border-radius:22px;display:inline-block}
+.axis-v,.axis-h{position:absolute;background:repeating-linear-gradient(90deg,#ef4444 0 8px,transparent 8px 15px);pointer-events:none;z-index:5}
+.axis-v{top:6px;bottom:6px;width:4px;border-radius:4px;background:repeating-linear-gradient(180deg,#ef4444 0 8px,#fff0 8px 15px)}
+.axis-h{left:6px;right:6px;height:4px;border-radius:4px}
+
+/* ---------- drag & drop ---------- */
+.chip{display:inline-flex;align-items:center;justify-content:center;gap:.3rem;background:#fff;border:3px solid #c4b5fd;border-radius:16px;padding:.55rem .85rem;font-weight:900;font-size:1.05rem;cursor:grab;box-shadow:0 4px 0 #ddd6fe;transition:.15s;user-select:none}
+.chip:hover{transform:translateY(-3px)}
+.chip.sel{background:linear-gradient(135deg,#fde68a,#fbbf24);border-color:#f59e0b;box-shadow:0 4px 0 #fcd34d;transform:scale(1.06)}
+.chip.used{opacity:.3;pointer-events:none;filter:grayscale(1)}
+.chip.dragging{opacity:.4}
+.slot{min-height:56px;border:3px dashed #a5b4fc;border-radius:16px;background:#f8faff;display:grid;place-items:center;padding:.35rem;transition:.15s}
+.slot.over{background:#eef2ff;border-color:#6366f1;transform:scale(1.05)}
+.slot.done{border-style:solid;border-color:#10b981;background:#ecfdf5}
+.slot.err{animation:shake .4s;border-color:#f87171;background:#fef2f2}
+
+.nl{position:relative;height:120px;margin:1.2rem .5rem 0}
+.nl-line{position:absolute;left:0;right:0;top:56px;height:6px;border-radius:6px;background:linear-gradient(90deg,#6366f1,#ec4899)}
+.nl-tick{position:absolute;top:44px;width:3px;height:30px;background:#94a3b8;border-radius:2px;transform:translateX(-1.5px)}
+.nl-lab{position:absolute;top:80px;transform:translateX(-50%);font-weight:900;color:#475569;font-size:.85rem}
+.nl-slot{position:absolute;top:56px;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;border:4px dashed #a5b4fc;background:#fff;display:grid;place-items:center;cursor:pointer;z-index:3;transition:.15s}
+.nl-slot.over{border-color:#6366f1;background:#eef2ff;transform:translate(-50%,-50%) scale(1.12)}
+.nl-slot.done{border-style:solid;border-color:#10b981;background:#ecfdf5}
+.nl-slot.err{animation:shake .4s;border-color:#f87171}
+
+/* ---------- balance ---------- */
+.bal{position:relative;width:340px;height:210px;margin:0 auto}
+.bal-base{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:150px;height:14px;border-radius:10px;background:linear-gradient(#94a3b8,#64748b)}
+.bal-post{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:14px;height:74px;border-radius:8px;background:linear-gradient(#cbd5e1,#94a3b8)}
+.beam{position:absolute;top:78px;left:50%;width:300px;height:12px;margin-left:-150px;border-radius:8px;background:linear-gradient(#a78bfa,#7c3aed);transform-origin:50% 50%;transition:transform .55s cubic-bezier(.34,1.4,.64,1)}
+.holder{position:absolute;top:6px;width:2px;height:34px;background:#94a3b8}
+.holder.l{left:6px}.holder.r{right:6px}
+.pan{position:absolute;top:38px;left:50%;transform:translateX(-50%);width:124px;min-height:64px;border-radius:0 0 62px 62px;background:linear-gradient(#fde68a,#fbbf24);border:3px solid #d97706;border-top:none;display:flex;flex-wrap:wrap;align-content:flex-start;justify-content:center;gap:3px;padding:8px 6px;transition:transform .55s cubic-bezier(.34,1.4,.64,1)}
+.dot{width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#93c5fd,#2563eb);box-shadow:0 2px 0 #1e40af}
+.dot.x{background:radial-gradient(circle at 30% 30%,#f9a8d4,#db2777);box-shadow:0 2px 0 #9d174d}
+.bag{width:38px;height:34px;border-radius:8px 8px 12px 12px;background:linear-gradient(#c4b5fd,#7c3aed);color:#fff;display:grid;place-items:center;font-weight:900;font-size:.9rem;border:2px solid #5b21b6}
+.dropx{width:92px;height:60px;border-radius:18px;border:4px dashed #a5b4fc;background:#f8faff;display:grid;place-items:center;font-weight:900;color:#6366f1;font-size:1.5rem;transition:.15s}
+.dropx.over{background:#eef2ff;border-color:#6366f1;transform:scale(1.07)}
+.dropx.ok{border-style:solid;border-color:#10b981;background:#ecfdf5;color:#059669}
+
+/* ---------- protractor ---------- */
+.prot-wrap{background:linear-gradient(#fff,#f8fafc);border:3px solid #e0f2fe;border-radius:24px;padding:.5rem;display:flex;justify-content:center}
+canvas{touch-action:none;max-width:100%;height:auto;border-radius:18px}
+
+/* ---------- feedback / modal ---------- */
+.modal-bg{position:fixed;inset:0;background:rgba(30,27,75,.55);backdrop-filter:blur(4px);display:grid;place-items:center;z-index:80;padding:1rem;animation:fade .2s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:30px;border:4px solid #ede9fe;max-width:560px;width:100%;padding:1.6rem;box-shadow:0 30px 60px -20px rgba(0,0,0,.5);animation:pop .3s cubic-bezier(.34,1.56,.64,1);max-height:90vh;overflow:auto}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:90;background:#1e293b;color:#fff;font-weight:800;padding:.85rem 1.3rem;border-radius:999px;box-shadow:0 12px 30px -8px rgba(0,0,0,.5);animation:toastin .3s cubic-bezier(.34,1.56,.64,1);max-width:92vw;text-align:center}
+@keyframes toastin{from{transform:translate(-50%,30px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+.learn{background:linear-gradient(#fffbeb,#fef3c7);border:3px solid #fde68a;border-radius:20px;padding:.7rem 1rem;margin:.6rem 0 1rem}
+.learn summary{cursor:pointer;font-weight:900;color:#b45309;font-family:'Fredoka';list-style:none}
+.learn summary::-webkit-details-marker{display:none}
+.learn[open]{background:#fffbeb}
+.bar{height:14px;border-radius:999px;background:#ede9fe;overflow:hidden;border:2px solid #ddd6fe}
+.bar>span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#34d399,#38bdf8,#a78bfa);transition:width .6s cubic-bezier(.34,1.2,.64,1)}
+.confetti{position:fixed;width:11px;height:15px;top:-20px;z-index:95;pointer-events:none;border-radius:2px}
+@keyframes fall{to{transform:translate3d(var(--dx),105vh,0) rotate(var(--rot));opacity:.95}}
+.badge-lock{filter:grayscale(1);opacity:.4}
+.pulse{animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.heart{display:inline-block}
+.heart.gone{filter:grayscale(1);opacity:.28}
+.speech{position:relative;background:#fff;border:3px solid #ddd6fe;border-radius:22px;padding:1rem 1.2rem;font-weight:800}
+.speech:after{content:"";position:absolute;left:-14px;top:32px;border:10px solid transparent;border-right-color:#ddd6fe}
+.kbd{background:#f1f5f9;border:2px solid #cbd5e1;border-bottom-width:4px;border-radius:8px;padding:0 .4rem;font-weight:900;font-size:.85rem}
+input.ans{font-family:'Fredoka';font-size:1.5rem;font-weight:700;text-align:center;border:4px solid #ddd6fe;border-radius:18px;padding:.5rem .8rem;width:170px;background:#fff;outline:none}
+input.ans:focus{border-color:#a855f7;box-shadow:0 0 0 5px #f3e8ff}
+.tag{display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;padding:.25rem .6rem;border-radius:999px}
+</style>
+</head>
+
+<body class="font-body">
+
+<div class="blob" style="width:120px;height:120px;background:#ddd6fe;top:16%;left:-40px"></div>
+<div class="blob" style="width:80px;height:80px;background:#fbcfe8;top:60%;right:-20px;animation-delay:1.5s"></div>
+<div class="blob" style="width:60px;height:60px;background:#bae6fd;top:34%;right:12%;animation-delay:.7s"></div>
+
+<!-- ================= TOP BAR ================= -->
+<header class="topbar">
+  <div class="max-w-6xl mx-auto px-3 py-2 flex items-center gap-3 flex-wrap">
+    <button class="flex items-center gap-2 navbtn" data-nav="home">
+      <span id="miniMascot" class="w-11 h-11 shrink-0"></span>
+      <span class="text-left leading-tight">
+        <span class="block font-display font-bold text-lg bg-gradient-to-r from-violet-600 to-pink-500 bg-clip-text text-transparent">MateArte</span>
+        <span class="block text-[11px] font-extrabold text-slate-500 -mt-1">Unidad 3 · El arte · 4° Básico</span>
+      </span>
+    </button>
+
+    <div class="flex items-center gap-2 ml-auto flex-wrap">
+      <div class="stat lives" id="statLives" title="Vidas"></div>
+      <div class="stat exp" title="Experiencia">⭐ <span id="statExp">0</span></div>
+      <div class="stat coins" title="Monedas de arte">🪙 <span id="statCoins">0</span></div>
+      <div class="stat streak" title="Racha de aciertos">🔥 <span id="statStreak">0</span></div>
+      <button class="navbtn text-xl" id="btnSound" title="Sonido">🔊</button>
+    </div>
+
+    <nav class="w-full flex gap-2 justify-center sm:justify-end">
+      <button class="navbtn" data-nav="home">🏠 Inicio</button>
+      <button class="navbtn" data-nav="badges">🏅 Medallas</button>
+      <button class="navbtn" data-nav="progress">📊 Mi progreso</button>
+    </nav>
+  </div>
+</header>
+
+<main id="screen" class="relative z-10 max-w-6xl mx-auto px-3 py-5"></main>
+
+<footer class="relative z-10 max-w-6xl mx-auto px-4 py-6 text-center text-sm font-bold text-slate-500">
+  <p>🎨 MateArte — Plataforma gamificada basada en la Unidad 3 "El arte" (Santillana, Matemática 4° Básico).</p>
+  <p class="mt-1 text-xs">Contenidos: Fracciones y números mixtos · Adición y sustracción · Ecuaciones e inecuaciones · Ángulos · Transformaciones isométricas.</p>
+  <button class="mt-3 text-xs underline font-extrabold text-rose-500" id="btnReset">Reiniciar mi progreso</button>
+</footer>
+
+<div id="modalLayer"></div>
+<div id="toastLayer"></div>
+<div id="confettiLayer"></div>
+
+<script>
+/* =====================================================================
+   MATEARTE — App educativa gamificada (Unidad 3: El arte)
+   ===================================================================== */
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+/* ---------------------------- SVG HELPERS ---------------------------- */
+function frac(n,d){return `<span class="frac"><span class="fn">${n}</span><span class="fd">${d}</span></span>`}
+function mixed(w,n,d){return `<span class="mixed"><span class="fw">${w}</span>${frac(n,d)}</span>`}
+
+function pieSVG(den,painted,color='#8b5cf6',size=86){
+  let s=`<svg viewBox="0 0 100 100" width="${size}" height="${size}" style="vertical-align:middle">`;
+  for(let i=0;i<den;i++){
+    const a0=(i/den)*2*Math.PI-Math.PI/2, a1=((i+1)/den)*2*Math.PI-Math.PI/2;
+    const x0=50+45*Math.cos(a0), y0=50+45*Math.sin(a0);
+    const x1=50+45*Math.cos(a1), y1=50+45*Math.sin(a1);
+    const large=(a1-a0)>Math.PI?1:0;
+    s+=`<path d="M50,50 L${x0.toFixed(2)},${y0.toFixed(2)} A45,45 0 ${large} 1 ${x1.toFixed(2)},${y1.toFixed(2)} Z"
+        fill="${i<painted?color:'#f8fafc'}" stroke="#334155" stroke-width="2.4"/>`;
+  }
+  return s+'</svg>';
+}
+function barSVG(den,painted,color='#10b981',w=170,h=44){
+  const cw=w/den;
+  let s=`<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" style="vertical-align:middle">`;
+  for(let i=0;i<den;i++){
+    s+=`<rect x="${i*cw}" y="0" width="${cw}" height="${h}" fill="${i<painted?color:'#f8fafc'}" stroke="#334155" stroke-width="2.4"/>`;
+  }
+  return s+'</svg>';
+}
+function collSVG(total,painted,color='#22c55e',size=132){
+  const per=Math.ceil(total/4), cw=size/per, rows=Math.ceil(total/per), ch=size/rows*1.05;
+  let s=`<svg viewBox="0 0 ${size} ${ch*rows}" width="${size}" height="${ch*rows}" style="vertical-align:middle">`;
+  for(let i=0;i<total;i++){
+    const cx=(i%per)*cw+cw/2, cy=Math.floor(i/per)*ch+ch/2;
+    s+=`<rect x="${cx-8}" y="${cy-11}" width="16" height="22" rx="7" fill="${i<painted?color:'#e2e8f0'}" stroke="#334155" stroke-width="2"/>`;
+  }
+  return s+'</svg>';
+}
+function angleSVG(d,o={}){
+  const color=o.color||'#0ea5e9', size=o.size||116;
+  const vx=16, vy=84, L=98, r=26, rad=d*Math.PI/180;
+  const ex=vx+L*Math.cos(rad), ey=vy-L*Math.sin(rad);
+  const bx=vx+r*Math.cos(rad), by=vy-r*Math.sin(rad);
+  return `<svg viewBox="0 0 120 100" width="${size}" height="${(size*100/120).toFixed(0)}" style="vertical-align:middle">
+    <path d="M${vx+r},${vy} A${r},${r} 0 0 0 ${bx.toFixed(1)},${by.toFixed(1)} L${vx},${vy} Z" fill="${color}33" stroke="${color}" stroke-width="2"/>
+    <line x1="${vx}" y1="${vy}" x2="${vx+L}" y2="${vy}" stroke="#334155" stroke-width="4.5" stroke-linecap="round"/>
+    <line x1="${vx}" y1="${vy}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}" stroke="#334155" stroke-width="4.5" stroke-linecap="round"/>
+    <circle cx="${vx}" cy="${vy}" r="4.5" fill="${color}"/>
+    ${o.label?`<text x="${vx+34}" y="${vy-14}" font-size="15" font-weight="800" fill="${color}" font-family="Fredoka">${o.label}</text>`:''}
+  </svg>`;
+}
+function rulerSVG(min,max,hi=[],w=330){
+  const n=max-min, step=w/n;
+  let s=`<svg viewBox="0 0 ${w+20} 54" width="100%" style="max-width:${w+20}px;vertical-align:middle">
+    <line x1="10" y1="26" x2="${w+10}" y2="26" stroke="#6366f1" stroke-width="4" stroke-linecap="round"/>`;
+  for(let i=0;i<=n;i++){
+    const x=10+i*step;
+    s+=`<line x1="${x}" y1="16" x2="${x}" y2="36" stroke="#94a3b8" stroke-width="2.5"/>`;
+    s+=`<text x="${x}" y="50" font-size="12" font-weight="800" fill="#475569" text-anchor="middle" font-family="Nunito">${min+i}</text>`;
+    if(hi.includes(min+i)) s+=`<circle cx="${x}" cy="26" r="7" fill="#ec4899"/>`;
+  }
+  return s+'</svg>';
+}
+function letterSVG(ch,color='#7c3aed'){
+  return `<span style="font-family:Fredoka;font-size:2.4rem;font-weight:700;color:${color};line-height:1">${ch}</span>`;
+}
+function mascotSVG(size=150,mode='happy'){
+  return `<svg viewBox="0 0 200 220" width="${size}" height="${size*1.1}" aria-hidden="true">
+    <ellipse cx="100" cy="207" rx="62" ry="10" fill="#ddd6fe" opacity=".7"/>
+    <!-- brazos -->
+    <path d="M62 150 Q34 160 34 186" stroke="#f6c48f" stroke-width="16" fill="none" stroke-linecap="round"/>
+    <path d="M138 150 Q168 148 172 118" stroke="#f6c48f" stroke-width="16" fill="none" stroke-linecap="round"/>
+    <!-- cuerpo / delantal -->
+    <path d="M64 140 Q100 128 136 140 L150 205 H50 Z" fill="#facc15" stroke="#eab308" stroke-width="3"/>
+    <circle cx="80" cy="170" r="6" fill="#ec4899"/><circle cx="112" cy="182" r="7" fill="#38bdf8"/>
+    <circle cx="96" cy="160" r="5" fill="#a855f7"/><circle cx="126" cy="163" r="5" fill="#34d399"/>
+    <!-- cabeza -->
+    <circle cx="100" cy="92" r="46" fill="#ffd9b3"/>
+    <circle cx="56" cy="86" r="15" fill="#7c4a21"/><circle cx="144" cy="86" r="15" fill="#7c4a21"/>
+    <circle cx="70" cy="66" r="13" fill="#7c4a21"/><circle cx="130" cy="66" r="13" fill="#7c4a21"/>
+    <!-- boina -->
+    <path d="M52 62 Q100 12 148 62 Q100 46 52 62 Z" fill="#7c3aed"/>
+    <ellipse cx="100" cy="60" rx="50" ry="12" fill="#8b5cf6"/>
+    <circle cx="100" cy="34" r="9" fill="#f472b6"/>
+    <!-- cara -->
+    <circle cx="83" cy="92" r="6.5" fill="#1e293b"/><circle cx="117" cy="92" r="6.5" fill="#1e293b"/>
+    <circle cx="85.5" cy="89.5" r="2.3" fill="#fff"/><circle cx="119.5" cy="89.5" r="2.3" fill="#fff"/>
+    <circle cx="68" cy="106" r="8" fill="#fda4af" opacity=".75"/><circle cx="132" cy="106" r="8" fill="#fda4af" opacity=".75"/>
+    ${mode==='happy'
+      ? `<path d="M82 110 Q100 128 118 110" stroke="#b45309" stroke-width="5.5" fill="none" stroke-linecap="round"/>`
+      : `<path d="M84 116 Q100 106 116 116" stroke="#b45309" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+         <path d="M120 60 l14 -14 M134 60 l-14 -14" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>`}
+    <!-- paleta -->
+    <ellipse cx="34" cy="188" rx="26" ry="18" fill="#f97316" stroke="#c2410c" stroke-width="3"/>
+    <circle cx="24" cy="182" r="4.5" fill="#fde047"/><circle cx="38" cy="180" r="4.5" fill="#38bdf8"/>
+    <circle cx="48" cy="190" r="4.5" fill="#a3e635"/><circle cx="30" cy="196" r="4.5" fill="#f472b6"/>
+    <!-- pincel -->
+    <rect x="166" y="96" width="8" height="34" rx="4" fill="#b45309" transform="rotate(18 170 113)"/>
+    <path d="M176 92 l10 -16 8 6 -12 16 z" fill="#ec4899"/>
+  </svg>`;
+}
+const HEART = `<svg viewBox="0 0 24 24" width="18" height="18" fill="#f43f5e"><path d="M12 21s-8-4.9-8-10.4A4.6 4.6 0 0 1 12 7a4.6 4.6 0 0 1 8 3.6C20 16.1 12 21 12 21z"/></svg>`;
+
+/* ------------------------------- SOUND ------------------------------- */
+const Sound={
+  ctx:null,muted:false,
+  ensure(){ if(!this.ctx){ try{this.ctx=new (window.AudioContext||window.webkitAudioContext)()}catch(e){} } return this.ctx },
+  tone(f,d=.12,type='triangle',g=.07,when=0){
+    const c=this.ensure(); if(!c||this.muted) return;
+    const o=c.createOscillator(), gn=c.createGain();
+    o.type=type;o.frequency.value=f;o.connect(gn);gn.connect(c.destination);
+    const t=c.currentTime+when; gn.gain.setValueAtTime(0.0001,t);
+    gn.gain.linearRampToValueAtTime(g,t+.012); gn.gain.exponentialRampToValueAtTime(.0001,t+d);
+    o.start(t);o.stop(t+d+.03);
+  },
+  click(){this.tone(680,.05,'square',.03)},
+  correct(){[523,659,784,1046].forEach((f,i)=>this.tone(f,.15,'triangle',.075,i*.07))},
+  wrong(){this.tone(233,.16,'sawtooth',.045);this.tone(175,.24,'sawtooth',.04,.09)},
+  badge(){[659,784,988,1319].forEach((f,i)=>this.tone(f,.2,'sine',.08,i*.1))},
+  levelup(){[392,523,659,784,1046].forEach((f,i)=>this.tone(f,.18,'triangle',.07,i*.08))}
+};
+
+/* ------------------------------ TOASTS ------------------------------- */
+let toastTimer=null;
+function toast(msg,ms=2300,color='#1e293b'){
+  const layer=$('#toastLayer'); layer.innerHTML='';
+  const t=document.createElement('div'); t.className='toast'; t.style.background=color; t.innerHTML=msg;
+  layer.appendChild(t); clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{t.style.transition='.3s';t.style.opacity='0';t.style.transform='translate(-50%,20px)';setTimeout(()=>t.remove(),300)},ms);
+}
+function confetti(n=70){
+  const layer=$('#confettiLayer'); const colors=['#a855f7','#ec4899','#f59e0b','#10b981','#38bdf8','#f43f5e'];
+  for(let i=0;i<n;i++){
+    const p=document.createElement('div'); p.className='confetti';
+    p.style.left=Math.random()*100+'vw';
+    p.style.background=colors[i%colors.length];
+    p.style.setProperty('--dx',(Math.random()*220-110)+'px');
+    p.style.setProperty('--rot',(Math.random()*900-450)+'deg');
+    p.style.animation=`fall ${1.6+Math.random()*1.4}s linear ${Math.random()*.4}s forwards`;
+    layer.appendChild(p); setTimeout(()=>p.remove(),3600);
+  }
+}
+function modal(html,opts={}){
+  const layer=$('#modalLayer');
+  layer.innerHTML=`<div class="modal-bg"><div class="modal">${html}</div></div>`;
+  if(!opts.dismissible){ $('.modal-bg',layer).addEventListener('click',e=>{ if(e.target.classList.contains('modal-bg')) e.stopPropagation(); }); }
+  return layer;
+}
+function closeModal(){ $('#modalLayer').innerHTML=''; }
+
+/* --------------------------- STATE / SAVE ---------------------------- */
+const S={ exp:0, coins:0, lives:5, streak:0, bestStreak:0, badges:[], prog:{}, results:{}, topicsPlayed:[], screen:'home' };
+const MAXLIVES=5;
+function save(){ try{ localStorage.setItem('matearte_u3',JSON.stringify({exp:S.exp,coins:S.coins,lives:S.lives,bestStreak:S.bestStreak,badges:S.badges,prog:S.prog,results:S.results,topicsPlayed:S.topicsPlayed})) }catch(e){} }
+function load(){
+  try{
+    const d=JSON.parse(localStorage.getItem('matearte_u3')||'null'); if(!d) return;
+    Object.assign(S,{exp:d.exp||0,coins:d.coins||0,lives:d.lives??MAXLIVES,bestStreak:d.bestStreak||0,badges:d.badges||[],prog:d.prog||{},results:d.results||{},topicsPlayed:d.topicsPlayed||[]});
+  }catch(e){}
+}
+
+/* =========================== CONTENIDO (PDF) ========================== */
+const TOPICS=[
+{id:1,emoji:'🍕',short:'Fracciones',title:'Fracciones y números mixtos',sub:'Tema 1',
+ color:{g:'from-violet-500 to-fuchsia-500',soft:'bg-violet-100',text:'text-violet-700',bd:'border-violet-200'},
+ blurb:'Lee, escribe y representa fracciones; ubícalas en la recta numérica; conoce los números mixtos y compáralos.',
+ badge:{icon:'🎨',name:'Maestro de las Fracciones',desc:'Dominaste lectura, representación y comparación de fracciones.'},
+ qs:[
+ {type:'choice',tag:'Leer fracciones',
+  prompt:`¿Cómo se escribe con palabras la fracción ${frac(2,5)}?`,
+  options:['Dos quintos','Cinco medios','Dos cincos','Cinco segundos'],answer:0,
+  learn:`En una fracción, el <b>denominador</b> son las partes iguales en que se dividió el entero y el <b>numerador</b>, las partes consideradas. El denominador se lee así: 2 → medios, 3 → tercios, 4 → cuartos, <b>5 → quintos</b>, 6 → sextos, 8 → octavos, 10 → décimos, 100 → centésimos.`,
+  ok:`¡Muy bien! ${frac(2,5)} se escribe <b>dos quintos</b>.`,
+  ko:'Fíjate en el número de abajo: el 5 se lee <b>quintos</b>. ¡Tú puedes intentarlo de nuevo!'},
+
+ {type:'choice',tag:'Saber más',
+  prompt:'Según la tabla del libro, cuando el denominador es <b>8</b>, la fracción se lee en…',
+  options:['Octavos','Ochavos','Ochos','Octágono'],answer:0,
+  learn:'Tabla de denominadores: 2 medios · 3 tercios · 4 cuartos · 5 quintos · 6 sextos · 7 séptimos · <b>8 octavos</b> · 9 novenos · 10 décimos · 100 centésimos.',
+  ok:'¡Correcto! 8 → <b>octavos</b>. Por ejemplo, 3/8 = tres octavos.',
+  ko:'¡Ánimo! El 8 como denominador se lee <b>octavos</b>.'},
+
+ {type:'paint',tag:'Representar',cols:4,rows:2,need:3,
+  prompt:`Representa la fracción ${frac(3,8)} pintando las partes que correspondan.`,
+  learn:`El denominador <b>8</b> indica que el entero se dividió en 8 partes iguales; el numerador <b>3</b> indica cuántas de esas partes pintamos.`,
+  ok:`¡Excelente artista! Pintaste 3 de 8 partes: ${frac(3,8)}.`,
+  ko:'Recuerda: debes pintar exactamente <b>3</b> de las <b>8</b> partes. ¡Inténtalo otra vez!'},
+
+ {type:'choice',tag:'Fracción de un conjunto',
+  prompt:`En una caja hay 20 manzanas: 12 son verdes y 8 son rojas. ¿Qué fracción del total representan las manzanas verdes?`,
+  options:[frac(12,20),frac(8,20),frac(20,12),frac(12,8)],answer:0,
+  learn:'Una fracción también puede ser una parte de una <b>colección</b>: el denominador es el total de elementos (20) y el numerador la cantidad elegida (12 verdes).',
+  ok:`¡Bien! Las verdes son ${frac(12,20)} del total y las rojas ${frac(8,20)}.`,
+  ko:'El total (20) va abajo como denominador; las verdes (12) arriba. ¡Vamos de nuevo!'},
+
+ {type:'choice',tag:'Fracción de un conjunto',
+  prompt:`Pedro tiene estos frascos de pintura para su cuadro. ¿Qué fracción del total son los frascos verdes?<br><br>${collSVG(8,3,'#22c55e',190)}`,
+  options:[frac(3,8),frac(8,3),frac(5,8),frac(3,5)],answer:0,
+  learn:'En total hay <b>8</b> frascos (denominador) y <b>3</b> son verdes (numerador).',
+  ok:`¡Perfecto! En total hay 8 frascos y 3 son verdes: ${frac(3,8)} del total.`,
+  ko:'Cuenta: ¿cuántos frascos hay en total? Ese número es el denominador. ¡Inténtalo otra vez!'},
+
+ {type:'match',layout:'line',tag:'Recta numérica',
+  prompt:'Arrastra cada fracción al lugar que le corresponde en la recta numérica (la unidad está dividida en 6 partes iguales).',
+  line:{ticks:6},
+  slots:[{id:'s1',pos:1/6,accept:['a']},{id:'s2',pos:4/6,accept:['b']},{id:'s3',pos:5/6,accept:['c']}],
+  items:[{id:'a',html:frac(1,6)},{id:'b',html:frac(4,6)},{id:'c',html:frac(5,6)}],
+  learn:'Para ubicar una fracción: <b>1)</b> divide la unidad en tantas partes como indique el denominador. <b>2)</b> desde el 0, cuenta las partes del numerador y marca con una ✗.',
+  ok:'¡Increíble! Ubicaste todas las fracciones en la recta numérica.',
+  ko:'Cuenta las partes desde el 0 según el numerador. ¡Tú puedes!'},
+
+ {type:'choice',tag:'Números mixtos',
+  prompt:`¿Cómo se escribe con palabras el número mixto ${mixed(2,5,8)}?`,
+  options:['Dos enteros cinco octavos','Cinco enteros dos octavos','Dos octavos cinco','Ocho enteros cinco doceavos'],answer:0,
+  learn:'Los números mixtos tienen una <b>parte entera</b> (2) y una <b>parte fraccionaria</b> (5/8). Se puede expresar como adición: 2 + 5/8.',
+  ok:`¡Muy bien! ${mixed(2,5,8)} = 2 enteros cinco octavos = 2 + ${frac(5,8)}.`,
+  ko:'Primero se nombra la parte entera y luego la fracción. ¡Inténtalo de nuevo!'},
+
+ {type:'match',layout:'columns',tag:'Impropias ↔ mixtos',
+  prompt:'Une cada <b>fracción impropia</b> con el <b>número mixto</b> que le corresponde.',
+  slots:[{id:'m1',html:frac(11,5),accept:['x1']},{id:'m2',html:frac(7,4),accept:['x2']},{id:'m3',html:frac(9,2),accept:['x3']}],
+  items:[{id:'x1',html:mixed(2,3,5)},{id:'x2',html:mixed(1,3,4)},{id:'x3',html:mixed(4,1,2)}],
+  learn:'Las fracciones mayores que la unidad se llaman <b>impropias</b> y se pueden expresar como <b>números mixtos</b>. Ejemplo del libro: 11/5 = 2 + 3/5 = 2 3/5.',
+  ok:'¡Excelente! Relacionaste todas las fracciones impropias con su número mixto.',
+  ko:'Piensa: ¿cuántos enteros completos caben en esa fracción? ¡Otra vez!'},
+
+ {type:'choice',tag:'Ordenar fracciones',
+  prompt:`Ordena de <b>menor a mayor</b>: ${frac(1,5)}, ${frac(1,100)}, ${frac(1,8)}`,
+  options:[`${frac(1,100)} &lt; ${frac(1,8)} &lt; ${frac(1,5)}`,
+           `${frac(1,5)} &lt; ${frac(1,8)} &lt; ${frac(1,100)}`,
+           `${frac(1,8)} &lt; ${frac(1,100)} &lt; ${frac(1,5)}`,
+           `${frac(1,100)} &lt; ${frac(1,5)} &lt; ${frac(1,8)}`],answer:0,
+  learn:'Al comparar fracciones con <b>igual numerador</b>, es mayor la de <b>menor denominador</b>, porque cada parte es más grande.',
+  ok:`¡Correcto! ${frac(1,100)} &lt; ${frac(1,8)} &lt; ${frac(1,5)}.`,
+  ko:'Mientras más partes tenga el entero, cada parte es más pequeña. ¡Vamos otra vez!'},
+
+ {type:'choice',tag:'Problema',
+  prompt:`En una corrida, Martín ha avanzado ${frac(3,4)} del trayecto, Sofía ${frac(3,8)} y Santiago ${frac(1,2)}. ¿Quién ha recorrido <b>menor</b> parte del trayecto?`,
+  options:['Sofía','Santiago','Martín','Los tres igual'],answer:0,
+  learn:'Puedes usar una representación común o la recta numérica: 3/8 &lt; 1/2 &lt; 3/4. Sofía recorrió menos, luego Santiago y Martín es el que recorrió más.',
+  ok:'¡Muy bien! Sofía (3/8) es quien ha recorrido menos del trayecto.',
+  ko:'Compara con una representación común: 3/8 es la parte más pequeña. ¡Inténtalo otra vez!'},
+
+ {type:'choice',tag:'Problema',
+  prompt:`Ignacia dedica ${mixed(4,4,9)} horas a la semana a sus clases de ballet y Antonia dedica 4 horas. ¿Quién dedica <b>más</b> tiempo?`,
+  options:['Ignacia','Antonia','Dedican lo mismo','No se puede saber'],answer:0,
+  learn:`Un número mixto siempre es mayor que su parte entera: ${mixed(4,4,9)} = 4 + ${frac(4,9)}, por lo tanto es mayor que 4.`,
+  ok:`¡Correcto! ${mixed(4,4,9)} &gt; 4, así que Ignacia dedica más tiempo al ballet.`,
+  ko:'4 enteros + 4/9 es más que solo 4 enteros. ¡Tú puedes!'}
+ ]},
+
+{id:2,emoji:'🖌️',short:'Suma y resta',title:'Adición y sustracción de fracciones',sub:'Tema 2',
+ color:{g:'from-emerald-500 to-teal-500',soft:'bg-emerald-100',text:'text-emerald-700',bd:'border-emerald-200'},
+ blurb:'Suma y resta fracciones con igual denominador usando representaciones gráficas y resuelve problemas de la vida diaria.',
+ badge:{icon:'🖼️',name:'Pintor de Sumas',desc:'Sumaste y restaste fracciones con igual denominador como un artista.'},
+ qs:[
+ {type:'choice',tag:'Adición',
+  prompt:`Los estudiantes pintaron el mural: ayer ${frac(3,8)} y hoy ${frac(5,8)}. ¿Qué fracción del mural pintaron entre los dos días?<br><br>${barSVG(8,3,'#10b981')} &nbsp;+&nbsp; ${barSVG(8,5,'#38bdf8')}`,
+  options:[`${frac(8,8)} = 1 entero`,frac(8,15),frac(2,8),'1 octavo'],answer:0,
+  learn:'Para <b>sumar</b> fracciones con igual denominador: suma los numeradores y conserva el denominador. 3/8 + 5/8 = 8/8 = 1 entero.',
+  ok:`¡Perfecto! ${frac(3,8)} + ${frac(5,8)} = ${frac(8,8)} = <b>1 entero</b>: ¡el mural está completo!`,
+  ko:'Solo sumamos los numeradores (3 + 5) y el denominador se mantiene (8). ¡Inténtalo otra vez!'},
+
+ {type:'choice',tag:'Problema',
+  prompt:`En un curso, ${frac(2,10)} de los estudiantes participa en un taller deportivo, ${frac(1,10)} en uno artístico y ${frac(7,10)} en uno científico. Si cada estudiante está en un solo taller, ¿qué fracción participa en algún taller?`,
+  options:[`${frac(10,10)} = 1 (todo el curso)`,frac(9,10),frac(10,30),frac(7,10)],answer:0,
+  learn:'Sumamos los numeradores y conservamos el denominador: 2/10 + 1/10 + 7/10 = 10/10, que equivale a 1 entero.',
+  ok:'¡Muy bien! 10/10 = 1 entero: ¡el curso completo participa en un taller!',
+  ko:'Suma 2 + 1 + 7 y deja el denominador 10. ¡Tú puedes!'},
+
+ {type:'paint',tag:'Representar adición',cols:4,rows:2,need:5,
+  prompt:`Representa el resultado de ${frac(2,8)} + ${frac(3,8)} pintando las partes que correspondan del entero dividido en 8.`,
+  learn:'2 partes + 3 partes = 5 partes del entero dividido en 8 → 5/8.',
+  ok:`¡Excelente! ${frac(2,8)} + ${frac(3,8)} = ${frac(5,8)}.`,
+  ko:'Suma los numeradores: 2 + 3 = 5. Debes pintar 5 partes.'},
+
+ {type:'choice',tag:'Sustracción',
+  prompt:`Francisca compró ${frac(7,10)} de un kilogramo de frutillas y ocupó ${frac(3,10)}. ¿Qué fracción de frutillas le quedó?<br><br>${barSVG(10,7,'#f43f5e')}`,
+  options:[frac(4,10),frac(10,10),frac(3,10),frac(7,3)],answer:0,
+  learn:'Para <b>restar</b> fracciones con igual denominador: resta los numeradores y conserva el denominador. 7/10 − 3/10 = 4/10.',
+  ok:`¡Correcto! Le quedó ${frac(4,10)} del kilogramo de frutillas.`,
+  ko:'Resta solo los numeradores: 7 − 3. El denominador queda igual. ¡Otra vez!'},
+
+ {type:'input',tag:'Adición',accept:['9'],normalize:'digits',suffix:'/12',
+  prompt:`Resuelve: ${frac(5,12)} + ${frac(4,12)} = <span class="text-slate-400 font-black">?</span>${frac('',12)}<br><span class="text-sm font-bold text-slate-500">Escribe solo el numerador que falta.</span>`,
+  learn:'Suma los numeradores y conserva el denominador: 5 + 4 = 9.',
+  ok:`¡Muy bien! ${frac(5,12)} + ${frac(4,12)} = ${frac(9,12)}.`,
+  ko:'5 + 4 = 9. ¡Vuelve a intentarlo, tú puedes!'},
+
+ {type:'choice',tag:'Problema',
+  prompt:`Mauricio leyó ${frac(3,8)} de un libro el lunes y ${frac(2,8)} el día siguiente. ¿Qué fracción del total de páginas <b>le falta</b> leer?`,
+  options:[frac(3,8),frac(5,8),frac(2,8),frac(8,8)],answer:0,
+  learn:'Primero suma lo leído (3/8 + 2/8 = 5/8) y luego resta al entero: 8/8 − 5/8 = 3/8.',
+  ok:`¡Excelente! Leyó ${frac(5,8)} y le falta ${frac(3,8)} del libro.`,
+  ko:'Calcula primero cuánto leyó en total y luego réstalo de 8/8. ¡Ánimo!'},
+
+ {type:'choice',tag:'Problema',
+  prompt:`Tatiana confecciona bolsas ecológicas. Regaló ${frac(2,8)} del total que hizo en la semana y vendió ${frac(3,8)}. ¿Qué fracción del total le queda?`,
+  options:[frac(3,8),frac(5,8),frac(2,8),frac(8,8)],answer:0,
+  learn:'Estrategia: representa los datos, suma lo que regaló y vendió (2/8 + 3/8 = 5/8) y resta al todo: 8/8 − 5/8 = 3/8.',
+  ok:`¡Correcto! A Tatiana le quedan ${frac(3,8)} del total de bolsas.`,
+  ko:'Suma 2/8 + 3/8 y réstalo del entero (8/8). ¡Inténtalo de nuevo!'},
+
+ {type:'choice',tag:'Problema',
+  prompt:`Una pared se dividió en 7 partes iguales. El jueves se pintaron ${frac(4,7)} de la pared y el viernes se terminó. ¿Qué día se pintó <b>más</b>?`,
+  options:['El jueves','El viernes','Se pintó igual ambos días','No se puede saber'],answer:0,
+  learn:'Si el jueves pintaron 4/7, el viernes pintaron el resto: 7/7 − 4/7 = 3/7. Como 4/7 &gt; 3/7, el jueves se pintó más.',
+  ok:'¡Muy bien! Jueves: 4/7 &gt; Viernes: 3/7.',
+  ko:'Calcula cuánto se pintó el viernes (3/7) y compara. ¡Tú puedes!'},
+
+ {type:'choice',tag:'Problema · museo',
+  prompt:`Marcela diseña el plano de un museo en una cuadrícula de 100 cuadros: ${frac(20,100)} azul (esculturas), ${frac(16,100)} verde (arte barroco), ${frac(8,100)} rojo (arqueología) y ${frac(7,100)} amarillo (arte moderno). ¿Qué fracción se destinará al arte barroco y al arte moderno?`,
+  options:[frac(23,100),frac(28,100),frac(36,100),frac(16,100)],answer:0,
+  learn:'Barroco = verde (16/100) y moderno = amarillo (7/100). Suma con igual denominador: 16/100 + 7/100 = 23/100.',
+  ok:`¡Perfecto! ${frac(16,100)} + ${frac(7,100)} = ${frac(23,100)}. (Esculturas + arqueología = 28/100).`,
+  ko:'Busca los colores del barroco (verde) y del arte moderno (amarillo) y suma. ¡Otra vez!'},
+
+ {type:'choice',tag:'Analizar',
+  prompt:`Daniela y Claudio resolvieron ${frac(7,12)} − ${frac(5,12)}. Daniela obtuvo ${frac(2,12)} y Claudio obtuvo ${frac(12,12)}. ¿Quién está en lo correcto?`,
+  options:['Daniela','Claudio','Los dos','Ninguno'],answer:0,
+  learn:'Al restar fracciones con igual denominador se restan los numeradores (7 − 5 = 2) y se conserva el denominador (12). Claudio sumó en vez de restar.',
+  ok:`¡Correcto! ${frac(7,12)} − ${frac(5,12)} = ${frac(2,12)}. Daniela tiene razón.`,
+  ko:'Recuerda: en la sustracción se <b>restan</b> los numeradores. ¡Inténtalo otra vez!'},
+
+ {type:'choice',tag:'Problema',
+  prompt:`Los estudiantes de 4° básico recolectaron alimentos: ${frac(3,8)} donaron pastas, ${frac(1,8)} azúcar y ${frac(2,8)} arroz. ¿Qué fracción de estudiantes <b>no participó</b> de la campaña?`,
+  options:[frac(2,8),frac(6,8),frac(3,8),frac(8,8)],answer:0,
+  learn:'Suma los que participaron: 3/8 + 1/8 + 2/8 = 6/8. Luego resta al total: 8/8 − 6/8 = 2/8.',
+  ok:`¡Muy bien! No participó ${frac(2,8)} de los estudiantes.`,
+  ko:'Primero suma las tres fracciones y réstalo del entero 8/8. ¡Ánimo!'}
+ ]},
+
+{id:3,emoji:'⚖️',short:'Ecuaciones',title:'Ecuaciones e inecuaciones',sub:'Tema 3',
+ color:{g:'from-amber-500 to-orange-500',soft:'bg-amber-100',text:'text-amber-700',bd:'border-amber-200'},
+ blurb:'Resuelve ecuaciones e inecuaciones con adición y sustracción usando balanzas, la recta numérica y la relación inversa.',
+ badge:{icon:'🧠',name:'Genio de las Ecuaciones',desc:'Resolviste ecuaciones e inecuaciones equilibrando la balanza.'},
+ qs:[
+ {type:'choice',tag:'Plantear ecuación',
+  prompt:'El coro escolar Atenea tiene <b>16</b> estudiantes en total y <b>8</b> estuvieron en la presentación. ¿Qué ecuación permite calcular cuántos estudiantes <b>no</b> estuvieron?',
+  options:['x + 8 = 16','x − 8 = 16','8 + 16 = x','x + 16 = 8'],answer:0,
+  learn:'Una <b>ecuación</b> es una igualdad con términos conocidos y desconocidos. La incógnita <b>x</b> representa el valor que debemos descubrir.',
+  ok:'¡Muy bien! x + 8 = 16, y usando la relación inversa: x = 16 − 8 = 8 estudiantes.',
+  ko:'La incógnita x son los que faltan; al sumarle los 8 que sí estuvieron obtenemos 16. ¡Inténtalo otra vez!'},
+
+ {type:'balance',mode:'equation',tag:'Balanza en equilibrio',
+  prompt:'Ignacia junta láminas para su álbum. Lleva <b>7</b> y el álbum tiene <b>16</b> en total. Arrastra a la balanza el número de láminas que le faltan para que quede en equilibrio.',
+  eqLabel:`7 + x = 16`, leftFixed:7, leftX:true, rightFixed:16, relation:'=',
+  candidates:[5,6,7,8,9,10,11], solutions:[9],
+  learn:'En ecuaciones de la forma <b>x + a = b</b>, el valor de x es la diferencia entre los números conocidos: x = b − a. Aquí: x = 16 − 7 = 9.',
+  ok:'¡Equilibrio perfecto! x = 9: a Ignacia le faltan <b>9 láminas</b>.',
+  ko:'La balanza se inclina: prueba con otro número. Recuerda x = 16 − 7.'},
+
+ {type:'input',tag:'Relación inversa',accept:['36'],normalize:'digits',
+  prompt:'Resuelve la ecuación aplicando la relación inversa entre la adición y la sustracción:<br><br><span class="text-3xl font-black">24 + x = 60</span><br><span class="text-sm font-bold text-slate-500">x = </span>',
+  learn:'Si x + a = b, entonces x = b − a. Aquí: x = 60 − 24.',
+  ok:'¡Correcto! x = 60 − 24 = <b>36</b>.',
+  ko:'Resta 24 a 60. ¡Vuelve a intentarlo, tú puedes!'},
+
+ {type:'input',tag:'Relación inversa',accept:['74'],normalize:'digits',
+  prompt:'Resuelve:<br><br><span class="text-3xl font-black">x − 20 = 54</span><br><span class="text-sm font-bold text-slate-500">x = </span>',
+  learn:'En ecuaciones de la forma <b>x − a = b</b>, el valor de x es la suma de los números conocidos: x = b + a.',
+  ok:'¡Muy bien! x = 54 + 20 = <b>74</b>.',
+  ko:'Suma 54 + 20. ¡Ánimo, inténtalo otra vez!'},
+
+ {type:'input',tag:'Recta numérica',accept:['7'],normalize:'digits',
+  prompt:`Resuelve la ecuación usando la recta numérica: ¿cuántas partes debes <b>retroceder</b> desde el 12 hasta llegar al 5?<br><br>${rulerSVG(0,15,[5,12])}<br><br><span class="text-2xl font-black">12 − x = 5 &nbsp;→&nbsp; x = </span>`,
+  learn:'Representa los valores en la recta y cuenta cuántas partes retrocedes desde 12 hasta 5. Al restar 7 unidades a 12 se obtiene 5.',
+  ok:'¡Correcto! 12 − 7 = 5, por lo tanto x = <b>7</b>.',
+  ko:'Cuenta los saltos hacia atrás en la recta desde el 12 al 5. ¡Tú puedes!'},
+
+ {type:'balance',mode:'inequality',tag:'Balanza en desequilibrio',
+  prompt:'Se requieren añadir fichas al lado derecho de la balanza. ¿Cuántas se podrían agregar <b>para que se mantenga en desequilibrio</b>? Encuentra <b>todos</b> los valores posibles.',
+  eqLabel:`6 &gt; 2 + x`, leftFixed:6, leftX:false, rightFixed:2, rightX:true, relation:'>',
+  candidates:[1,2,3,4,5], solutions:[1,2,3],
+  learn:'Una <b>inecuación</b> es una desigualdad que usa &lt; o &gt; y su incógnita puede tener <b>más de un valor</b>. Si x = 4, obtenemos 6 = 2 + 4 (equilibrio, no sirve); si x = 5, 6 &lt; 7 (tampoco).',
+  ok:'¡Excelente! Se pueden agregar <b>1, 2 o 3</b> fichas para mantener el desequilibrio.',
+  ko:'Prueba otro valor: la balanza debe seguir inclinada (6 mayor que 2 + x).'},
+
+ {type:'multi',tag:'Soluciones de inecuación',
+  prompt:'Encierra los números que son solución de la inecuación <b>12 + ? &lt; 30</b>.',
+  options:['66','2','21','11'],answer:[1,3],
+  learn:'Para comprobar, remplaza la incógnita por cada valor: 12 + 2 = 14 &lt; 30 ✔ · 12 + 11 = 23 &lt; 30 ✔ · 12 + 21 = 33 ✘ · 12 + 66 = 78 ✘.',
+  ok:'¡Muy bien! Las soluciones son <b>2</b> y <b>11</b>.',
+  ko:'Suma 12 a cada número y mira si el resultado es menor que 30. ¡Otra vez!'},
+
+ {type:'choice',tag:'Evaluar',
+  prompt:'Observa el siguiente procedimiento:<br><br><span class="font-mono font-black">x + 35 = 77<br>x + 35 − 35 = 77 − 35<br>x = 52</span><br><br>¿Es correcto el resultado obtenido?',
+  options:['No, porque 77 − 35 = 42','Sí, porque 77 − 35 = 52','No, porque hay que sumar 35','Sí, porque x siempre es 52'],answer:0,
+  learn:'Para <b>comprobar</b>, remplaza x en la ecuación: 52 + 35 = 87 ≠ 77. En cambio 42 + 35 = 77 ✔.',
+  ok:'¡Correcto! El resultado es <b>x = 42</b>, ya que 77 − 35 = 42.',
+  ko:'Calcula bien la resta 77 − 35 y comprueba remplazando. ¡Inténtalo otra vez!'},
+
+ {type:'choice',tag:'Problema',
+  prompt:'Andrea participó en 17 actividades culturales durante el año: 9 se desarrollaron en museos y el resto en teatros. ¿Cuántas fueron en teatros?',
+  options:['8','9','17','26'],answer:0,
+  learn:'Plantea la ecuación 9 + x = 17 y usa la relación inversa: x = 17 − 9.',
+  ok:'¡Muy bien! 17 − 9 = <b>8 actividades</b> en teatros.',
+  ko:'Resta 9 al total de 17 actividades. ¡Tú puedes!'},
+
+ {type:'choice',tag:'Inecuación',
+  prompt:'Cristóbal tenía 11 monedas el lunes y agrega más el martes. Si guardó <b>menos de 17</b> monedas en total, ¿cuántas pudo haber agregado el martes?',
+  options:['1, 2, 3, 4 o 5 monedas','6, 7 u 8 monedas','Solo 6 monedas','Cualquier número'],answer:0,
+  learn:'11 + x &lt; 17 → x &lt; 17 − 11 → x &lt; 6. Como x es un número natural: 1, 2, 3, 4 o 5.',
+  ok:'¡Correcto! x &lt; 6, entonces pudo agregar 1, 2, 3, 4 o 5 monedas.',
+  ko:'Resuelve x &lt; 17 − 11 y piensa en los números naturales menores que 6. ¡Ánimo!'},
+
+ {type:'input',tag:'Modelar',accept:['1010','1.010'],normalize:'money',suffix:'$',
+  prompt:'Ricardo tiene como meta ahorrar <b>$ 8.500</b> para las vacaciones. Si ya ha juntado <b>$ 7.490</b>, ¿cuánto dinero le falta por ahorrar?<br><span class="text-sm font-bold text-slate-500">Escribe solo el número.</span>',
+  learn:'Ecuación: 7.490 + x = 8.500 → x = 8.500 − 7.490.',
+  ok:'¡Excelente! Le falta ahorrar <b>$ 1.010</b>.',
+  ko:'Resta 7.490 a 8.500. ¡Inténtalo de nuevo!'},
+
+ {type:'choice',tag:'Evaluación final',
+  prompt:'¿Cuál es la solución de la ecuación <b>18 = x − 33</b>?',
+  options:['x = 51','x = 41','x = 25','x = 15'],answer:0,
+  learn:'Si x − a = b, entonces x = b + a. Aquí x = 18 + 33. Comprueba: 51 − 33 = 18 ✔.',
+  ok:'¡Correcto! x = 18 + 33 = <b>51</b>.',
+  ko:'Suma 18 + 33. ¡Tú puedes intentarlo otra vez!'},
+
+ {type:'choice',tag:'Evaluación final',
+  prompt:'¿Cuál de los siguientes valores <b>NO</b> puede tener la incógnita de la inecuación <b>52 + x &lt; 57</b>?',
+  options:['8','1','4','3'],answer:0,
+  learn:'52 + x &lt; 57 → x &lt; 5. Los valores posibles son 1, 2, 3 o 4. Si x = 8: 52 + 8 = 60, que NO es menor que 57.',
+  ok:'¡Muy bien! Con x = 8 se obtiene 60, que no cumple la desigualdad.',
+  ko:'Resuelve x &lt; 57 − 52 y busca el número que no cumple. ¡Ánimo!'},
+
+ {type:'input',tag:'Modelar',accept:['30000','30.000'],normalize:'money',suffix:'$',
+  prompt:'En una tienda, un televisor y un equipo de música cuestan juntos <b>$ 319.990</b>. Si el televisor cuesta <b>$ 289.990</b>, ¿cuánto se pagará por el equipo de música?<br><span class="text-sm font-bold text-slate-500">Escribe solo el número.</span>',
+  learn:'Modela con una ecuación: 289.990 + x = 319.990 → x = 319.990 − 289.990. Comprueba sumando ambos precios.',
+  ok:'¡Perfecto! Se pagará <b>$ 30.000</b> por el equipo de música.',
+  ko:'Resta 289.990 a 319.990. ¡Vuelve a intentarlo!'}
+ ]},
+
+{id:4,emoji:'📐',short:'Ángulos',title:'Ángulos',sub:'Tema 4',
+ color:{g:'from-sky-500 to-indigo-500',soft:'bg-sky-100',text:'text-sky-700',bd:'border-sky-200'},
+ blurb:'Mide y construye ángulos con el transportador, clasifícalos según su medida y compáralos.',
+ badge:{icon:'🔍',name:'Detective de Ángulos',desc:'Mediste, construiste y comparaste ángulos con el transportador.'},
+ qs:[
+ {type:'choice',tag:'Clasificación',
+  prompt:'Un ángulo que mide <b>menos de 90°</b> se clasifica como…',
+  options:['Ángulo agudo','Ángulo recto','Ángulo obtuso','Ángulo extendido'],answer:0,
+  learn:'Clasificación según su medida: <b>Agudo</b> menos de 90° · <b>Recto</b> 90° · <b>Obtuso</b> más de 90° y menos de 180° · <b>Extendido</b> 180° · <b>Completo</b> 360°.',
+  ok:'¡Correcto! Menos de 90° = <b>ángulo agudo</b>.',
+  ko:'Recuerda la clasificación: agudo &lt; 90°. ¡Inténtalo otra vez!'},
+
+ {type:'match',layout:'columns',tag:'Saber más',
+  prompt:'Une cada tipo de ángulo con su medida.',
+  slots:[{id:'t1',html:'<b>Recto</b>',accept:['a2']},{id:'t2',html:'<b>Extendido</b>',accept:['a4']},{id:'t3',html:'<b>Completo</b>',accept:['a5']},{id:'t4',html:'<b>Obtuso</b>',accept:['a3']}],
+  items:[{id:'a2',html:'90°'},{id:'a4',html:'180°'},{id:'a5',html:'360°'},{id:'a3',html:'más de 90° y menos de 180°'}],
+  learn:'Agudo: menos de 90° · Recto: 90° · Obtuso: más de 90° y menos de 180° · Extendido: 180° · Completo: 360°.',
+  ok:'¡Excelente! Relacionaste todas las medidas con su tipo de ángulo.',
+  ko:'Repasa la clasificación del recuadro "Saber más". ¡Tú puedes!'},
+
+ {type:'choice',tag:'Identificar',
+  prompt:`¿Cuál de estos ángulos es <b>obtus</b>?<br><br>
+   <span class="inline-block text-center px-2">A<br>${angleSVG(45,{color:'#0ea5e9'})}</span>
+   <span class="inline-block text-center px-2">B<br>${angleSVG(90,{color:'#10b981'})}</span>
+   <span class="inline-block text-center px-2">C<br>${angleSVG(130,{color:'#ec4899'})}</span>`,
+  options:['El ángulo C','El ángulo A','El ángulo B','Ninguno'],answer:0,
+  learn:'El ángulo obtuso mide más de 90° y menos de 180°. A mide 45° (agudo), B mide 90° (recto) y C mide 130° (obtuso).',
+  ok:'¡Correcto! El ángulo C mide 130°, por lo tanto es <b>obtuso</b>.',
+  ko:'Busca el que "se abre" más que un ángulo recto. ¡Inténtalo otra vez!'},
+
+ {type:'protMeasure',tag:'Medir con transportador',angle:50,
+  prompt:'Isidora pinta un cuadro. <b>Arrastra el transportador</b> hasta que su centro coincida con el vértice del ángulo y lee la medida. ¿Cuánto mide este ángulo?',
+  options:['50°','40°','90°','130°'],answer:0,
+  learn:'Pasos del libro: <b>1)</b> ubica el transportador de modo que su centro coincida con el <b>vértice</b> y un lado del ángulo pase por 0°. <b>2)</b> observa por dónde pasa el otro lado: ese número es su medida.',
+  ok:'¡Muy bien! El ángulo mide <b>50°</b> y es un ángulo agudo.',
+  ko:'Ubica el centro del transportador justo en el vértice del ángulo y mira la marca que cruza el lado. ¡Ánimo!'},
+
+ {type:'protMeasure',tag:'Medir y clasificar',angle:120,
+  prompt:'Mide el ángulo marcado en el arco y elige la alternativa correcta.',
+  options:['120°, es obtuso','60°, es agudo','120°, es recto','180°, es extendido'],answer:0,
+  learn:'Si el ángulo mide más de 90° y menos de 180° se llama <b>obtuso</b>.',
+  ok:'¡Perfecto! Mide <b>120°</b> y es un ángulo <b>obtuso</b>.',
+  ko:'Recuerda leer la escala donde cruza el lado del ángulo. ¡Tú puedes!'},
+
+ {type:'protBuild',tag:'Construir ángulos',target:70,tol:4,
+  prompt:'Construye un ángulo de <b>70°</b>: arrastra el lado rojo del ángulo hasta la medida pedida y presiona <b>¡Listo!</b>',
+  learn:'Pasos: <b>1)</b> dibuja uno de los lados. <b>2)</b> ubica el transportador haciendo coincidir el lado con el 0° y el vértice con el centro. <b>3)</b> marca un punto en la medida (70°). <b>4)</b> une el vértice con el punto.',
+  ok:'¡Increíble! Construiste un ángulo de <b>70°</b> (agudo).',
+  ko:'Mira el contador de grados mientras arrastras. ¡Casi lo logras!'},
+
+ {type:'protBuild',tag:'Construir ángulos',target:125,tol:4,
+  prompt:'Ahora construye un ángulo de <b>125°</b> y recuerda su clasificación.',
+  learn:'Como 125° es más de 90° y menos de 180°, el ángulo construido es <b>obtuso</b>.',
+  ok:'¡Excelente trabajo! Construiste un ángulo <b>obtuso de 125°</b>.',
+  ko:'Arrastra con calma hasta 125°. ¡Inténtalo de nuevo!'},
+
+ {type:'choice',tag:'Comparar ángulos',
+  prompt:`Ordena los ángulos de <b>menor a mayor</b> medida:<br><br>
+   <span class="inline-block text-center px-2">A ${angleSVG(60,{color:'#8b5cf6',size:96})}</span>
+   <span class="inline-block text-center px-2">B ${angleSVG(120,{color:'#f43f5e',size:96})}</span>
+   <span class="inline-block text-center px-2">C ${angleSVG(90,{color:'#0ea5e9',size:96})}</span>`,
+  options:['A &lt; C &lt; B','B &lt; C &lt; A','C &lt; A &lt; B','A &lt; B &lt; C'],answer:0,
+  learn:'Al comparar ángulos, será mayor el que tenga mayor medida. A = 60°, C = 90°, B = 120°.',
+  ok:'¡Correcto! A (60°) &lt; C (90°) &lt; B (120°).',
+  ko:'Mide cada ángulo con el transportador y ordénalos. ¡Tú puedes!'},
+
+ {type:'choice',tag:'Problema',
+  prompt:`La profesora dibujó un ángulo de <b>100°</b> en la pizarra y pidió construir uno de <b>mayor medida</b>. Tamara construyó uno de 120° y Vicente uno de 85°. ¿Quién está en lo correcto?`,
+  options:['Tamara, porque 120° &gt; 100°','Vicente, porque 85° &gt; 100°','Los dos','Ninguno'],answer:0,
+  learn:'Para saber si un ángulo es mayor, comparamos sus medidas: 120° &gt; 100° &gt; 85°.',
+  ok:'¡Muy bien! Tamara construyó un ángulo de 120°, que es mayor que 100°.',
+  ko:'Compara 120° y 85° con 100°. ¿Cuál es mayor? ¡Inténtalo otra vez!'},
+
+ {type:'choice',tag:'Procedimiento',
+  prompt:'¿Cuál es el <b>primer paso</b> para construir un ángulo con el transportador?',
+  options:['Dibujar uno de los lados del ángulo','Marcar el punto en 180°','Recortar el transportador','Medir con la regla el papel'],answer:0,
+  learn:'Procedimiento del libro: ① dibuja uno de los lados del ángulo; ② ubica el transportador con el lado pasando por 0 y el extremo en el centro; ③ marca un punto en la medida; ④ une el vértice con el punto.',
+  ok:'¡Correcto! Primero se dibuja uno de los lados del ángulo.',
+  ko:'Revisa los pasos ①②③④ del ejemplo del libro. ¡Ánimo!'},
+
+ {type:'choice',tag:'Estimar',
+  prompt:'Daniel quiere diseñar una silla reclinable hasta los <b>120°</b>. Si usa la escuadra (90°) para estimar, el respaldo debe abrirse…',
+  options:['más de 90° (ángulo obtuso)','exactamente 90° (ángulo recto)','menos de 90° (ángulo agudo)','hasta 180° (ángulo extendido)'],answer:0,
+  learn:'Puedes usar la escuadra para estimar: si el ángulo es mayor que el de la escuadra, mide más de 90°.',
+  ok:'¡Muy bien! 120° es mayor que 90°: el respaldo forma un ángulo <b>obtuso</b>.',
+  ko:'Compara 120° con los 90° de la escuadra. ¡Inténtalo otra vez!'}
+ ]},
+
+{id:5,emoji:'🪞',short:'Simetría',title:'Transformaciones isométricas',sub:'Tema 5',
+ color:{g:'from-pink-500 to-rose-500',soft:'bg-pink-100',text:'text-pink-700',bd:'border-pink-200'},
+ blurb:'Identifica líneas de simetría, construye figuras simétricas y practica reflexión, traslación y rotación.',
+ badge:{icon:'✨',name:'Artista de la Simetría',desc:'Reflejaste, trasladaste y rotaste figuras 2D como un artista.'},
+ qs:[
+ {type:'choice',tag:'Líneas de simetría',
+  prompt:'¿Cuántas <b>líneas de simetría</b> tiene un rectángulo?',
+  options:['2 (horizontal y vertical)','4','1','Ninguna, la diagonal también lo es'],answer:0,
+  learn:'Una <b>línea de simetría</b> divide una figura 2D en dos partes de igual forma y tamaño que calzan exactamente al doblar. Al doblar el rectángulo por la mitad horizontal y vertical las figuras coinciden; la <b>diagonal no</b> es línea de simetría.',
+  ok:'¡Correcto! El rectángulo tiene <b>2 líneas de simetría</b>.',
+  ko:'Imagina que doblas el rectángulo: ¿por dónde calzan las dos mitades? ¡Inténtalo otra vez!'},
+
+ {type:'choice',tag:'Líneas de simetría',
+  prompt:'Dibuja un cuadrado y traza sus líneas de simetría. ¿Cuántas tiene?',
+  options:['4','2','3','8'],answer:0,
+  learn:'El cuadrado tiene líneas de simetría horizontales, verticales y sus dos diagonales: <b>4 en total</b>.',
+  ok:'¡Muy bien! El cuadrado tiene <b>4 líneas de simetría</b>.',
+  ko:'Prueba doblando el cuadrado de distintas formas, incluidas las diagonales. ¡Ánimo!'},
+
+ {type:'multi',tag:'Figuras simétricas',
+  prompt:'¿Qué letras son <b>simétricas</b>? (Una figura es simétrica si tiene una o más líneas de simetría.)',
+  options:[letterSVG('H','#7c3aed'),letterSVG('Z','#0ea5e9'),letterSVG('Y','#ec4899'),letterSVG('S','#f59e0b')],
+  answer:[0,2],
+  learn:'Del libro: las letras <b>H</b> e <b>Y</b> son simétricas porque es posible dibujar en ellas al menos una línea de simetría. La letra <b>Z</b> no es simétrica.',
+  ok:'¡Correcto! Las letras <b>H</b> e <b>Y</b> son simétricas.',
+  ko:'Traza una línea en cada letra y mira si las dos mitades calzan. ¡Tú puedes!'},
+
+ {type:'grid',tag:'Figura simétrica',cols:8,rows:6,axis:{dir:'v',at:4},
+  given:[[3,1],[3,2],[2,2],[3,3],[2,3],[1,3],[3,4],[2,4],[1,4],[0,4],[3,5],[2,5]],
+  prompt:'Completa la figura pintando las casillas del lado derecho para que sea <b>simétrica</b> respecto del eje rojo. Cada casilla debe quedar a la <b>misma distancia</b> del eje.',
+  learn:'Para construir una figura simétrica, traza un eje y dibuja a ambos lados la misma figura respetando la distancia al eje.',
+  ok:'¡Hermosa figura simétrica! Las dos mitades calzan exactamente.',
+  ko:'Cuenta cuántas casillas hay desde cada punto al eje y pinta la misma cantidad al otro lado.'},
+
+ {type:'grid',tag:'Reflexión',cols:8,rows:6,axis:{dir:'v',at:4},
+  given:[[0,1],[0,2],[0,3],[1,3],[2,3]],
+  prompt:'Fernanda dice que el paisaje "se refleja como en un espejo". Refleja la figura respecto del <b>eje de reflexión</b> pintando las casillas que correspondan.',
+  learn:'Para reflejar una figura respecto de un eje, todos los puntos de la figura original deben quedar a la <b>misma distancia</b> del eje en la figura obtenida.',
+  ok:'¡Excelente reflexión! Cada punto quedó a la misma distancia del eje.',
+  ko:'Determina cuántos cuadrados hay desde cada vértice al eje y cuenta lo mismo al otro lado.'},
+
+ {type:'grid',tag:'Doble reflexión',cols:8,rows:8,axis:{dir:'h',at:4},
+  given:[[1,0],[2,0],[3,0],[2,1],[2,2],[1,2],[3,2]],
+  prompt:'Verónica dividió una cuadrícula y aplicó una <b>reflexión respecto del eje azul (horizontal)</b>. Completa el diseño pintando la figura reflejada abajo.',
+  learn:'En una reflexión con eje horizontal, las filas se invierten: una casilla que está 1 fila sobre el eje queda 1 fila bajo el eje.',
+  ok:'¡Muy bien! Completaste el diseño reflejado respecto del eje horizontal.',
+  ko:'Fíjate en la distancia de cada casilla al eje horizontal y pinta igual hacia abajo.'},
+
+ {type:'grid',tag:'Traslación',cols:10,rows:8,axis:null,translate:{dx:4,dy:-2},
+  given:[[0,5],[1,5],[2,5],[0,6],[2,6],[0,7],[1,7],[2,7],[1,4]],
+  prompt:'Traslada la figura <b>4 cuadrados hacia la derecha (→)</b> y <b>2 hacia arriba (↑)</b>. Pinta las casillas donde queda la nueva figura.',
+  learn:'Para trasladar una figura puedes usar una cuadrícula de referencia y describir los movimientos realizados. Al trasladar, la figura <b>cambia de posición</b> pero mantiene su forma y tamaño.',
+  ok:'¡Perfecta traslación! 4 → y 2 ↑. La figura mantiene su forma y tamaño.',
+  ko:'Cuenta 4 casillas a la derecha y 2 hacia arriba desde cada vértice. ¡Inténtalo otra vez!'},
+
+ {type:'choice',tag:'Rotación',
+  prompt:'Para <b>rotar</b> una figura, ¿qué elementos debes determinar?',
+  options:['El centro de rotación, el ángulo de rotación y el sentido de giro','Solo el tamaño de la figura','El color y el perímetro','La línea de simetría y el eje'],answer:0,
+  learn:'El sentido del ángulo de rotación puede ser <b>horario</b> (igual al de las manecillas del reloj) o <b>antihorario</b> (contrario al de las manecillas del reloj).',
+  ok:'¡Correcto! Centro de rotación + ángulo + sentido de giro.',
+  ko:'Recuerda el recuadro "Aprende" de la página de rotación. ¡Tú puedes!'},
+
+ {type:'match',layout:'columns',tag:'Transformaciones',
+  prompt:'Relaciona cada transformación isométrica con su descripción.',
+  slots:[{id:'r1',html:'<b>Reflexión</b> 🪞',accept:['d1']},{id:'r2',html:'<b>Traslación</b> ➡️',accept:['d2']},{id:'r3',html:'<b>Rotación</b> 🔄',accept:['d3']}],
+  items:[{id:'d1',html:'La figura se refleja como en un espejo respecto de un eje'},
+         {id:'d2',html:'La figura se mueve sin girar, cambiando de posición en la cuadrícula'},
+         {id:'d3',html:'La figura gira alrededor de un centro, con un ángulo y un sentido'}],
+  learn:'Una <b>transformación isométrica</b> es el cambio de posición de una figura sin que varíen su forma ni su tamaño.',
+  ok:'¡Excelente! Identificaste reflexión, traslación y rotación.',
+  ko:'Piensa en qué hace cada movimiento con la figura. ¡Otra vez!'},
+
+ {type:'choice',tag:'Saber más',
+  prompt:'Al <b>trasladar, rotar o reflejar</b> una figura, ¿qué ocurre con ella?',
+  options:['Cambia su posición, pero mantiene su forma y tamaño','Cambia su tamaño y su forma','Desaparece','Solo cambia su color'],answer:0,
+  learn:'Las transformaciones isométricas cambian la <b>posición</b> de la figura sin que varíen su forma ni su tamaño.',
+  ok:'¡Correcto! Solo cambia la posición; la forma y el tamaño se mantienen.',
+  ko:'Revisa el recuadro "Saber más" de la página de rotación. ¡Ánimo!'},
+
+ {type:'choice',tag:'Rotación',
+  prompt:'Un ángulo de rotación en <b>sentido antihorario</b> es aquel que gira…',
+  options:['En sentido contrario al de las manecillas del reloj','Igual que las manecillas del reloj','Siempre 360°','Hacia la derecha de la cuadrícula'],answer:0,
+  learn:'Sentido <b>horario</b>: igual al de las manecillas del reloj. Sentido <b>antihorario</b>: contrario al de las manecillas del reloj.',
+  ok:'¡Muy bien! Antihorario = contrario a las manecillas del reloj.',
+  ko:'Recuerda el giro de las manecillas del reloj y su contrario. ¡Inténtalo otra vez!'}
+ ]}
+];
+
+/* -------- preparar ids / respuestas de grids -------- */
+function mirror(cells,cols){return cells.map(([c,r])=>[cols-1-c,r])}
+function shift(cells,dx,dy){return cells.map(([c,r])=>[c+dx,r+dy])}
+TOPICS.forEach(t=>{
+  t.qs.forEach((q,i)=>{
+    q.uid=`t${t.id}q${i}`; q.topic=t.id; q._solved=false; q._fails=0; q._counted=false;
+    if(q.type==='grid'&&!q.answer){
+      let ans;
+      if(q.translate) ans=shift(q.given,q.translate.dx,q.translate.dy);
+      else ans=mirror(q.given,q.cols);
+      q.answer=ans;
+    }
+  });
+});
+const topicById=id=>TOPICS.find(t=>t.id===id);
+
+/* ------------------------------ ACHIEVEMENTS -------------------------- */
+const ACHS=[
+ {id:'first',icon:'🌟',name:'Primera estrella',desc:'Respondiste correctamente tu primer desafío.'},
+ {id:'streak5',icon:'🔥',name:'Racha de 5',desc:'Acertaste 5 desafíos seguidos.'},
+ {id:'explorer',icon:'🧭',name:'Explorador del arte',desc:'Jugaste en los 5 temas de la unidad.'},
+ {id:'collector',icon:'👑',name:'Coleccionista',desc:'Desbloqueaste las 5 medallas de los temas.'}
+];
+
+/* ============================== WIDGETS =============================== */
+function makeChoices(q,api,box,opts){
+  const list=opts||q.options;
+  const grid=document.createElement('div'); grid.className='grid gap-3 md:grid-cols-2 mt-3';
+  list.forEach((op,i)=>{
+    const b=document.createElement('button'); b.type='button'; b.className='opt';
+    b.innerHTML=`<span class="opt-k">${'ABCD'[i]}</span><span class="opt-v">${op}</span>`;
+    b.addEventListener('click',()=>{
+      if(q._solved||b.classList.contains('bad'))return;
+      Sound.click();
+      if(i===q.answer){ b.classList.add('good'); $$('.opt',grid).forEach(o=>o.disabled=true); api.attempt(true); }
+      else{ b.classList.add('bad'); api.attempt(false); }
+    });
+    grid.appendChild(b);
+  });
+  box.appendChild(grid);
+}
+
+const Widgets={
+/* ---------------- CHOICE ---------------- */
+choice(q,api){ const w=document.createElement('div'); makeChoices(q,api,w); return w; },
+
+/* ---------------- MULTI ---------------- */
+multi(q,api){
+  const w=document.createElement('div'); const sel=new Set();
+  const grid=document.createElement('div'); grid.className='grid gap-3 md:grid-cols-2';
+  q.options.forEach((op,i)=>{
+    const b=document.createElement('button'); b.type='button'; b.className='opt';
+    b.innerHTML=`<span class="opt-k">${'ABCD'[i]}</span><span class="opt-v">${op}</span>`;
+    b.addEventListener('click',()=>{ Sound.click(); if(sel.has(i)){sel.delete(i);b.classList.remove('sel')}else{sel.add(i);b.classList.add('sel')} });
+    grid.appendChild(b);
+  });
+  const btn=document.createElement('button'); btn.className='btn btn-primary mt-4'; btn.textContent='✔ Comprobar';
+  btn.addEventListener('click',()=>{
+    const okSet=[...q.answer].sort().join(','), mine=[...sel].sort().join(',');
+    if(!sel.size){ toast('🎨 Marca al menos una alternativa.',2000,'#7c3aed'); return; }
+    api.attempt(okSet===mine);
+  });
+  w.appendChild(grid); w.appendChild(btn); return w;
+},
+
+/* ---------------- INPUT ---------------- */
+input(q,api){
+  const w=document.createElement('div'); w.className='flex flex-wrap items-center gap-3 justify-center mt-2';
+  const inp=document.createElement('input'); inp.type='text'; inp.className='ans'; inp.placeholder='?'; inp.autocomplete='off';
+  const suf=document.createElement('span'); suf.className='text-2xl font-black text-slate-600'; suf.innerHTML=q.suffix||'';
+  const btn=document.createElement('button'); btn.className='btn btn-primary'; btn.textContent='✔ Comprobar';
+  const norm=v=>{
+    if(q.normalize==='digits') return (v.match(/\d/g)||[]).join('');
+    if(q.normalize==='money'){ const d=(v.match(/\d/g)||[]).join(''); return d.replace(/^0+/,'')||'0'; }
+    return v.trim().toLowerCase();
+  };
+  const go=()=>{
+    const v=norm(inp.value);
+    if(!v){ toast('✏️ Escribe tu respuesta primero.',2000,'#7c3aed'); return; }
+    const ok=q.accept.some(a=>norm(String(a))===v);
+    if(ok) inp.classList.add('ring-4','ring-emerald-300');
+    api.attempt(ok);
+  };
+  btn.addEventListener('click',go);
+  inp.addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+  if(q.suffix) w.appendChild(suf);
+  w.appendChild(inp); w.appendChild(btn);
+  setTimeout(()=>inp.focus(),250);
+  return w;
+},
+
+/* ---------------- PAINT ---------------- */
+paint(q,api){
+  const w=document.createElement('div'); w.className='flex flex-col items-center gap-3';
+  const state=new Set();
+  const box=document.createElement('div'); box.className='gridbox';
+  const cells=document.createElement('div'); cells.className='cells';
+  cells.style.gridTemplateColumns=`repeat(${q.cols},minmax(0,1fr))`;
+  cells.style.width=Math.min(420,q.cols*54)+'px';
+  const total=q.cols*q.rows;
+  for(let i=0;i<total;i++){
+    const c=document.createElement('button'); c.type='button'; c.className='cell';
+    c.addEventListener('click',()=>{ Sound.click(); if(state.has(i)){state.delete(i);c.classList.remove('on')}else{state.add(i);c.classList.add('on');c.classList.add('pop')} upd(); });
+    cells.appendChild(c);
+  }
+  box.appendChild(cells);
+  const info=document.createElement('div'); info.className='font-black text-lg text-violet-700';
+  const btn=document.createElement('button'); btn.className='btn btn-primary'; btn.textContent='✔ Comprobar';
+  const upd=()=>info.textContent=`Has pintado ${state.size} de ${total} partes`;
+  btn.addEventListener('click',()=>{ api.attempt(state.size===q.need); if(state.size!==q.need) box.classList.add('shake'),setTimeout(()=>box.classList.remove('shake'),500); });
+  upd(); w.appendChild(box); w.appendChild(info); w.appendChild(btn);
+  return w;
+},
+
+/* ---------------- GRID (simetría / reflexión / traslación) ---------------- */
+grid(q,api){
+  const w=document.createElement('div'); w.className='flex flex-col items-center gap-3';
+  const key=(c,r)=>r*q.cols+c;
+  const givenSet=new Set(q.given.map(([c,r])=>key(c,r)));
+  const state=new Set();
+  const box=document.createElement('div'); box.className='gridbox';
+  const cells=document.createElement('div'); cells.className='cells';
+  cells.style.gridTemplateColumns=`repeat(${q.cols},minmax(0,1fr))`;
+  cells.style.width=Math.min(460,q.cols*46)+'px';
+  for(let r=0;r<q.rows;r++)for(let c=0;c<q.cols;c++){
+    const i=key(c,r), el=document.createElement('button'); el.type='button'; el.className='cell';
+    if(givenSet.has(i)){ el.classList.add('locked'); el.disabled=true; }
+    else el.addEventListener('click',()=>{ Sound.click(); if(state.has(i)){state.delete(i);el.classList.remove('on')}else{state.add(i);el.classList.add('on');el.classList.add('pop')} });
+    cells.appendChild(el);
+  }
+  box.appendChild(cells);
+  if(q.axis){
+    const a=document.createElement('div'); a.className=q.axis.dir==='v'?'axis-v':'axis-h';
+    if(q.axis.dir==='v') a.style.left=`calc(10px + ${(q.axis.at/q.cols)*100}% * ${(q.cols*46)/(q.cols*46)} )`;
+    if(q.axis.dir==='v'){ a.style.left=`calc(10px + ${q.axis.at*(100/q.cols)}% * 0.94)`; }
+    else{ a.style.top=`calc(10px + ${q.axis.at*(100/q.rows)}% * 0.94)`; }
+    box.appendChild(a);
+  }
+  const legend=document.createElement('div');
+  legend.className='flex flex-wrap gap-3 justify-center text-sm font-extrabold text-slate-600';
+  legend.innerHTML=`<span class="flex items-center gap-1"><i class="inline-block w-4 h-4 rounded" style="background:linear-gradient(#38bdf8,#6366f1)"></i> Figura original</span>
+   <span class="flex items-center gap-1"><i class="inline-block w-4 h-4 rounded" style="background:linear-gradient(#a78bfa,#ec4899)"></i> Tu dibujo</span>
+   ${q.axis?'<span class="flex items-center gap-1"><i class="inline-block w-4 h-1 rounded" style="background:#ef4444"></i> Eje de simetría / reflexión</span>':''}
+   ${q.translate?`<span class="flex items-center gap-1">🚚 Traslación: ${q.translate.dx} → y ${Math.abs(q.translate.dy)} ${q.translate.dy<0?'↑':'↓'}</span>`:''}`;
+  const row=document.createElement('div'); row.className='flex gap-3 flex-wrap justify-center';
+  const clean=document.createElement('button'); clean.className='btn btn-ghost'; clean.textContent='🧽 Limpiar';
+  clean.addEventListener('click',()=>{ state.clear(); $$('.cell',cells).forEach(c=>c.classList.remove('on')); Sound.click(); });
+  const btn=document.createElement('button'); btn.className='btn btn-primary'; btn.textContent='✔ Comprobar';
+  btn.addEventListener('click',()=>{
+    const ans=new Set(q.answer.map(([c,r])=>key(c,r)));
+    const ok=ans.size===state.size&&[...ans].every(i=>state.has(i));
+    api.attempt(ok);
+    if(!ok){ box.classList.add('shake'); setTimeout(()=>box.classList.remove('shake'),500);
+      if(ok===false){ // mostrar pista visual de casillas correctas si ya falló 2 veces
+        if(q._fails>=2){ [...ans].forEach(i=>{ const el=cells.children[i]; if(el&&!el.classList.contains('on')) el.style.borderColor='#f59e0b'; }); }
+      }
+    } else {
+      [...ans].forEach(i=>cells.children[i].classList.add('on'));
+    }
+  });
+  row.appendChild(clean); row.appendChild(btn);
+  w.appendChild(box); w.appendChild(legend); w.appendChild(row);
+  return w;
+},
+
+/* ---------------- MATCH (drag & drop) ---------------- */
+match(q,api){
+  const w=document.createElement('div');
+  let selected=null, matched=0;
+  const slots=[];
+  const buildChip=item=>{
+    const ch=document.createElement('div'); ch.className='chip'; ch.innerHTML=item.html; ch.dataset.id=item.id;
+    ch.setAttribute('draggable','true');
+    ch.addEventListener('dragstart',e=>{ e.dataTransfer.setData('text/plain',item.id); e.dataTransfer.effectAllowed='move'; ch.classList.add('dragging'); selected=ch; });
+    ch.addEventListener('dragend',()=>ch.classList.remove('dragging'));
+    ch.addEventListener('click',()=>{
+      if(ch.classList.contains('used'))return;
+      Sound.click();
+      if(selected===ch){ ch.classList.remove('sel'); selected=null; }
+      else{ if(selected) selected.classList.remove('sel'); selected=ch; ch.classList.add('sel'); }
+    });
+    return ch;
+  };
+  const place=(slot,chipEl)=>{
+    if(!chipEl||slot.dataset.done)return;
+    const id=chipEl.dataset.id;
+    if(slot.dataset.accept.split('|').includes(id)){
+      slot.dataset.done='1'; slot.classList.add('done'); slot.classList.remove('err');
+      const c=chipEl.cloneNode(true); c.classList.remove('sel','chip'); c.classList.add('pop');
+      c.style.cursor='default'; slot.innerHTML=''; slot.appendChild(c);
+      chipEl.classList.add('used'); chipEl.classList.remove('sel');
+      if(selected===chipEl) selected=null;
+      Sound.tone(760,.1,'triangle',.06); matched++;
+      if(matched===slots.length) setTimeout(()=>api.attempt(true),320);
+    }else{
+      slot.classList.add('err'); setTimeout(()=>slot.classList.remove('err'),450);
+      chipEl.classList.remove('sel'); if(selected===chipEl) selected=null;
+      api.attempt(false);
+    }
+  };
+  const wire=slotEl=>{
+    slotEl.addEventListener('dragover',e=>{ e.preventDefault(); slotEl.classList.add('over'); });
+    slotEl.addEventListener('dragleave',()=>slotEl.classList.remove('over'));
+    slotEl.addEventListener('drop',e=>{ e.preventDefault(); slotEl.classList.remove('over');
+      const id=e.dataTransfer.getData('text/plain');
+      const chip=$$('.chip',w).find(c=>c.dataset.id===id&&!c.classList.contains('used'));
+      place(slotEl,chip||selected);
+    });
+    slotEl.addEventListener('click',()=>{ if(selected) place(slotEl,selected); });
+    slots.push(slotEl);
+  };
+
+  if(q.layout==='line'){
+    const nl=document.createElement('div'); nl.className='nl';
+    const line=document.createElement('div'); line.className='nl-line'; nl.appendChild(line);
+    const ticks=q.line.ticks;
+    for(let i=0;i<=ticks;i++){
+      const t=document.createElement('div'); t.className='nl-tick'; t.style.left=(i/ticks*100)+'%'; nl.appendChild(t);
+      if(i===0||i===ticks){ const l=document.createElement('div'); l.className='nl-lab'; l.style.left=(i/ticks*100)+'%'; l.textContent=i; nl.appendChild(l); }
+    }
+    q.slots.forEach(s=>{
+      const el=document.createElement('div'); el.className='nl-slot'; el.style.left=(s.pos*100)+'%';
+      el.dataset.accept=s.accept.join('|'); el.innerHTML='<span class="text-2xl text-indigo-300 font-black">?</span>';
+      wire(el); nl.appendChild(el);
+    });
+    w.appendChild(nl);
+  }else{
+    const g=document.createElement('div'); g.className='grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mt-2';
+    q.slots.forEach(s=>{
+      const card=document.createElement('div'); card.className='card p-3 flex flex-col items-center gap-2';
+      const head=document.createElement('div'); head.className='font-black text-lg text-slate-700 text-center'; head.innerHTML=s.html;
+      const el=document.createElement('div'); el.className='slot w-full'; el.dataset.accept=s.accept.join('|');
+      el.innerHTML='<span class="text-indigo-300 font-black text-xl">suelta aquí</span>';
+      wire(el); card.appendChild(head); card.appendChild(el); g.appendChild(card);
+    });
+    w.appendChild(g);
+  }
+  const tray=document.createElement('div'); tray.className='flex flex-wrap gap-3 justify-center mt-5 p-3 rounded-2xl bg-violet-50 border-2 border-dashed border-violet-200';
+  const shuffled=q.items.slice().sort(()=>Math.random()-.5);
+  shuffled.forEach(it=>tray.appendChild(buildChip(it)));
+  w.appendChild(tray);
+  const tip=document.createElement('p'); tip.className='text-center text-sm font-extrabold text-slate-500 mt-2';
+  tip.innerHTML='👆 Arrastra las fichas… o tócalas: primero la ficha y luego el recuadro.';
+  w.appendChild(tip);
+  return w;
+},
+
+/* ---------------- BALANCE ---------------- */
+balance(q,api){
+  const w=document.createElement('div'); w.className='flex flex-col items-center gap-4';
+  let x=null; const found=new Set();
+  const eq=document.createElement('div');
+  eq.className='font-display text-3xl font-bold text-slate-800 bg-white border-4 border-amber-200 rounded-2xl px-5 py-2 shadow';
+  eq.innerHTML=q.eqLabel; w.appendChild(eq);
+
+  const bal=document.createElement('div'); bal.className='bal';
+  bal.innerHTML=`<div class="beam" id="beam">
+      <div class="holder l"><div class="pan" id="panL"></div></div>
+      <div class="holder r"><div class="pan" id="panR"></div></div>
+    </div>
+    <div class="bal-post"></div><div class="bal-base"></div>`;
+  w.appendChild(bal);
+  const beam=$('#beam',bal), panL=$('#panL',bal), panR=$('#panR',bal);
+
+  const dots=(n,cls='')=>Array.from({length:n},()=>`<span class="dot ${cls}"></span>`).join('');
+  const paint=()=>{
+    const L=q.leftFixed+(q.leftX&&x!==null?x:0);
+    const R=q.rightFixed+(q.rightX&&x!==null?x:0);
+    panL.innerHTML=dots(q.leftFixed)+(q.leftX?`<span class="bag">${x===null?'x':x}</span>`:'');
+    panR.innerHTML=dots(q.rightFixed)+(q.rightX?`<span class="bag">${x===null?'x':x}</span>`:'');
+    const diff=(x===null)?0:L-R;
+    const tilt=clamp(diff*2.2,-15,15);
+    beam.style.transform=`rotate(${tilt}deg)`;
+    panL.style.transform=`translateX(-50%) rotate(${-tilt}deg)`;
+    panR.style.transform=`translateX(-50%) rotate(${-tilt}deg)`;
+    beam.style.background=(x!==null&&diff===0)?'linear-gradient(#34d399,#059669)':'linear-gradient(#a78bfa,#7c3aed)';
+    return {L,R,diff};
+  };
+
+  const zone=document.createElement('div'); zone.className='flex items-center gap-4 flex-wrap justify-center';
+  zone.innerHTML=`<span class="font-display text-3xl font-bold">x =</span>`;
+  const drop=document.createElement('div'); drop.className='dropx'; drop.textContent='?';
+  zone.appendChild(drop); w.appendChild(zone);
+
+  const tray=document.createElement('div'); tray.className='flex flex-wrap gap-2 justify-center p-3 rounded-2xl bg-amber-50 border-2 border-dashed border-amber-200';
+  let selected=null;
+  const tryValue=v=>{
+    x=v; drop.textContent=v; drop.classList.remove('ok');
+    const {diff}=paint();
+    const okRel = q.relation==='=' ? diff===0 : (q.relation==='>'? diff>0 : diff<0);
+    if(okRel){
+      drop.classList.add('ok'); Sound.tone(760,.1,'triangle',.06);
+      if(q.mode==='inequality'&&q.solutions.length>1){
+        if(q.solutions.includes(v)&&!found.has(v)){ found.add(v); toast(`✅ x = ${v} mantiene el desequilibrio. ¡Sigue buscando! (${found.size}/${q.solutions.length})`,2200,'#059669'); }
+        if(found.size===q.solutions.length) setTimeout(()=>api.attempt(true),400);
+        else return;
+      }else{ setTimeout(()=>api.attempt(true),380); return; }
+    }else{
+      const msg=q.mode==='inequality'
+        ? `Con x = ${v} la balanza ${diff===0?'queda en equilibrio':'no cumple la desigualdad'}. ¡Prueba otro valor!`
+        : `La balanza no está en equilibrio. ¡Tú puedes intentarlo de nuevo!`;
+      toast('⚖️ '+msg,2400,'#b45309');
+      api.attempt(false,true);
+    }
+  };
+  q.candidates.forEach(v=>{
+    const ch=document.createElement('div'); ch.className='chip'; ch.textContent=v; ch.dataset.v=v;
+    ch.setAttribute('draggable','true');
+    ch.addEventListener('dragstart',e=>{ e.dataTransfer.setData('text/plain',v); selected=ch; ch.classList.add('dragging'); });
+    ch.addEventListener('dragend',()=>ch.classList.remove('dragging'));
+    ch.addEventListener('click',()=>{ Sound.click(); if(selected)selected.classList.remove('sel'); selected=ch; ch.classList.add('sel'); });
+    tray.appendChild(ch);
+  });
+  w.appendChild(tray);
+  drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('over')});
+  drop.addEventListener('dragleave',()=>drop.classList.remove('over'));
+  drop.addEventListener('drop',e=>{ e.preventDefault(); drop.classList.remove('over'); tryValue(parseInt(e.dataTransfer.getData('text/plain'),10)); });
+  drop.addEventListener('click',()=>{ if(selected) tryValue(parseInt(selected.dataset.v,10)); });
+
+  if(q.mode==='inequality'){
+    const f=document.createElement('div'); f.className='font-extrabold text-emerald-700 bg-emerald-50 border-2 border-emerald-200 rounded-2xl px-4 py-2';
+    f.id='foundList'; f.textContent=`Valores que funcionan: 0 de ${q.solutions.length}`; w.appendChild(f);
+    const updF=()=>f.textContent=`Valores que funcionan: ${found.size} de ${q.solutions.length} → ${[...found].sort((a,b)=>a-b).join(', ')}`;
+    const origTry=tryValue;
+    // hook: actualizar contador
+    setInterval(updF,300);
+  }
+  paint();
+  return w;
+},
+
+/* ---------------- PROTRACTOR ---------------- */
+protBuild(q,api){
+  const w=document.createElement('div'); w.className='flex flex-col items-center gap-3';
+  const W=470,H=290,V={x:235,y:232},R=175;
+  const cv=document.createElement('canvas');
+  cv.width=W*2;cv.height=H*2;cv.style.width='100%';cv.style.maxWidth=W+'px';
+  const ctx=cv.getContext('2d'); ctx.scale(2,2);
+  let ang=25;
+  const pt=(c,r,d)=>({x:c.x+r*Math.cos(d*Math.PI/180),y:c.y-r*Math.sin(d*Math.PI/180)});
+  function drawProt(c,cx,cy,r){
+    c.save();
+    c.beginPath();c.arc(cx,cy,r,Math.PI,0);c.closePath();
+    c.fillStyle='rgba(224,242,254,.72)';c.fill();
+    c.strokeStyle='#0284c7';c.lineWidth=2.5;c.stroke();
+    c.beginPath();c.moveTo(cx-r,cy);c.lineTo(cx+r,cy);c.stroke();
+    for(let d=0;d<=180;d+=5){
+      const long=d%10===0, r1=r-(long?18:10);
+      const a=pt({x:cx,y:cy},r1,d), b=pt({x:cx,y:cy},r-2,d);
+      c.beginPath();c.moveTo(a.x,a.y);c.lineTo(b.x,b.y);
+      c.strokeStyle=long?'#0369a1':'#7dd3fc';c.lineWidth=long?2:1.2;c.stroke();
+      if(d%10===0){
+        const t=pt({x:cx,y:cy},r-30,d);
+        c.fillStyle='#0c4a6e';c.font='700 11px Nunito, sans-serif';c.textAlign='center';c.textBaseline='middle';
+        c.fillText(String(d),t.x,t.y);
+      }
+    }
+    c.beginPath();c.arc(cx,cy,4,0,7);c.fillStyle='#dc2626';c.fill();
+    c.restore();
+  }
+  function ray(c,o,d,color,len,lw=5){
+    const p=pt(o,len,d);
+    c.beginPath();c.moveTo(o.x,o.y);c.lineTo(p.x,p.y);
+    c.strokeStyle=color;c.lineWidth=lw;c.linecap='round';c.stroke();
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+    drawProt(ctx,V.x,V.y,R);
+    ray(ctx,V,0,'#1e293b',R+22);
+    const arcR=44;
+    ctx.beginPath();ctx.moveTo(V.x+arcR,V.y);
+    ctx.arc(V.x,V.y,arcR,0,-ang*Math.PI/180,true);
+    ctx.lineTo(V.x,V.y);ctx.closePath();
+    ctx.fillStyle='rgba(236,72,153,.18)';ctx.fill();
+    ctx.strokeStyle='#ec4899';ctx.lineWidth=2;ctx.stroke();
+    ray(ctx,V,ang,'#ef4444',R+22);
+    const h=pt(V,R-4,ang);
+    ctx.beginPath();ctx.arc(h.x,h.y,13,0,7);ctx.fillStyle='#fde047';ctx.fill();
+    ctx.strokeStyle='#b45309';ctx.lineWidth=3;ctx.stroke();
+    ctx.fillStyle='#7c3aed';ctx.font='700 26px Fredoka, sans-serif';ctx.textAlign='center';
+    ctx.fillText(`${Math.round(ang)}°`,V.x,V.y-70);
+  }
+  const rect=e=>{const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)*(W/r.width),y:(e.clientY-r.top)*(H/r.height)}};
+  let drag=false;
+  cv.addEventListener('pointerdown',e=>{drag=true;cv.setPointerCapture(e.pointerId);move(e);});
+  cv.addEventListener('pointermove',e=>{if(drag)move(e);});
+  cv.addEventListener('pointerup',()=>drag=false);
+  cv.addEventListener('pointercancel',()=>drag=false);
+  function move(e){ const p=rect(e); let a=Math.atan2(V.y-p.y,p.x-V.x)*180/Math.PI; ang=clamp(a,0,180); draw(); }
+  draw();
+  const wrap=document.createElement('div'); wrap.className='prot-wrap w-full'; wrap.appendChild(cv); w.appendChild(wrap);
+  const info=document.createElement('p'); info.className='text-sm font-extrabold text-slate-500 text-center';
+  info.innerHTML='🖐️ Arrastra el <span class="text-amber-600">punto amarillo</span> o toca el transportador para girar el lado rojo del ángulo.';
+  w.appendChild(info);
+  const btn=document.createElement('button'); btn.className='btn btn-amber text-lg'; btn.textContent=`✔ ¡Listo! Construí el ángulo de ${q.target}°`;
+  btn.addEventListener('click',()=>{ api.attempt(Math.abs(ang-q.target)<=(q.tol||4)); });
+  w.appendChild(btn);
+  return w;
+},
+
+protMeasure(q,api){
+  const w=document.createElement('div'); w.className='flex flex-col items-center gap-3';
+  const W=470,H=300,V={x:250,y:238},R=168;
+  const cv=document.createElement('canvas');
+  cv.width=W*2;cv.height=H*2;cv.style.width='100%';cv.style.maxWidth=W+'px';
+  const ctx=cv.getContext('2d');ctx.scale(2,2);
+  let P={x:88,y:78}, drag=false, off={x:0,y:0}, snapped=false;
+  const pt=(c,r,d)=>({x:c.x+r*Math.cos(d*Math.PI/180),y:c.y-r*Math.sin(d*Math.PI/180)});
+  function drawProt(c,cx,cy,r,glow){
+    c.save();
+    c.beginPath();c.arc(cx,cy,r,Math.PI,0);c.closePath();
+    c.fillStyle=glow?'rgba(209,250,229,.85)':'rgba(224,242,254,.78)';c.fill();
+    c.strokeStyle=glow?'#059669':'#0284c7';c.lineWidth=3;c.stroke();
+    c.beginPath();c.moveTo(cx-r,cy);c.lineTo(cx+r,cy);c.stroke();
+    for(let d=0;d<=180;d+=5){
+      const long=d%10===0,r1=r-(long?18:10);
+      const a=pt({x:cx,y:cy},r1,d),b=pt({x:cx,y:cy},r-2,d);
+      c.beginPath();c.moveTo(a.x,a.y);c.lineTo(b.x,b.y);
+      c.strokeStyle=long?(glow?'#047857':'#0369a1'):'#bae6fd';c.lineWidth=long?2:1.2;c.stroke();
+      if(d%10===0){const t=pt({x:cx,y:cy},r-30,d);c.fillStyle=glow?'#065f46':'#0c4a6e';c.font='700 11px Nunito, sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(String(d),t.x,t.y);}
+    }
+    c.beginPath();c.arc(cx,cy,5,0,7);c.fillStyle='#dc2626';c.fill();
+    c.restore();
+  }
+  function ray(c,o,d,color,len,lw){const p=pt(o,len,d);c.beginPath();c.moveTo(o.x,o.y);c.lineTo(p.x,p.y);c.strokeStyle=color;c.lineWidth=lw;c.linecap='round';c.stroke();}
+  function draw(){
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+    const a=q.angle, arcR=48;
+    ctx.beginPath();ctx.moveTo(V.x+arcR,V.y);ctx.arc(V.x,V.y,arcR,0,-a*Math.PI/180,true);ctx.lineTo(V.x,V.y);ctx.closePath();
+    ctx.fillStyle='rgba(124,58,237,.15)';ctx.fill();
+    ray(ctx,V,0,'#1e293b',205,6); ray(ctx,V,a,'#1e293b',205,6);
+    ctx.beginPath();ctx.arc(V.x,V.y,7,0,7);ctx.fillStyle='#ec4899';ctx.fill();
+    ctx.fillStyle='#7c3aed';ctx.font='700 13px Nunito, sans-serif';ctx.textAlign='left';
+    ctx.fillText('vértice',V.x-26,V.y+24);
+    drawProt(ctx,P.x,P.y,R,snapped);
+    if(snapped){
+      ctx.fillStyle='#059669';ctx.font='800 15px Nunito, sans-serif';ctx.textAlign='center';
+      ctx.fillText('¡Transportador bien ubicado! Lee la medida donde cruza el lado del ángulo.',W/2,24);
+    }else{
+      ctx.fillStyle='#0369a1';ctx.font='800 15px Nunito, sans-serif';ctx.textAlign='center';
+      ctx.fillText('✋ Arrastra el transportador hasta el vértice del ángulo',W/2,24);
+    }
+  }
+  const rect=e=>{const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)*(W/r.width),y:(e.clientY-r.top)*(H/r.height)}};
+  cv.addEventListener('pointerdown',e=>{const p=rect(e); if(Math.hypot(p.x-P.x,p.y-P.y)<R+20){drag=true;off={x:p.x-P.x,y:p.y-P.y};cv.setPointerCapture(e.pointerId);}});
+  cv.addEventListener('pointermove',e=>{ if(!drag)return; const p=rect(e);
+    P={x:p.x-off.x,y:p.y-off.y};
+    if(Math.hypot(P.x-V.x,P.y-V.y)<24){ P={x:V.x,y:V.y}; if(!snapped){snapped=true;Sound.tone(880,.12,'sine',.06);} }
+    else snapped=false;
+    draw();
+  });
+  cv.addEventListener('pointerup',()=>drag=false);
+  cv.addEventListener('pointercancel',()=>drag=false);
+  draw();
+  const wrap=document.createElement('div');wrap.className='prot-wrap w-full';wrap.appendChild(cv);w.appendChild(wrap);
+  makeChoices(q,api,w);
+  return w;
+}
+};
+
+/* ============================== ENGINE ================================ */
+const E={
+  topic:null,qi:0,ok:0,answered:0,
+  updateHUD(){
+    $('#statExp').textContent=S.exp; $('#statCoins').textContent=S.coins; $('#statStreak').textContent=S.streak;
+    $('#statLives').innerHTML=Array.from({length:MAXLIVES},(_,i)=>`<span class="heart ${i<S.lives?'':'gone'}">${HEART}</span>`).join('');
+    $$('.navbtn[data-nav]').forEach(b=>b.classList.toggle('active',b.dataset.nav===S.screen));
+  },
+  loseLife(){
+    if(S.lives>0){ S.lives--; }
+    if(S.lives===0){
+      setTimeout(()=>{
+        S.lives=MAXLIVES; save(); E.updateHUD(); confetti(40);
+        modal(`<div class="text-center">
+          <div class="text-6xl mb-2">💖</div>
+          <h3 class="font-display text-2xl font-bold text-violet-700 mb-2">¡Recargamos tus vidas!</h3>
+          <p class="font-bold text-slate-600 mb-4">No te desanimes: en el arte y en la matemática se aprende practicando. <b>¡Tú puedes!</b></p>
+          <button class="btn btn-primary" onclick="closeModal()">Seguir jugando 🎨</button></div>`);
+      },700);
+    }
+    save(); E.updateHUD();
+  },
+  win(q,detail){
+    if(q._solved)return; q._solved=true;
+    S.streak++; S.bestStreak=Math.max(S.bestStreak,S.streak);
+    const bonus=Math.min(S.streak-1,5)*2;
+    const exp=(q.exp||20)+bonus, coins=5;
+    S.exp+=exp; S.coins+=coins;
+    if(!q._counted){ q._counted=true; E.ok++; E.answered++;
+      const p=S.prog[q.topic]||(S.prog[q.topic]={ok:0,ans:0}); p.ok++; p.ans++;
+      S.results[q.uid]='ok';
+    }
+    if(!S.topicsPlayed.includes(q.topic)) S.topicsPlayed.push(q.topic);
+    Sound.correct(); confetti(28); E.updateHUD(); E.checkAchs(); save();
+    const t=topicById(q.topic);
+    modal(`<div class="text-center">
+      <div class="text-6xl mb-1">${['🎉','🌟','🎨','👏','🏆'][Math.floor(Math.random()*5)]}</div>
+      <h3 class="font-display text-3xl font-bold text-emerald-600 mb-2">¡Lo lograste!</h3>
+      <p class="font-bold text-slate-700 text-lg mb-3">${q.ok||'¡Excelente respuesta!'}</p>
+      <div class="flex justify-center gap-2 mb-3 flex-wrap">
+        <span class="tag bg-violet-100 text-violet-700">+${exp} EXP</span>
+        <span class="tag bg-amber-100 text-amber-700">+${coins} 🪙</span>
+        ${bonus?`<span class="tag bg-rose-100 text-rose-600">🔥 racha x${S.streak} (+${bonus})</span>`:''}
+      </div>
+      <div class="learn text-left"><summary>📘 Aprende (como en el libro)</summary><div class="font-bold text-slate-700 mt-2">${q.learn||''}</div></div>
+      <button class="btn btn-primary text-lg w-full" id="mNext">${E.qi+1<t.qs.length?'Siguiente desafío ➜':'Ver mis resultados 🏁'}</button>
+    </div>`);
+    $('#mNext').addEventListener('click',()=>{ closeModal(); E.next(); });
+  },
+  fail(q,silentModal){
+    q._fails++;
+    if(q._fails===1){ S.streak=0; E.loseLife(); }
+    Sound.wrong(); E.updateHUD(); save();
+    const cheers=['¡Tú puedes intentarlo de nuevo! 💪','¡Casi! Revisa la pista 💡 y vuelve a intentarlo.','No te rindas: los artistas corrigen y mejoran 🎨','¡Ánimo! Un error también enseña ✨'];
+    if(q._fails>=3&&!silentModal){
+      modal(`<div class="text-center">
+        <div class="text-5xl mb-2">${mascotSVG(110,'think')}</div>
+        <h3 class="font-display text-2xl font-bold text-violet-700 mb-2">¡Mira cómo se resuelve!</h3>
+        <p class="font-bold text-slate-600 mb-3">${q.ko||''}</p>
+        <div class="learn text-left"><summary>📘 Aprende paso a paso</summary><div class="font-bold text-slate-700 mt-2">${q.learn||''}</div></div>
+        <div class="flex gap-2 flex-wrap justify-center">
+          <button class="btn btn-amber" id="mRetry">🔄 Intentarlo otra vez</button>
+          <button class="btn btn-ghost" id="mSkip">Continuar ➜</button>
+        </div></div>`);
+      $('#mRetry').addEventListener('click',()=>{ closeModal(); E.renderQuestion(true); });
+      $('#mSkip').addEventListener('click',()=>{ closeModal(); E.skip(q); });
+      return;
+    }
+    if(silentModal) return;
+    toast(cheers[Math.floor(Math.random()*cheers.length)]+(q.ko?` <span class="opacity-80">· ${q.ko.replace(/<[^>]+>/g,'')}</span>`:''),3200,'#4c1d95');
+  },
+  skip(q){
+    if(!q._counted){ q._counted=true; E.answered++;
+      const p=S.prog[q.topic]||(S.prog[q.topic]={ok:0,ans:0}); p.ans++;
+      S.results[q.uid]='skip';
+      if(!S.topicsPlayed.includes(q.topic)) S.topicsPlayed.push(q.topic);
+      save();
+    }
+    E.next();
+  },
+  next(){
+    const t=topicById(E.topic);
+    if(E.qi+1>=t.qs.length){ E.showResult(); } else { E.qi++; E.renderQuestion(); }
+  },
+  checkAchs(){
+    const add=id=>{ if(!S.badges.includes(id)){ S.badges.push(id); const a=ACHS.find(x=>x.id===id); if(a){ Sound.badge(); toast(`🏅 ¡Logro desbloqueado: <b>${a.name}</b>!`,3000,'#b45309'); } } };
+    if(Object.values(S.results).some(v=>v==='ok')) add('first');
+    if(S.streak>=5) add('streak5');
+    if(S.topicsPlayed.length>=5) add('explorer');
+    if(TOPICS.every(t=>S.badges.includes('topic'+t.id))) add('collector');
+    save();
+  },
+  startTopic(id){
+    E.topic=id; E.qi=0; E.ok=0; E.answered=0;
+    topicById(id).qs.forEach(q=>{q._solved=false;q._fails=0;});
+    S.screen='topic'; E.renderQuestion(); window.scrollTo({top:0,behavior:'smooth'});
+  },
+  renderQuestion(force){
+    const t=topicById(E.topic), q=t.qs[E.qi];
+    if(force){ q._solved=false; }
+    const pct=Math.round(((E.qi)/t.qs.length)*100);
+    const sc=$('#screen');
+    sc.innerHTML=`
+    <div class="mb-4">
+      <div class="flex items-center gap-3 flex-wrap">
+        <button class="btn btn-ghost !py-2 !px-4" id="btnExit">← Salir</button>
+        <span class="tag ${t.color.soft} ${t.color.text}">${t.emoji} ${t.sub}: ${t.title}</span>
+        <span class="ml-auto font-black text-slate-500">Desafío ${E.qi+1} de ${t.qs.length}</span>
+      </div>
+      <div class="bar mt-3"><span style="width:${pct}%"></span></div>
+    </div>
+    <div class="card p-5 md:p-7">
+      <div class="flex items-center gap-2 mb-2 flex-wrap">
+        <span class="tag bg-slate-100 text-slate-600">${q.tag||'Desafío'}</span>
+        <span class="tag bg-violet-100 text-violet-700">${{choice:'Alternativas',multi:'Selecciona varias',input:'Completa',paint:'Pinta',grid:'Cuadrícula',match:'Arrastra y une',balance:'Balanza',protBuild:'Transportador',protMeasure:'Transportador'}[q.type]||''}</span>
+      </div>
+      <h2 class="font-display text-xl md:text-2xl font-bold text-slate-800 leading-snug mb-3">${q.prompt}</h2>
+      ${q.learn?`<details class="learn"><summary>💡 Pista · "Aprende" del libro</summary><div class="font-bold text-slate-700 mt-2">${q.learn}</div></details>`:''}
+      <div id="widgetHost" class="mt-3"></div>
+      <div class="flex justify-between items-center mt-5 flex-wrap gap-2">
+        <button class="btn btn-ghost text-sm" id="btnSkipQ">⏭ Saltar este desafío</button>
+        <span class="text-sm font-extrabold text-slate-400">Intentos usados: <span id="tries">0</span></span>
+      </div>
+    </div>`;
+    const api={q,attempt:(ok,silent)=>{ $('#tries') && ($('#tries').textContent=q._fails+(ok?0:1)); ok?E.win(q):E.fail(q,silent); }};
+    const node=Widgets[q.type](q,api);
+    node.classList.add('pop');
+    $('#widgetHost').appendChild(node);
+    $('#btnExit').addEventListener('click',()=>{ nav('home'); });
+    $('#btnSkipQ').addEventListener('click',()=>{
+      modal(`<div class="text-center"><h3 class="font-display text-2xl font-bold text-violet-700 mb-2">¿Saltar este desafío?</h3>
+      <p class="font-bold text-slate-600 mb-4">Se marcará como pendiente, pero podrás repetirlo cuando quieras.</p>
+      <div class="flex gap-2 justify-center flex-wrap"><button class="btn btn-primary" id="ms">Sí, saltar</button><button class="btn btn-ghost" id="mn">No, seguir intentando</button></div></div>`);
+      $('#ms').addEventListener('click',()=>{closeModal();E.skip(q)});
+      $('#mn').addEventListener('click',closeModal);
+    });
+    E.updateHUD();
+  },
+  showResult(){
+    const t=topicById(E.topic);
+    const total=t.qs.length, acc=Math.round(E.ok/total*100);
+    const stars=acc>=90?3:acc>=70?2:acc>=40?1:0;
+    const earned=S.badges.includes('topic'+t.id);
+    if(acc>=70&&!earned){ S.badges.push('topic'+t.id); }
+    S.exp+=stars*15; S.coins+=stars*10; save(); E.checkAchs(); E.updateHUD();
+    Sound.levelup(); confetti(120);
+    const sc=$('#screen');
+    sc.innerHTML=`
+    <div class="card p-6 md:p-10 text-center max-w-2xl mx-auto">
+      <div class="text-7xl mb-2">${t.emoji}</div>
+      <h2 class="font-display text-3xl font-bold text-violet-700 mb-1">¡Terminaste ${t.sub}!</h2>
+      <p class="font-extrabold text-slate-500 mb-4">${t.title}</p>
+      <div class="text-5xl mb-3">${'⭐'.repeat(stars)||'💪'}<span class="text-slate-300">${'⭐'.repeat(Math.max(0,3-stars))}</span></div>
+      <div class="grid grid-cols-3 gap-3 max-w-md mx-auto mb-5">
+        <div class="card p-3"><div class="text-2xl font-black text-emerald-600">${E.ok}</div><div class="text-xs font-extrabold text-slate-500">CORRECTAS</div></div>
+        <div class="card p-3"><div class="text-2xl font-black text-rose-500">${total-E.ok}</div><div class="text-xs font-extrabold text-slate-500">POR REPASAR</div></div>
+        <div class="card p-3"><div class="text-2xl font-black text-violet-600">${acc}%</div><div class="text-xs font-extrabold text-slate-500">LOGRO</div></div>
+      </div>
+      ${acc>=70?`<div class="learn inline-block text-left mx-auto"><div class="flex items-center gap-3">
+        <span class="text-4xl">${t.badge.icon}</span>
+        <div><div class="font-display font-bold text-amber-600 text-lg">🏅 ¡Medalla desbloqueada!</div>
+        <div class="font-extrabold text-slate-700">${t.badge.name}</div></div></div></div>`
+        :`<p class="font-bold text-slate-600 mb-4">Necesitas <b>70%</b> o más para ganar la medalla <b>${t.badge.icon} ${t.badge.name}</b>. ¡Inténtalo otra vez, tú puedes!</p>`}
+      <div class="flex gap-3 justify-center flex-wrap mt-6">
+        <button class="btn btn-amber" id="rAgain">🔁 Repetir tema</button>
+        <button class="btn btn-primary" id="rHome">🏠 Volver al inicio</button>
+      </div>
+    </div>`;
+    $('#rAgain').addEventListener('click',()=>E.startTopic(t.id));
+    $('#rHome').addEventListener('click',()=>nav('home'));
+  }
+};
+
+/* ============================== SCREENS ============================== */
+function progOf(t){
+  const p=S.prog[t.id]||{ok:0,ans:0};
+  return {ok:p.ok,ans:p.ans,total:t.qs.length,pct:Math.min(100,Math.round(p.ok/t.qs.length*100))};
+}
+function screenHome(){
+  const totalQ=TOPICS.reduce((a,t)=>a+t.qs.length,0);
+  const doneQ=TOPICS.reduce((a,t)=>a+progOf(t).ok,0);
+  const globalPct=Math.round(doneQ/totalQ*100);
+  const msgs=['¡Hola! Soy <b>Mati</b> 🎨 Hoy pintaremos matemáticas: fracciones, ángulos, ecuaciones y simetría.','Cada desafío correcto te da <b>EXP</b> ⭐ y <b>monedas de arte</b> 🪙. ¡Consigue las 5 medallas!','¿Sabías que en el arte también hay matemática? 🖼️ ¡Descúbrelo en la Unidad 3!'];
+  const sc=$('#screen');
+  sc.innerHTML=`
+  <section class="card p-5 md:p-7 mb-6 flex flex-col md:flex-row items-center gap-5">
+    <div class="shrink-0">${mascotSVG(150)}</div>
+    <div class="flex-1 text-center md:text-left">
+      <h1 class="font-display text-3xl md:text-4xl font-bold leading-tight">
+        <span class="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent">Unidad 3 · El arte</span>
+      </h1>
+      <p class="font-extrabold text-slate-500 mb-3">Matemática · 4° Básico · Santillana</p>
+      <div class="speech inline-block text-left">${msgs[new Date().getDate()%msgs.length]}</div>
+      <div class="mt-4">
+        <div class="flex justify-between text-xs font-black text-slate-500 mb-1"><span>PROGRESO DE LA UNIDAD</span><span>${doneQ}/${totalQ} desafíos · ${globalPct}%</span></div>
+        <div class="bar"><span style="width:${globalPct}%"></span></div>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-3 w-full md:w-auto">
+      <div class="card p-3 text-center min-w-[92px]"><div class="text-2xl">⭐</div><div class="font-black text-xl text-violet-700">${S.exp}</div><div class="text-[10px] font-black text-slate-400">EXP</div></div>
+      <div class="card p-3 text-center min-w-[92px]"><div class="text-2xl">🪙</div><div class="font-black text-xl text-amber-600">${S.coins}</div><div class="text-[10px] font-black text-slate-400">MONEDAS</div></div>
+      <div class="card p-3 text-center min-w-[92px]"><div class="text-2xl">🏅</div><div class="font-black text-xl text-emerald-600">${S.badges.filter(b=>b.startsWith('topic')).length}/5</div><div class="text-[10px] font-black text-slate-400">MEDALLAS</div></div>
+      <div class="card p-3 text-center min-w-[92px]"><div class="text-2xl">🔥</div><div class="font-black text-xl text-rose-500">${S.bestStreak}</div><div class="text-[10px] font-black text-slate-400">RÉCORD</div></div>
+    </div>
+  </section>
+
+  <h2 class="font-display text-2xl font-bold text-slate-800 mb-3">🗺️ Elige un tema para jugar</h2>
+  <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3 mb-8">
+    ${TOPICS.map(t=>{
+      const p=progOf(t), has=S.badges.includes('topic'+t.id);
+      return `<div class="card tile p-5 cursor-pointer group" data-topic="${t.id}">
+        <div class="flex items-start gap-3">
+          <div class="text-5xl">${t.emoji}</div>
+          <div class="flex-1">
+            <span class="tag ${t.color.soft} ${t.color.text}">${t.sub}</span>
+            <h3 class="font-display text-xl font-bold leading-tight mt-1">${t.title}</h3>
+          </div>
+          ${has?`<div class="text-3xl pulse" title="Medalla obtenida">${t.badge.icon}</div>`:''}
+        </div>
+        <p class="font-bold text-slate-500 text-sm mt-2 mb-3">${t.blurb}</p>
+        <div class="flex justify-between text-[11px] font-black text-slate-500 mb-1"><span>${p.ok} de ${p.total} logrados</span><span>${p.pct}%</span></div>
+        <div class="bar mb-3"><span style="width:${p.pct}%"></span></div>
+        <button class="btn btn-primary w-full group-hover:scale-[1.02] transition">▶ Jugar ${t.qs.length} desafíos</button>
+      </div>`}).join('')}
+  </div>
+
+  <section class="card p-5 md:p-7 mb-6">
+    <h2 class="font-display text-2xl font-bold text-slate-800 mb-3">🎮 ¿Cómo se juega?</h2>
+    <div class="grid gap-4 md:grid-cols-4 text-sm">
+      <div class="bg-violet-50 rounded-2xl p-4 border-2 border-violet-100"><div class="text-2xl mb-1">⭐</div><b class="font-display text-violet-700">Gana EXP y monedas</b><p class="font-bold text-slate-600">Cada respuesta correcta suma experiencia y monedas de arte. Las rachas dan bonos 🔥.</p></div>
+      <div class="bg-rose-50 rounded-2xl p-4 border-2 border-rose-100"><div class="text-2xl mb-1">💖</div><b class="font-display text-rose-600">Cuida tus vidas</b><p class="font-bold text-slate-600">Si te equivocas pierdes una vida, ¡pero siempre puedes reintentar! Si te quedas sin vidas, se recargan solitas.</p></div>
+      <div class="bg-amber-50 rounded-2xl p-4 border-2 border-amber-100"><div class="text-2xl mb-1">🏅</div><b class="font-display text-amber-600">Colecciona medallas</b><p class="font-bold text-slate-600">Logra 70% o más en un tema para desbloquear su medalla de artista.</p></div>
+      <div class="bg-sky-50 rounded-2xl p-4 border-2 border-sky-100"><div class="text-2xl mb-1">💡</div><b class="font-display text-sky-600">Usa las pistas</b><p class="font-bold text-slate-600">Abre el recuadro "Aprende" para repasar la explicación del libro antes de responder.</p></div>
+    </div>
+  </section>
+
+  <section class="card p-5 md:p-7">
+    <h2 class="font-display text-2xl font-bold text-slate-800 mb-3">🕹️ Herramientas interactivas</h2>
+    <div class="grid gap-3 md:grid-cols-5 text-center text-sm font-extrabold text-slate-600">
+      <div class="bg-slate-50 rounded-2xl p-3 border-2 border-slate-100">🧩<br>Arrastrar y soltar</div>
+      <div class="bg-slate-50 rounded-2xl p-3 border-2 border-slate-100">📐<br>Transportador real</div>
+      <div class="bg-slate-50 rounded-2xl p-3 border-2 border-slate-100">⚖️<br>Balanzas virtuales</div>
+      <div class="bg-slate-50 rounded-2xl p-3 border-2 border-slate-100">🔳<br>Cuadrículas de simetría</div>
+      <div class="bg-slate-50 rounded-2xl p-3 border-2 border-slate-100">🔢<br>Recta numérica</div>
+    </div>
+  </section>`;
+  $$('[data-topic]').forEach(el=>el.addEventListener('click',()=>{Sound.click();E.startTopic(+el.dataset.topic)}));
+}
+
+function screenBadges(){
+  const sc=$('#screen');
+  const topicBadges=TOPICS.map(t=>({...t.badge,unlocked:S.badges.includes('topic'+t.id),topic:t.title}));
+  const achBadges=ACHS.map(a=>({...a,unlocked:S.badges.includes(a.id)}));
+  sc.innerHTML=`
+  <div class="card p-6 md:p-8 max-w-4xl mx-auto">
+    <h2 class="font-display text-3xl font-bold text-center text-violet-700 mb-1">🏅 Mi vitrina de medallas</h2>
+    <p class="text-center font-extrabold text-slate-500 mb-6">¡Colecciónalas todas convirtiendo la matemática en arte!</p>
+    <h3 class="font-display text-xl font-bold mb-3 text-slate-700">Medallas de los temas</h3>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+      ${topicBadges.map(b=>`<div class="card p-4 text-center ${b.unlocked?'':'opacity-90'}">
+        <div class="text-5xl mb-2 ${b.unlocked?'':'badge-lock'}">${b.icon}</div>
+        <div class="font-display font-bold ${b.unlocked?'text-amber-600':'text-slate-400'}">${b.name}</div>
+        <div class="text-xs font-bold text-slate-500 mt-1">${b.desc}</div>
+        <div class="mt-2 tag ${b.unlocked?'bg-emerald-100 text-emerald-700':'bg-slate-100 text-slate-400'}">${b.unlocked?'✔ Desbloqueada':'🔒 Bloqueada'}</div>
+      </div>`).join('')}
+    </div>
+    <h3 class="font-display text-xl font-bold mb-3 text-slate-700">Logros especiales</h3>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      ${achBadges.map(b=>`<div class="card p-4 text-center">
+        <div class="text-4xl mb-1 ${b.unlocked?'':'badge-lock'}">${b.icon}</div>
+        <div class="font-display font-bold text-sm ${b.unlocked?'text-violet-700':'text-slate-400'}">${b.name}</div>
+        <div class="text-[11px] font-bold text-slate-500 mt-1">${b.desc}</div>
+      </div>`).join('')}
+    </div>
+    <div class="text-center mt-8"><button class="btn btn-primary" id="bHome">🏠 Volver al inicio</button></div>
+  </div>`;
+  $('#bHome').addEventListener('click',()=>nav('home'));
+}
+
+function screenProgress(){
+  const sc=$('#screen');
+  const rows=TOPICS.map(t=>{
+    const p=progOf(t);
+    const list=t.qs.map(q=>{
+      const st=S.results[q.uid];
+      return `<div class="flex items-center gap-2 text-sm font-bold py-1 border-b border-dashed border-slate-200">
+        <span class="text-lg">${st==='ok'?'✅':st==='skip'?'⏭':'⚪'}</span>
+        <span class="flex-1">${q.prompt.replace(/<[^>]+>/g,'').slice(0,72)}…</span>
+        <span class="tag ${st==='ok'?'bg-emerald-100 text-emerald-700':st==='skip'?'bg-amber-100 text-amber-700':'bg-slate-100 text-slate-400'}">${st==='ok'?'Logrado':st==='skip'?'Pendiente':'Sin jugar'}</span>
+      </div>`}).join('');
+    return `<div class="card p-5">
+      <div class="flex items-center gap-3 mb-2 flex-wrap">
+        <span class="text-4xl">${t.emoji}</span>
+        <div class="flex-1"><span class="tag ${t.color.soft} ${t.color.text}">${t.sub}</span>
+        <h3 class="font-display text-xl font-bold">${t.title}</h3></div>
+        <div class="text-right"><div class="font-black text-2xl ${t.color.text}">${p.pct}%</div><div class="text-[11px] font-black text-slate-400">${p.ok}/${p.total} LOGRADOS</div></div>
+      </div>
+      <div class="bar mb-3"><span style="width:${p.pct}%"></span></div>
+      <details><summary class="font-extrabold text-violet-700 cursor-pointer">📋 Ver detalle de los ${t.qs.length} desafíos</summary><div class="mt-2">${list}</div></details>
+      <button class="btn btn-sky mt-4 w-full" data-go="${t.id}">${p.pct>0?'🔁 Repetir tema':'▶ Comenzar'}</button>
+    </div>`}).join('');
+  sc.innerHTML=`<h2 class="font-display text-3xl font-bold text-center text-violet-700 mb-1">📊 Mi progreso</h2>
+  <p class="text-center font-extrabold text-slate-500 mb-6">Revisa qué contenidos debes reforzar, tal como en el libro.</p>
+  <div class="grid gap-5 max-w-3xl mx-auto">${rows}</div>
+  <div class="text-center mt-8"><button class="btn btn-primary" id="pHome">🏠 Volver al inicio</button></div>`;
+  $$('[data-go]').forEach(b=>b.addEventListener('click',()=>{Sound.click();E.startTopic(+b.dataset.go)}));
+  $('#pHome').addEventListener('click',()=>nav('home'));
+}
+
+function nav(name){
+  S.screen=name;
+  if(name==='home')screenHome(); else if(name==='badges')screenBadges(); else if(name==='progress')screenProgress();
+  E.updateHUD(); window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ================================ INIT ================================ */
+load();
+$('#miniMascot').innerHTML=mascotSVG(44);
+$$('.navbtn[data-nav]').forEach(b=>b.addEventListener('click',()=>{Sound.click();nav(b.dataset.nav)}));
+$('#btnSound').addEventListener('click',e=>{ Sound.muted=!Sound.muted; e.currentTarget.textContent=Sound.muted?'🔇':'🔊'; if(!Sound.muted) Sound.click(); });
+$('#btnReset').addEventListener('click',()=>{
+  modal(`<div class="text-center"><h3 class="font-display text-2xl font-bold text-rose-600 mb-2">¿Reiniciar todo tu progreso?</h3>
+  <p class="font-bold text-slate-600 mb-4">Perderás EXP, monedas y medallas.</p>
+  <div class="flex gap-2 justify-center"><button class="btn btn-primary" id="rsY">Sí, reiniciar</button><button class="btn btn-ghost" id="rsN">Cancelar</button></div></div>`);
+  $('#rsN').addEventListener('click',closeModal);
+  $('#rsY').addEventListener('click',()=>{ try{localStorage.removeItem('matearte_u3')}catch(e){}
+    Object.assign(S,{exp:0,coins:0,lives:MAXLIVES,streak:0,bestStreak:0,badges:[],prog:{},results:{},topicsPlayed:[]});
+    TOPICS.forEach(t=>t.qs.forEach(q=>{q._solved=false;q._fails=0;q._counted=false}));
+    closeModal(); nav('home'); toast('🧽 Progreso reiniciado. ¡A empezar de nuevo!',2500,'#7c3aed'); });
+});
+if(S.lives<=0) S.lives=MAXLIVES;
+nav('home');
+</script>
+</body>
+</html>
